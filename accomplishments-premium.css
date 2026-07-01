@@ -67,7 +67,7 @@
   padding: clamp(28px, 4vw, 52px) 0 clamp(24px, 3.5vw, 44px) !important;
   background:
     linear-gradient(135deg, rgba(14,46,31,.72) 0%, rgba(14,46,31,.55) 50%, rgba(14,46,31,.68) 100%),
-    url('./images/flat-border-frame-with-trophy-graph-achievement-concept-business-milestones-accomplish (1).jpg') center center / cover no-repeat;
+    url('./images/accomplishments-hero.jpg') center center / cover no-repeat;
   border-bottom:1px solid rgba(14,46,31,.12);
 }
 /* warm gold shimmer overlay */
