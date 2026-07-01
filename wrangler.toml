@@ -1,0 +1,6 @@
+name = "srinini-sir"
+compatibility_date = "2025-06-01"
+
+# Static site — serve the repo root as assets (no Worker script needed).
+[assets]
+directory = "./"
