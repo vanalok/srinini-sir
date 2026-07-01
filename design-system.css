@@ -340,6 +340,7 @@ h4{ font-size:var(--t-20); }
   background:var(--surface); color:var(--ink-2);
   border:1px solid var(--line);
   transition:all var(--d-fast); cursor:pointer;
+  flex:0 0 auto; white-space:nowrap;
 }
 .chip:hover{ border-color:var(--brand); color:var(--brand); }
 .chip.is-active{ background:var(--brand); color:#fff; border-color:var(--brand); }
