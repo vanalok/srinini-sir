@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Photos — Srinivasulu IFS</title>
+  <meta name="description" content="Photo gallery — field visits, events, family and official engagements.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+Kannada:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="design-system.css">
+  <link rel="stylesheet" href="photos-premium.css" />
+  <style>
+    /* Career grid */
+    .career-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: var(--s-3);
+      padding: 0;
+    }
+    @media (max-width: 768px) { .career-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 480px) { .career-grid { grid-template-columns: repeat(2, 1fr); } }
+    .career-node {
+      background: var(--paper-2); border: 1px solid var(--line); border-radius: var(--r-md);
+      overflow: hidden; height: 100%; display: flex; flex-direction: column;
+      transition: transform var(--d), box-shadow var(--d);
+    }
+    .career-node:hover { transform: translateY(-3px); box-shadow: var(--e2); }
+    .career-img { aspect-ratio: 4/3; background: var(--paper-2); overflow: hidden; }
+    .career-img img { width: 100%; height: 100%; object-fit: cover; }
+    .career-body { padding: var(--s-3); display: flex; flex-direction: column; flex: 1; text-align: left; }
+    .career-period { font-family: var(--f-mono); font-size: var(--t-12); color: var(--ink-3); margin-bottom: 6px; }
+    .career-role { font-family: var(--f-display); font-size: var(--t-13); line-height: 1.3; margin-bottom: 4px; }
+    .career-loc { font-size: var(--t-12); color: var(--ink-3); margin-top: auto; }
+    .page-hero-stat {
+      display: flex;
+      align-items: baseline;
+      gap: var(--s-2);
+    }
+    .page-hero-stat .num {
+      font-size: clamp(48px, 6vw, 72px) !important;
+      line-height: 1 !important;
+    }
+    .page-hero-stat .lbl {
+      font-size: 16px !important;
+      margin-top: 4px !important;
+      letter-spacing: 0.15em !important;
+    }
+    /* Hero background collage — photos from different departments */
+    .pho-v2 .page-hero{ background:#0e2e1f !important; }
+    .hero-collage{
+      position:absolute; inset:0; z-index:0;
+      display:grid; grid-template-columns:repeat(4,1fr); grid-template-rows:1fr;
+      gap:2px;
+    }
+    .hero-collage img{ width:100%; height:100%; object-fit:cover; opacity:.92; }
+    .hero-collage-scrim{
+      position:absolute; inset:0; z-index:0;
+      background:linear-gradient(135deg, rgba(14,46,31,.88) 0%, rgba(14,46,31,.64) 50%, rgba(14,46,31,.84) 100%);
+    }
+    @media (max-width:520px){
+      .hero-collage{ grid-template-columns:repeat(2,1fr); grid-template-rows:repeat(2,1fr); }
+    }
+    /* View toggle */
+    .view-toggle{
+      display:inline-flex; border:1px solid var(--line); border-radius:var(--r-pill); padding:3px;
+      background:var(--surface);
+    }
+    .view-toggle button{
+      height:30px; padding:0 12px; border-radius:var(--r-pill);
+      font-size:var(--t-13); font-weight:600; color:var(--ink-3);
+      transition:all var(--d-fast);
+      display:inline-flex; align-items:center; gap:6px;
+    }
+    .view-toggle button.is-active{ background:var(--brand); color:#fff; }
+
+    /* Album cards */
+    .album-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:var(--s-4); }
+    @media (max-width:1024px){ .album-grid{ grid-template-columns:repeat(3,1fr); } }
+    @media (max-width:768px){ .album-grid{ grid-template-columns:repeat(2,1fr); } }
+    @media (max-width:480px){ .album-grid{ grid-template-columns:1fr; } }
+    .album-card{
+      position:relative; aspect-ratio:1/1; border-radius:var(--r-md);
+      overflow:hidden; background:var(--paper-2); cursor:pointer;
+      transition:transform var(--d);
+    }
+    .album-card:hover{ transform:translateY(-3px); }
+    .album-card img{ width:100%; height:100%; object-fit:cover; transition:transform var(--d-slow); }
+    .album-card:hover img{ transform:scale(1.05); }
+    .album-card::after{
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(180deg, transparent 45%, rgba(15,26,20,.85));
+    }
+    .album-cap{
+      position:absolute; left:var(--s-4); right:var(--s-4); bottom:var(--s-4);
+      color:#fff; z-index:2;
+    }
+    .album-cap h3{ color:#fff; font-size:var(--t-18); margin-bottom:4px; }
+    .album-cap .count{ font-family:var(--f-mono); font-size:var(--t-12); color:#D8D2C0; }
+
+    /* Masonry tile */
+    .photo-tile{
+      width:100%; border-radius:var(--r-sm); overflow:hidden;
+      cursor:pointer; background:var(--paper-2);
+      transition:transform var(--d), box-shadow var(--d);
+    }
+    .photo-tile:hover{ transform:scale(1.02); box-shadow:var(--e2); }
+    .photo-tile img{ width:100%; display:block; }
+
+    /* two-column hero: collapse on mobile */
+    @media (max-width: 768px){
+      .pho-v2 .page-hero > .container > div[style*="grid-template-columns"]{
+        grid-template-columns:1fr !important;
+        gap:var(--s-4) !important;
+      }
+      .pho-v2 .page-hero h1{ white-space:normal !important; }
+      .pho-v2 .page-hero > .container > div > div[style*="border-left"]{
+        border-left:none !important;
+        border-top:1px solid rgba(201,168,76,.35) !important;
+        padding-left:0 !important;
+        padding-top:var(--s-4) !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="sr-chrome-top"></div>
+
+<main id="main" class="pho-v2">
+
+  <section class="page-hero">
+    <div class="hero-collage" aria-hidden="true">
+      <img src="images/forestDeptPhotos/ktr.webp" alt="">
+      <img src="images/kspcb-Photos/2-min.webp" alt="">
+      <img src="images/ayush-photos/0165160e-83e1-4859-9654-6eb243b989a1.webp" alt="">
+      <img src="images/shimoga/shimoga10.webp" alt="">
+    </div>
+    <div class="hero-collage-scrim" aria-hidden="true"></div>
+    <div class="container reveal">
+      <div class="breadcrumb"><a href="index.html">Home</a> <i data-lucide="chevron-right" class="icon-sm"></i> <a href="#">Media</a> <i data-lucide="chevron-right" class="icon-sm"></i> <span>Photos</span></div>
+      <div style="display:grid; grid-template-columns:auto 1fr; gap:clamp(24px,4vw,56px); align-items:center;">
+        <!-- LEFT: title -->
+        <h1>Photos</h1>
+        <!-- RIGHT: lede + stats -->
+        <div style="display:flex; flex-direction:column; gap:var(--s-5); border-left:2px solid rgba(201,168,76,.4); padding-left:clamp(20px,3vw,44px);">
+          <p class="lede">Visual archive of field visits, events, conferences, family moments and official engagements.</p>
+          <div class="page-hero-stats">
+            <div class="page-hero-stat"><div class="num" id="pCount">—</div><div class="lbl">Total photos</div></div>
+            <div class="page-hero-stat"><div class="num" id="pAlbums">—</div><div class="lbl">Albums</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="filter-bar">
+    <div class="container" style="display:flex;gap:var(--s-4);align-items:center;width:100%;flex-wrap:wrap;">
+      <div class="filter-chips" id="deptFilter"></div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="career-grid" id="deptGrid"></div>
+    </div>
+  </section>
+
+</main>
+
+<div id="sr-chrome-footer"></div>
+
+<!-- Photos data (preserves the original photos.js list) -->
+<script src="photos.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="chrome.js"></script>
+<script src="app.js"></script>
+<script>
+// Resolve photos array (existing photos.js exposes `photos`)
+const PHOTOS = (typeof photos !== 'undefined') ? photos : [];
+
+// Friendly category names
+const CAT_NAMES = {
+  'family':'Family','kspcb-photos':'KSPCB','academics':'Academics','shimoga':'Shimoga',
+  'honours':'Honours','ayush-photos':'AYUSH','adcl':'ADCL','forestdeptphotos':'Forest Dept',
+  'kali':'Kali Tiger Reserve','chitradurga':'Chitradurga'
+};
+
+const data = window.SR_DEPTS_CV || [];
+const photosData = [...data, { slug: 'family', name: 'Family', period: 'Personal Gallery', kind: 'Photo Album' }];
+const logos = window.SR_LOGOS || {};
+logos['family'] = logos['family'] || 'images/family/banner_logo.webp'; // family album icon
+
+document.getElementById('pCount').textContent = PHOTOS.length;
+document.getElementById('pAlbums').textContent = photosData.length;
+
+let deptFilter = 'all';
+function render() {
+  const root = document.getElementById('deptGrid');
+  const list = deptFilter === 'all' ? photosData : photosData.filter(d => d.slug === deptFilter);
+  root.innerHTML = list.map(d => {
+    return `
+      <a href="dept.html?dept=${d.slug}&page=photos" class="career-node" style="text-decoration:none;color:inherit;">
+        <div class="career-img"><img src="${logos[d.slug] || ''}" alt="${d.name}" loading="lazy" style="object-fit:contain;padding:12px;background:var(--paper-2);"></div>
+        <div class="career-body">
+          <div class="career-period" style="display:none;">${d.period || ''}</div>
+          <div class="career-role">${d.name}</div>
+          <div class="career-loc">${d.kind || ''}</div>
+        </div>
+      </a>`;
+  }).join('');
+}
+
+/* Department filter chips */
+(function(){
+  const container = document.getElementById('deptFilter');
+  if (!container) return;
+  const first5 = photosData.slice(0, 5);
+  const rest   = photosData.slice(5);
+  container.innerHTML = '<button class="chip is-active" data-filter="all">All Depts</button>'
+    + first5.map(d => `<button class="chip" data-filter="${d.slug}">${d.name}</button>`).join('')
+    + rest.map(d => `<button class="chip is-hidden" data-filter="${d.slug}" style="display:none;">${d.name}</button>`).join('')
+    + (rest.length ? '<button class="chip view-more-btn" id="viewMoreDepts">View more...</button>' : '');
+
+  const chips    = container.querySelectorAll('.chip:not(.view-more-btn)');
+  const viewMore = document.getElementById('viewMoreDepts');
+  if (viewMore){
+    viewMore.addEventListener('click', () => {
+      const hidden = container.querySelectorAll('.is-hidden');
+      if (hidden.length){
+        hidden.forEach(el => { el.style.display = 'inline-flex'; el.classList.remove('is-hidden'); });
+        viewMore.textContent = 'View less';
+      } else {
+        Array.from(chips).slice(6).forEach(el => { el.style.display = 'none'; el.classList.add('is-hidden'); });
+        viewMore.textContent = 'View more...';
+      }
+    });
+  }
+  chips.forEach(c => c.addEventListener('click', () => {
+    chips.forEach(x => x.classList.remove('is-active'));
+    c.classList.add('is-active');
+    deptFilter = c.dataset.filter;
+    render();
+  }));
+})();
+
+render();
+</script>
+</body>
+</html>

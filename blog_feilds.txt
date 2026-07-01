@@ -1,0 +1,157 @@
+Here's a complete field analysis across all 117 blog response files:
+
+---
+
+## Field Analysis — All 117 Blog Responses
+
+All files share a **single root key `postPage`** with a consistent structure. Every field below is present in **all 117 files** unless noted.
+
+---
+
+### 🔑 Core Post Fields (`postPage.post.*`)
+| Field | Type | Notes |
+|---|---|---|
+| `id` | string | UUID |
+| `title` | string | Post title |
+| `excerpt` | string | Short summary (often empty) |
+| `customExcerpt` | bool | Whether excerpt is custom |
+| `slug` | string | URL slug |
+| `firstPublishedDate` | string | ISO timestamp |
+| `lastPublishedDate` | string | ISO timestamp |
+| `language` | string | e.g. `"en"` |
+| `featured` | bool | |
+| `pinned` | bool | |
+| `commentingEnabled` | bool | |
+| `preview` | bool | |
+| `isLiked` | bool | |
+| `isSubscribed` | bool | |
+| `contentId` | string | |
+| `internalId` | string | MongoDB-style ID |
+| `mostRecentContributorId` | string | |
+| `memberId` | string | |
+| `categoryIds` | list | |
+| `internalCategoryIds` | list | |
+| `hashtags` | list | |
+| `tagIds` | list | |
+| `relatedPostIds` | list | |
+| `internalRelatedPostIds` | list | |
+| `pricingPlanIds` | list | |
+| `translations` | list | |
+| `minutesToRead` | int | |
+| `url.base` | string | Site base URL |
+| `url.path` | string | Post path |
+
+---
+
+### 📊 Metrics (`postPage.post.metrics.*` and `postCountInfo.*`)
+| Field | Type |
+|---|---|
+| `comments` | int |
+| `likes` | int |
+| `views` | int |
+| `totalRatings` | int |
+| `averageRating` | int |
+
+---
+
+### 🖼️ Media (`postPage.post.media.*`) — 3 variants
+| Variant | Fields | Occurrence |
+|---|---|---|
+| **wixMedia.image** | `id`, `url`, `height`, `width`, `filename` | 78/117 posts |
+| **wixMedia.videoV2** | `id`, `url`, `resolutions[]`, `posters[]` | 2/117 |
+| **embedMedia** (YouTube) | `thumbnail.url/width/height`, `video.url/width/height` | 34/117 |
+| `displayed` | bool | all |
+| `custom` | bool | all |
+
+---
+
+### 📝 Rich Content (`postPage.post.richContent.*`)
+| Field | Notes |
+|---|---|
+| `nodes[].type` | `PARAGRAPH`, `HEADING`, `IMAGE`, `VIDEO`, `BULLETED_LIST` |
+| `nodes[].id` | Node ID |
+| `nodes[].nodes[].textData.text` | Actual text content |
+| `nodes[].nodes[].textData.decorations[]` | `BOLD`, `COLOR` with `fontWeightValue`, `colorData` |
+| `nodes[].paragraphData.textStyle.textAlignment` | `AUTO`, etc. |
+| `nodes[].paragraphData.indentation` | int |
+| `nodes[].headingData.level` | int (e.g. 3) |
+| `nodes[].imageData.image.src.id/width/height` | Inline images |
+| `nodes[].videoData.video.src.url` + `duration` | Inline videos |
+| `metadata.version/createdTimestamp/updatedTimestamp/id` | Present in 114/117 |
+
+---
+
+### 🗂️ SEO (`postPage.post.seoData.*`)
+| Field | Notes |
+|---|---|
+| `tags` | list |
+| `settings.preventAutoRedirect` | bool (4/117 only) |
+| `settings.keywords` | list (4/117 only) |
+
+---
+
+### 👤 Owner (`postPage.post.owner.*`)
+| Field | Type |
+|---|---|
+| `id` | string |
+| `name` | string |
+| `slug` | string |
+| `siteMemberId` | string |
+| `contactId` | string |
+| `image.url/id/height/width` | Profile image |
+| `activityStatus` / `privacyStatus` / `status` | string |
+| `isBlocked` / `isOwner` | bool |
+| `appStore.[appId].permissions.role` | string (e.g. `"writer"`) |
+
+---
+
+### 🏷️ Categories (`postPage.categories[].*`)
+| Field | Notes |
+|---|---|
+| `id`, `label`, `title`, `slug` | |
+| `postCount` | int |
+| `displayPosition` | int |
+| `language` | string |
+| `description` | string (70/117) |
+| `url.base` + `url.path` | |
+| `seoData.tags` | |
+| `translations` | list |
+| `coverImage.id/url/height/width` | 2/117 only |
+
+---
+
+### 🔗 Related Posts (`postPage.relatedPosts[].*`) — 116/117 files
+| Field | Notes |
+|---|---|
+| `id`, `internalId`, `slug` | |
+| `title`, `excerpt` | |
+| `url.base` + `url.path` | |
+| `liked`, `subscribed` | bool |
+| `media` | Same 3 variants as post media |
+
+---
+
+### ⚙️ Blog/App Settings (present in all 117)
+These are repeated 3x: under `postPage.blog.settings`, `postPage.blog.blogSettingsV2`, and `postPage.blogSettingsV2`:
+- `ampEnabled`, `allPostsFeedLabel`, `blocksPostPage`, `liveSiteEditingDeprecated`, `useBlogLikeService`
+- `comments.enabled/anonymousEnabled/ratingsEnabled/ratingsMandatory`
+- `revision.low/high/unsigned`
+
+`postPage.appData`: `ampEnabled`, `menuLabel`, `language`, `postPageEnabled`
+
+---
+
+### Summary for Webpage Design
+
+| Section | Key Display Fields |
+|---|---|
+| **Hero / Header** | `title`, `firstPublishedDate`, `lastPublishedDate`, `minutesToRead`, `language` |
+| **Cover Media** | `media.wixMedia.image` or `media.embedMedia.thumbnail` |
+| **Body** | `richContent.nodes` (paragraphs, headings, images, videos, lists) |
+| **Excerpt / Preview** | `excerpt` |
+| **Author** | `owner.name`, `owner.image.url` |
+| **Categories / Tags** | `categories[].label`, `hashtags`, `tagIds` |
+| **Engagement** | `metrics.views`, `metrics.likes`, `metrics.comments`, `commentingEnabled` |
+| **Related Posts** | `relatedPosts[].title`, `relatedPosts[].url`, `relatedPosts[].media` |
+| **SEO** | `seoData.tags`, `seoData.settings.keywords` |
+| **Settings** | `featured`, `pinned`, `preview` (for conditional rendering) |

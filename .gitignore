@@ -1,0 +1,18 @@
+# OS
+Thumbs.db
+.DS_Store
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs / temp
+*.log
+*.tmp
+_*.py
+!_build_posts.py
+_webp_mapping.json
+
+__pycache__/

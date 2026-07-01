@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Honours &amp; Awards — Srinivasulu IFS</title>
+    <meta
+      name="description"
+      content="Awards and recognitions received by Srinivasulu IFS — including Guinness World Records, Asia Book of Records, and state honours."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+Kannada:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="design-system.css" />
+    <style>
+      /* tighter vertical rhythm — less dead space top/bottom */
+      .page-hero{
+        padding-top:clamp(28px,4vw,48px);
+        padding-bottom:clamp(20px,3vw,36px);
+        background:
+          linear-gradient(135deg, rgba(14,46,31,.75) 0%, rgba(14,46,31,.55) 50%, rgba(14,46,31,.70) 100%),
+          url('./images/hero_bgs/AC4.jpg') center center / cover no-repeat;
+      }
+
+      .page-hero p.lede{ font-size:var(--t-18); color:#fff; max-width:60ch; }
+      .page-hero-stat .lbl{ font-size:var(--t-13); color:#fff; margin-top:4px; }
+      .page-hero-stat .num{ font-family:var(--f-display); font-size:var(--t-32); font-weight:700; color:#fcad36; line-height:1; }
+
+
+      /* two-column hero layout */
+      .hero-cols{
+        display:grid;
+        grid-template-columns:auto 1fr;
+        gap:clamp(24px,4vw,56px);
+        align-items:center;
+      }
+      .hero-cols h1{
+        color: #fff;
+        margin:0;
+        white-space:nowrap;
+      }
+      .hero-right{
+        display:flex;
+        flex-direction:column;
+        gap:var(--s-5);
+        border-left:2px solid var(--line-2);
+        padding-left:clamp(20px,3vw,44px);
+      }
+      .hero-right .lede{ margin:0; }
+      .page-hero-stats{ display:flex; gap:var(--s-6); flex-wrap:wrap; }
+      main #main, main section.section{ padding-top:clamp(24px,3vw,40px); padding-bottom:clamp(40px,5vw,64px); }
+      .filter-bar{ padding:var(--s-3) 0; }
+
+      .award-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: var(--s-3);
+      }
+
+      @media (max-width: 1100px) { .award-grid { grid-template-columns: repeat(3, 1fr); } }
+      @media (max-width: 760px)  { .award-grid { grid-template-columns: repeat(2, 1fr); } }
+      @media (max-width: 420px)  { .award-grid { grid-template-columns: 1fr; } }
+
+      .award-grid > * {
+        margin-bottom: 0;
+      }
+
+      .award-tile {
+        position: relative;
+        display: block;
+        aspect-ratio: 4 / 5;        /* uniform tiles, no row-height drift */
+        border-radius: var(--r-md);
+        overflow: hidden;
+        background: var(--paper-2);
+        cursor: pointer;
+        transition:
+          transform var(--d),
+          box-shadow var(--d);
+      }
+      .award-tile:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--e2);
+      }
+      .award-tile img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;          /* fill the tile, no cream gaps */
+        object-position: center;
+        transition: transform var(--d-slow);
+      }
+      .award-tile:hover img { transform: scale(1.04); }
+      .award-year {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: rgba(15, 26, 20, 0.82);
+        color: #fff;
+        padding: 4px 8px;
+        border-radius: var(--r-xs);
+        font-family: var(--f-mono);
+        font-size: var(--t-12);
+        font-weight: 600;
+        backdrop-filter: blur(6px);
+      }
+      .award-tag {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+      }
+      .award-overlay {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: var(--s-4);
+        background: linear-gradient(
+          180deg,
+          transparent,
+          rgba(15, 26, 20, 0.85)
+        );
+        color: #fff;
+        opacity: 0;
+        transform: translateY(8px);
+        transition:
+          opacity var(--d),
+          transform var(--d);
+      }
+      .award-tile:hover .award-overlay,
+      .award-tile:focus-visible .award-overlay {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .award-overlay h4 {
+        color: #fff;
+        font-size: var(--t-16);
+        line-height: 1.3;
+      }
+      .award-overlay .meta {
+        font-size: var(--t-12);
+        color: #d8d2c0;
+        margin-top: 4px;
+      }
+
+      /* ============================================================
+         MOBILE / RESPONSIVE
+         ============================================================ */
+      @media (max-width: 1024px){
+        .page-hero{ padding-top:clamp(28px,4vw,48px); padding-bottom:clamp(20px,3vw,32px); }
+      }
+
+      @media (max-width: 768px){
+        html, body { overflow-x: hidden; }
+        .container{ padding-left:20px; padding-right:20px; }
+        .page-hero h1{ font-size:clamp(1.6rem, 5vw, 2.2rem); line-height:1.2; white-space:normal; }
+        .page-hero .lede{ font-size:1rem; }
+        .page-hero-stats{ flex-wrap:wrap; gap:16px; }
+        .page-hero-stat{ flex:1 1 calc(50% - 16px); min-width:120px; }
+        .page-hero-stat .num{ font-size:1.4rem; }
+        /* collapse two-column to single column */
+        .hero-cols{ grid-template-columns:1fr !important; gap:var(--s-4) !important; }
+        .hero-right{ border-left:none; border-top:1px solid var(--line-2); padding-left:0; padding-top:var(--s-4); }
+        .filter-bar .container{ gap:12px !important; }
+        .filter-chips{ display:flex; flex-wrap:wrap; gap:8px; }
+        .filter-chips .chip,
+        .filter-tools .chip{ min-height:40px; padding:8px 14px; font-size:14px; }
+        .award-overlay{ padding:var(--s-3); opacity:1; transform:translateY(0);
+          background:linear-gradient(180deg, transparent 30%, rgba(15,26,20,0.88) 80%); }
+        .award-overlay h4{ font-size:14px; }
+        .award-overlay .meta{ display:none; }
+        .drawer-body{ padding-left:16px; padding-right:16px; }
+      }
+
+      @media (max-width: 600px){
+        .page-hero{ padding-top:clamp(20px,5vw,36px); padding-bottom:clamp(16px,3vw,24px); min-height:auto; }
+        .container{ padding-left:18px; padding-right:18px; }
+        .breadcrumb{ font-size:12px; flex-wrap:wrap; }
+        .page-hero h1{ font-size:1.6rem; }
+        .filter-tools{ width:100%; }
+        .filter-tools .chip{ width:100%; }
+        .award-grid{ gap:var(--s-2); }
+        .award-year{ top:8px; left:8px; padding:3px 6px; font-size:11px; }
+        .award-tag{ top:8px; right:8px; }
+        .drawer{ width:100% !important; max-width:100%; }
+      }
+
+      @media (max-width: 480px){
+        .container{ padding-left:16px; padding-right:16px; }
+        .page-hero h1{ font-size:1.45rem; }
+        .page-hero .lede{ font-size:0.95rem; }
+        .page-hero-stat{ flex:1 1 100%; }
+        .award-grid{ grid-template-columns:1fr; gap:14px; }
+        .award-tile{ aspect-ratio: 4 / 3; }
+        .filter-chips .chip,
+        .filter-tools .chip{ font-size:13px; padding:8px 12px; }
+      }
+
+      @media (max-width: 380px){
+        .container{ padding-left:14px; padding-right:14px; }
+        .page-hero h1{ font-size:1.3rem; }
+        .filter-chips{ gap:6px; }
+        .filter-chips .chip{ padding:7px 10px; font-size:12px; }
+        .award-overlay h4{ font-size:13px; }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div id="sr-chrome-top"></div>
+
+    <main id="main">
+      <section class="page-hero">
+        <div class="container reveal">
+          <div class="breadcrumb">
+            <a href="index.html">Home</a>
+            <i data-lucide="chevron-right" class="icon-sm"></i>
+            <span>Honours &amp; Awards</span>
+          </div>
+          <div class="hero-cols">
+            <!-- LEFT: title -->
+            <h1>Honours<br>and Awards</h1>
+            <!-- RIGHT: lede + stats -->
+            <div class="hero-right">
+              <p class="lede">
+                International, national and state recognition for forest
+                conservation, wildlife management, environmental policy and
+                academic distinction.
+              </p>
+              <div class="page-hero-stats">
+                <div class="page-hero-stat">
+                  <div class="num">29</div>
+                  <div class="lbl">Total honours</div>
+                </div>
+                <div class="page-hero-stat">
+                  <div class="num">2002–2026</div>
+                  <div class="lbl">Span</div>
+                </div>
+                <div class="page-hero-stat">
+                  <div class="num">4</div>
+                  <div class="lbl">International</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Filters -->
+      <div class="filter-bar">
+        <div
+          class="container"
+          style="
+            display: flex;
+            gap: var(--s-4);
+            align-items: center;
+            width: 100%;
+            flex-wrap: wrap;
+          "
+        >
+          <div class="filter-chips" id="filterChips">
+            <button class="chip is-active" data-filter="all">All</button>
+            <button class="chip" data-filter="international">
+              International
+            </button>
+            <button class="chip" data-filter="national">National</button>
+            <button class="chip" data-filter="state">State</button>
+            <button class="chip" data-filter="academic">Academic</button>
+          </div>
+          <div class="filter-tools">
+            <select class="chip" id="sortSelect" aria-label="Sort">
+              <option value="newest">Newest first</option>
+              <option value="oldest">Oldest first</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <section class="section">
+        <div class="container">
+          <div class="award-grid" id="awardGrid" aria-live="polite"></div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Award modal -->
+    <div class="scrim" id="awardScrim"></div>
+    <aside
+      class="drawer"
+      id="awardModal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Award details"
+      style="width: min(640px, 92vw)"
+    >
+      <div class="drawer-head">
+        <div class="drawer-head-text">
+          <h2 id="amTitle">—</h2>
+          <div class="meta" id="amMeta">—</div>
+        </div>
+        <button class="drawer-close" id="amClose" aria-label="Close">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <div class="drawer-body">
+        <img
+          id="amImg"
+          alt=""
+          style="
+            width: 100%;
+            border-radius: var(--r-md);
+            margin-bottom: var(--s-5);
+          "
+        />
+        <p id="amBody" style="color: var(--ink-2); line-height: 1.7"></p>
+        <div style="display: flex; gap: 8px; margin-top: var(--s-5)">
+          <button class="btn btn-outline btn-sm" id="amShare">
+            <i data-lucide="share-2" class="icon-sm"></i> Share
+          </button>
+          <a class="btn btn-outline btn-sm" id="amDownload" href="#" download
+            ><i data-lucide="download" class="icon-sm"></i> Certificate</a
+          >
+        </div>
+      </div>
+    </aside>
+
+    <div id="sr-chrome-footer"></div>
+
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script src="chrome.js"></script>
+    <script src="app.js"></script>
+    <script>
+      // Awards data (newest first)
+      const AWARDS = [
+        /* ── Existing awards ───────────────────────────────────────── */
+        {
+          year: 2026,
+          cat: "national",
+          title: "SEMI- FINALIST SKOCH ORDER OF MERIT",
+          body: "Environmental Governance through Mass Awareness Forest, Ecology and Environment Department, Government of Karnataka",
+          img: "images/honours/FEEDGK_page.webp"
+        },
+        {
+          year: 2022,
+          cat: "international",
+          title: "Guinness World Record",
+          body: "The most people sculpting with modelling clay simultaneously.",
+          img: "./images/honours/IMG_2176.HEIC.webp"
+        },
+        {
+          year: 2022,
+          cat: "international",
+          title: "Guinness World Records",
+          body: "The largest Online photo album of handmade sculpture.",
+          img: "./images/honours/gwr2021.webp"
+        },
+        {
+          year: 2021,
+          cat: "international",
+          title: "Asia Book of Records",
+          body: "Largest number of eco-friendly turmeric Ganesh idols.",
+          img: "./images/honours/AsiaBookofRecords.webp"
+        },
+        {
+          year: 2021,
+          cat: "state",
+          title: "H. V. Muniswamy Gowda Environment Award",
+          body: "Awarded for contribution to environmental protection.",
+          img: "./images/honours/hvmgeAward.webp"
+        },
+        {
+          year: 2017,
+          cat: "state",
+          title: "Kalyana Mobile App Launch",
+          body: "Citizen service app launched during Dr. B.R. Ambedkar International Conference.",
+          img: "./images/honours/AC4.webp"
+        },
+        {
+          year: 2016,
+          cat: "national",
+          title: "Best Tourism Award by FKCCI",
+          body: "For promoting tourism in Dandeli.",
+          img: "./images/honours/fkcci.webp"
+        },
+        {
+          year: 2016,
+          cat: "state",
+          title: "State Environment Award",
+          body: "Conferred by the Chief Minister of Karnataka.",
+          img: "./images/honours/AC3.webp"
+        },
+        {
+          year: 1997,
+          cat: "academic",
+          title: "Indian Forest Service · 1997 Batch",
+          body: "Top rank in the Indian Forest Service civil service examination.",
+          img: "./images/academics/image_3.webp"
+        },
+        {
+          year: 1995,
+          cat: "academic",
+          title: "Gold Medalist · University of Agricultural Sciences",
+          body: "Top distinction in the graduating class at UAS.",
+          img: "./images/academics/img.webp"
+        },
+        {
+          year: 1994,
+          cat: "academic",
+          title: "All-India 10th Rank · IFS Examination",
+          body: "Tenth rank nationally in the Indian Forest Service entrance examination.",
+          img: "./images/academics/image_23.webp"
+        },
+        {
+          year: 1993,
+          cat: "academic",
+          title: "2nd Rank · IARI National Entrance",
+          body: "Second rank in the Indian Agricultural Research Institute national entrance examination.",
+          img: "./images/academics/image_20.webp"
+        },
+      ];
+
+      const grid = document.getElementById("awardGrid");
+      const chips = document.querySelectorAll("#filterChips .chip");
+      const sortSel = document.getElementById("sortSelect");
+
+      let filter = "all",
+        sortOrder = "newest";
+
+      function render() {
+        let list = AWARDS.slice();
+        if (filter !== "all") list = list.filter((a) => a.cat === filter);
+        list.sort((a, b) =>
+          sortOrder === "newest" ? b.year - a.year : a.year - b.year,
+        );
+        grid.innerHTML = list
+          .map(
+            (a, i) => {
+              const isLink = a.link;
+              const tag = a.cat;
+              const elem = isLink ? 'a' : 'button';
+              const linkAttr = isLink ? `href="${a.link}"` : `data-i="${AWARDS.indexOf(a)}"`;
+              return `
+    <${elem} class="award-tile" ${linkAttr} aria-label="${a.title}"${isLink ? '' : ''}>
+      <img src="${a.img}" alt="${a.title}" loading="lazy">
+      <div class="award-overlay">
+        <h4>${a.title}</h4>
+        <div class="meta">${a.body}</div>
+      </div>
+    </${elem}>
+  `;}
+          )
+          .join("");
+        window.SrIcons && window.SrIcons();
+
+        grid.querySelectorAll(".award-tile").forEach((el) => {
+          if (!el.href) {
+            el.addEventListener("click", () => openModal(AWARDS[el.dataset.i]));
+          }
+        });
+      }
+
+      chips.forEach((c) =>
+        c.addEventListener("click", () => {
+          chips.forEach((x) => x.classList.remove("is-active"));
+          c.classList.add("is-active");
+          filter = c.dataset.filter;
+          render();
+        }),
+      );
+      sortSel.addEventListener("change", (e) => {
+        sortOrder = e.target.value;
+        render();
+      });
+
+      // Modal
+      const modal = document.getElementById("awardModal");
+      const scrim = document.getElementById("awardScrim");
+      function openModal(a) {
+        document.getElementById("amTitle").textContent = a.title;
+        document.getElementById("amMeta").textContent = a.year + " · " + a.cat;
+        document.getElementById("amImg").src = a.img;
+        document.getElementById("amBody").textContent = a.body;
+        document.getElementById("amDownload").href = a.img;
+        modal.classList.add("is-open");
+        scrim.classList.add("is-open");
+        document.body.style.overflow = "hidden";
+      }
+      function closeModal() {
+        modal.classList.remove("is-open");
+        scrim.classList.remove("is-open");
+        document.body.style.overflow = "";
+      }
+      document.getElementById("amClose").addEventListener("click", closeModal);
+      scrim.addEventListener("click", closeModal);
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeModal();
+      });
+      document.getElementById("amShare").addEventListener("click", () => {
+        const t = document.getElementById("amTitle").textContent;
+        window.SrShare(t, location.href);
+      });
+
+      render();
+    </script>
+  </body>
+</html>

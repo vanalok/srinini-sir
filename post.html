@@ -1,0 +1,816 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Post — Srinivasulu IFS</title>
+  <meta name="description" content="Blog post.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+Kannada:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="design-system.css">
+  <style>
+    /* =========================================================
+       POST LAYOUT — two header modes
+       =========================================================
+       Mode A (image present): full-bleed hero with image background
+       Mode B (no image):      compact text header on paper background
+       Switch via data-cover="image" | "none" on <article>
+    */
+
+    /* Mode A — hero with cover image */
+    .post-cover{
+      position:relative; min-height:60vh; max-height:720px;
+      display:flex; align-items:flex-end;
+      background:#0F1A14 center/cover no-repeat;
+      color:#fff;
+    }
+    .post-cover::after{
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(180deg, rgba(15,26,20,.15) 0%, rgba(15,26,20,.85) 100%);
+    }
+    .post-cover .container{ position:relative; z-index:2; padding:var(--s-16) var(--s-6) var(--s-10); }
+    .post-cover .tag{ background:rgba(255,255,255,.18); color:#fff; backdrop-filter:blur(6px); }
+    .post-cover h1{ color:#fff; max-width:24ch; margin:var(--s-4) 0 var(--s-3); }
+    .post-cover .meta{ display:flex; gap:var(--s-4); flex-wrap:wrap; align-items:center; color:#D8D2C0; font-size:var(--t-13); }
+
+    /* Mode B — compact text header (no image) */
+    .post-header-plain{
+      background:var(--paper);
+      border-bottom:1px solid var(--line);
+      padding:var(--s-10) 0 var(--s-8);
+    }
+    .post-header-plain .breadcrumb{
+      display:inline-flex; align-items:center; gap:6px;
+      font-size:var(--t-13); color:var(--ink-3); margin-bottom:var(--s-4);
+    }
+    .post-header-plain h1{ font-size:clamp(var(--t-32), 4vw, var(--t-56)); max-width:24ch; margin:var(--s-3) 0 var(--s-4); }
+    .post-header-plain .meta{ display:flex; gap:var(--s-4); flex-wrap:wrap; align-items:center; color:var(--ink-3); font-size:var(--t-13); }
+
+    /* Shared meta-item styles for both modes */
+    .meta span{ display:inline-flex; align-items:center; gap:6px; }
+    .author{ display:inline-flex; align-items:center; gap:8px; }
+    .author img{ width:24px; height:24px; border-radius:50%; object-fit:cover; }
+
+    /* Show/hide based on data-cover */
+    [data-cover="none"]  .post-cover         { display:none; }
+    [data-cover="image"] .post-header-plain  { display:none; }
+
+    /* Sticky utility strip */
+    .post-meta-strip{
+      position:sticky; top:var(--nav-h); z-index:30;
+      background:var(--paper); border-bottom:1px solid var(--line);
+      padding:var(--s-3) 0;
+    }
+    .post-meta-strip .container{ display:flex; align-items:center; gap:var(--s-4); font-size:var(--t-13); color:var(--ink-3); flex-wrap:wrap; }
+    .post-meta-strip a{ color:var(--brand); }
+    .post-meta-strip .actions{ margin-left:auto; display:flex; gap:6px; }
+    .post-meta-strip .sticky-title{ color:var(--ink); font-weight:600; max-width:36ch; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+    /* Body */
+    .post-layout{ display:grid; grid-template-columns:1fr; max-width:760px; margin:0 auto; padding:var(--s-12) var(--s-6) var(--s-16); }
+    .post-content{ font-size:var(--t-18); line-height:1.75; color:var(--ink-2); }
+    .post-content > * + *{ margin-top:var(--s-5); }
+    .post-content h1{ font-size:var(--t-40); margin-top:var(--s-10) !important; color:var(--ink); }
+    .post-content h2{ font-size:var(--t-32); margin-top:var(--s-10) !important; margin-bottom:var(--s-3); color:var(--ink); }
+    .post-content h3{ font-size:var(--t-24); margin-top:var(--s-8) !important; margin-bottom:var(--s-2); color:var(--ink); }
+    .post-content h4{ font-size:var(--t-20); margin-top:var(--s-6) !important; margin-bottom:var(--s-2); color:var(--ink); }
+    .post-content p{ font-family:var(--f-body); }
+    .post-content p[data-align="center"]{ text-align:center; }
+    .post-content p[data-align="right"]{ text-align:right; }
+    .post-content figure{ margin:var(--s-8) 0 !important; border-radius:var(--r-md); overflow:hidden; background:var(--paper-2); }
+    .post-content figure.is-image{ cursor:zoom-in; }
+    .post-content figure img,
+    .post-content figure video{ width:100%; display:block; }
+    /* If an image fails to load, the figure is collapsed entirely (no empty box) */
+    .post-content figure.is-broken{ display:none; }
+    .post-content figcaption{ font-size:var(--t-13); color:var(--ink-3); margin-top:var(--s-2); text-align:center; padding:0 var(--s-3) var(--s-2); }
+    .post-content blockquote{
+      border-left:3px solid var(--brand); padding-left:var(--s-5);
+      font-family:var(--f-display); font-size:var(--t-24); color:var(--ink);
+      line-height:1.4; margin:var(--s-8) 0 !important;
+    }
+    .post-content ul, .post-content ol{ padding-left:var(--s-6); }
+    .post-content li{ margin-bottom:var(--s-2); }
+    .post-content iframe{ width:100%; aspect-ratio:16/9; border:0; border-radius:var(--r-md); }
+    .post-content code{ background:var(--paper-2); padding:2px 6px; border-radius:var(--r-xs); font-family:var(--f-mono); font-size:.92em; }
+    .post-content pre{ background:var(--ink); color:var(--paper); padding:var(--s-4); border-radius:var(--r-md); overflow-x:auto; font-family:var(--f-mono); font-size:var(--t-14); line-height:1.55; }
+    .post-content pre code{ background:none; padding:0; color:inherit; }
+    .post-content a{ color:var(--brand); text-decoration:underline; text-decoration-color:var(--line-2); text-underline-offset:3px; }
+    .post-content a:hover{ text-decoration-color:var(--brand); }
+    .post-content hr{ border:0; border-top:1px solid var(--line); margin:var(--s-8) 0; }
+
+    .post-share{
+      display:flex; gap:8px; padding:var(--s-6) 0;
+      margin-top:var(--s-8); border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+      flex-wrap:wrap;
+    }
+    .related{ padding:var(--s-12) 0; background:var(--paper-2); }
+    .post-error{ text-align:center; padding:var(--s-16) var(--s-4); }
+    .post-error [data-lucide]{ width:48px; height:48px; color:var(--line-2); margin:0 auto var(--s-3); }
+
+    /* ===== PRINT STYLES (download as PDF via browser print) ===== */
+    @media print {
+      :root{ --paper:#fff; --ink:#000; --ink-2:#222; --ink-3:#555; --line:#ccc; --brand:#1F4D33; }
+      .util-bar, .nav-bar, .mobile-drawer, .scrim, .search-overlay,
+      .post-meta-strip, .post-share, .related, footer, #sr-chrome-top, #sr-chrome-footer,
+      .skip-link{ display:none !important; }
+      body{ background:#fff; color:#000; }
+      .post-cover{ min-height:0; max-height:none; background-image:none !important; color:#000; page-break-after:avoid; }
+      .post-cover::after{ display:none; }
+      .post-cover .container{ padding:0 0 16pt; }
+      .post-cover h1, .post-cover .meta, .post-cover .tag{ color:#000; }
+      .post-cover .tag{ background:none; border:1px solid #000; backdrop-filter:none; }
+      .post-cover-img-print{ display:block !important; max-height:50vh; margin:8pt 0; }
+      .post-header-plain{ padding:0 0 12pt; border-bottom:1px solid #ccc; }
+      .post-layout{ padding:12pt 0; max-width:none; }
+      .post-content{ font-size:11pt; line-height:1.55; color:#000; }
+      .post-content h2, .post-content h3, .post-content h4{ page-break-after:avoid; }
+      .post-content figure, .post-content img{ page-break-inside:avoid; }
+      .post-content iframe{ display:none; } /* iframes don't print */
+      .container{ max-width:none; padding:0 18pt; }
+      a{ color:#000; text-decoration:underline; }
+      a[href]:after{ content:" (" attr(href) ")"; font-size:9pt; color:#666; }
+      a[href^="#"]:after, a[href^="javascript:"]:after{ content:""; }
+    }
+    .post-cover-img-print{ display:none; } /* only visible in print */
+
+    /* =========================================================
+       MOBILE / RESPONSIVE
+       Append-only block. Targets the existing inline classes.
+       ========================================================= */
+    @media (max-width: 1024px){
+      .post-cover{ min-height:50vh; }
+      .post-cover .container{ padding:var(--s-12) var(--s-5) var(--s-8); }
+      .post-layout{ padding:var(--s-10) var(--s-5) var(--s-12); }
+    }
+
+    @media (max-width: 768px){
+      html, body{ overflow-x:hidden; }
+      .post-cover{ min-height:42vh; }
+      .post-cover .container{ padding:var(--s-10) var(--s-4) var(--s-6); }
+      .post-cover h1{ font-size:clamp(var(--t-24), 6vw, var(--t-40)); max-width:none; }
+      .post-cover .meta,
+      .post-header-plain .meta{ gap:var(--s-3); font-size:var(--t-12); }
+
+      .post-header-plain{ padding:var(--s-7) 0 var(--s-5); }
+      .post-header-plain h1{ font-size:clamp(var(--t-24), 6vw, var(--t-40)); max-width:none; }
+
+      .post-meta-strip{ padding:var(--s-2) 0; }
+      .post-meta-strip .container{ gap:var(--s-2); font-size:var(--t-12); padding-left:var(--s-4); padding-right:var(--s-4); }
+      .post-meta-strip .sticky-title{ max-width:18ch; }
+      .post-meta-strip .actions{ gap:4px; }
+
+      .post-layout{ padding:var(--s-7) var(--s-4) var(--s-10); max-width:none; }
+      .post-content{ font-size:var(--t-16); line-height:1.7; }
+      .post-content h1{ font-size:var(--t-32); }
+      .post-content h2{ font-size:var(--t-24); }
+      .post-content h3{ font-size:var(--t-20); }
+      .post-content h4{ font-size:var(--t-18); }
+      .post-content blockquote{ font-size:var(--t-20); padding-left:var(--s-4); }
+      .post-content pre{ font-size:var(--t-13); padding:var(--s-3); }
+      .post-content figure{ margin:var(--s-5) 0 !important; }
+
+      .post-share{ gap:6px; padding:var(--s-4) 0; }
+      .post-share .btn{ min-height:40px; flex:1 1 auto; }
+
+      .related{ padding:var(--s-8) 0; }
+    }
+
+    @media (max-width: 600px){
+      .post-cover{ min-height:auto; max-height:none; }
+      .post-cover .container{ padding:var(--s-8) var(--s-4) var(--s-5); }
+      .post-cover h1{ margin:var(--s-3) 0 var(--s-2); }
+
+      /* On phone, the sticky title is redundant with the article title above; hide */
+      .post-meta-strip .sticky-title{ display:none; }
+      .post-meta-strip .actions .btn{ min-height:40px; }
+      /* Use shorter labels on phone — kept visible but trimmed */
+      .post-meta-strip .container > a{ font-weight:600; }
+
+      .post-share{ flex-direction:column; }
+      .post-share .btn{ width:100%; justify-content:center; }
+
+      /* Related grid: collapse to one column */
+      #relatedGrid{ grid-template-columns:1fr !important; gap:var(--s-4); }
+    }
+
+    @media (max-width: 480px){
+      .post-cover .container,
+      .post-header-plain .container,
+      .post-meta-strip .container,
+      .related .container{ padding-left:16px; padding-right:16px; }
+      .post-layout{ padding:var(--s-6) 16px var(--s-8); }
+
+      .post-cover h1,
+      .post-header-plain h1{ font-size:clamp(var(--t-20), 7vw, var(--t-32)); }
+      .post-content{ font-size:15px; }
+      .post-content h1{ font-size:var(--t-24); }
+      .post-content h2{ font-size:var(--t-20); }
+      .post-content h3{ font-size:var(--t-18); }
+      .post-content blockquote{ font-size:var(--t-18); margin:var(--s-5) 0 !important; }
+      .post-content ul, .post-content ol{ padding-left:var(--s-5); }
+
+      .post-error{ padding:var(--s-10) var(--s-3); }
+      .post-error [data-lucide]{ width:40px; height:40px; }
+
+      .author img{ width:20px; height:20px; }
+    }
+
+    @media (max-width: 380px){
+      .post-meta-strip .container{ font-size:11px; gap:6px; }
+      .post-meta-strip .actions .btn{ padding-left:8px; padding-right:8px; }
+      .post-cover h1,
+      .post-header-plain h1{ font-size:clamp(var(--t-18), 7.5vw, var(--t-24)); }
+      .post-content{ font-size:14.5px; }
+    }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="sr-chrome-top"></div>
+
+<main id="main">
+
+  <article id="postArticle" data-cover="none">
+
+    <!-- ===== MODE A — hero with cover image ===== -->
+    <section class="post-cover" id="postCover">
+      <div class="container">
+        <span class="tag" id="postCatA">Post</span>
+        <h1 id="postTitleA">Loading…</h1>
+        <div class="meta" id="postMetaA"></div>
+        <!-- Print-only inline image (background images don't print reliably) -->
+        <img class="post-cover-img-print" id="postCoverImgPrint" alt="">
+      </div>
+    </section>
+
+    <!-- ===== MODE B — compact header, no image ===== -->
+    <section class="post-header-plain">
+      <div class="container">
+        
+        <span class="tag" id="postCatB" style="display:inline-flex;">Post</span>
+        <h1 id="postTitleB">Loading…</h1>
+        <div class="meta" id="postMetaB"></div>
+      </div>
+    </section>
+
+    <!-- ===== Sticky utility strip ===== -->
+    <div class="post-meta-strip">
+      <div class="container">
+        <a href="blog.html"><i data-lucide="arrow-left" class="icon-sm"></i> Back to Blog</a>
+        <span class="sticky-title" id="stickyTitle">—</span>
+        <div class="actions">
+          <button class="btn btn-ghost btn-sm" id="downloadPost" title="Download / Print as PDF">
+            <i data-lucide="download" class="icon-sm"></i> Download
+          </button>
+          <button class="btn btn-ghost btn-sm" id="sharePost">
+            <i data-lucide="share-2" class="icon-sm"></i> Share
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Body ===== -->
+    <div class="post-layout">
+      <div class="post-content" id="postContent">
+        <p style="color:var(--ink-3);">Loading post content…</p>
+      </div>
+
+      <div class="post-share">
+        <button class="btn btn-outline btn-sm" data-share="wa"><i data-lucide="message-circle" class="icon-sm"></i> WhatsApp</button>
+        <button class="btn btn-outline btn-sm" data-share="x"><i data-lucide="twitter" class="icon-sm"></i> X</button>
+        <button class="btn btn-outline btn-sm" data-share="fb"><i data-lucide="facebook" class="icon-sm"></i> Facebook</button>
+        <button class="btn btn-outline btn-sm" data-share="li"><i data-lucide="linkedin" class="icon-sm"></i> LinkedIn</button>
+        <button class="btn btn-outline btn-sm" data-share="copy"><i data-lucide="link" class="icon-sm"></i> Copy link</button>
+        <button class="btn btn-primary btn-sm" id="downloadPost2"><i data-lucide="download" class="icon-sm"></i> Download as PDF</button>
+      </div>
+    </div>
+  </article>
+
+  <section class="related" id="relatedSection" hidden>
+    <div class="container">
+      <div class="section-eyebrow">Continue reading</div>
+      <h2 style="margin-bottom:var(--s-6);">Related posts</h2>
+      <div class="blog-grid" id="relatedGrid"></div>
+    </div>
+  </section>
+
+</main>
+
+<div id="sr-chrome-footer"></div>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="chrome.js"></script>
+<script src="app.js"></script>
+<script>
+/* =========================================================================
+   POST RENDERER — matches the existing blog-engine.js contract
+   - GET {API}/post/{slug}      → single post
+   - GET {API}/random-posts     → related list
+   - Wix media: prefer .url, fallback to https://static.wixstatic.com/media/{id}
+   - Renders only what's present; empty image areas are never shown.
+   ========================================================================= */
+
+const API = 'https://www.srinivasifs.com/_functions';
+const WIX_CDN = 'https://static.wixstatic.com/media/';
+
+const params = new URLSearchParams(location.search);
+const slug = params.get('slug') || params.get('id');
+
+if (!slug){
+  showError('No post specified.', 'Return to the <a href="blog.html" style="color:var(--brand);">blog</a> to choose one.');
+} else {
+  loadPost(slug);
+  loadRelatedPosts();   // independent — fires regardless of post outcome
+}
+
+/* ---- 1. FETCH SINGLE POST -------------------------------------------- */
+
+function loadPost(slug){
+  fetch(`${API}/post?slug=${slug}`)
+    .then(r => {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(raw => {
+      window.__rawPostResponse = raw;
+      const data = normalize(raw);
+      window.__post = data;
+      if (!data.post || !data.post.title){
+        showError('Post not found.', 'The post you are looking for does not exist or has been moved.');
+        return;
+      }
+      renderPost(data);
+    })
+    .catch(err => {
+      showError('Unable to load post.', err.message || 'Check your API endpoint and network.');
+    });
+}
+
+function loadRelatedPosts(){
+  fetch(`${API}/randomPosts?limit=3`)
+    .then(r => r.ok ? r.json() : Promise.reject())
+    .then(data => {
+      const list = (data && (data.posts || data.items || data.results)) || [];
+      if (!list.length) return;
+      renderRelated(list);
+    })
+    .catch(() => { /* silent — related is optional */ });
+}
+
+/* ---- 2. NORMALIZER (defensive against wrapper variants) -------------- */
+
+function normalize(raw){
+  if (!raw) return { post:null, categories:[] };
+  if (Array.isArray(raw)) raw = raw[0];
+  if (typeof raw !== 'object') return { post:null, categories:[] };
+
+  const candidates = [raw, raw.data, raw.result, raw.payload, raw.item, raw.response].filter(Boolean);
+
+  for (const env of candidates){
+    if (env.postPage && typeof env.postPage === 'object'){
+      const pp = env.postPage;
+      return {
+        post: pp.post || pp,
+        categories: pp.categories || (pp.post && pp.post.categories) || []
+      };
+    }
+    if (env.post && typeof env.post === 'object' && (env.post.title || env.post.id)){
+      return {
+        post: env.post,
+        categories: env.categories || env.post.categories || []
+      };
+    }
+    if (env.title && (env.id || env.slug)){
+      return { post: env, categories: env.categories || [] };
+    }
+  }
+  return { post:null, categories:[] };
+}
+
+/* ---- 3. MEDIA URL RESOLVER (handles all 3 variants + bare IDs) ------- */
+
+function resolveCoverMedia(post){
+  if (!post) return null;
+  if (post.coverImage) {
+    const url = resolveWixUrl(post.coverImage);
+    if (url) return { kind:'image', url, alt:post.title || '' };
+  }
+  if (!post.media) return null;
+  const m = post.media;
+  // Engine convention: only show cover when displayed === true (skip if absent)
+  if (m.displayed === false) return null;
+
+  // wixMedia.image
+  const img = m.wixMedia && m.wixMedia.image;
+  if (img){
+    const url = resolveWixUrl(img);
+    if (url) return { kind:'image', url, alt:post.title || '' };
+  }
+  // wixMedia.videoV2 — use first poster
+  const v2 = m.wixMedia && m.wixMedia.videoV2;
+  if (v2){
+    const poster = v2.posters && v2.posters[0];
+    const url = poster ? resolveWixUrl(poster) : '';
+    if (url) return { kind:'image', url, alt:post.title || '' };
+  }
+  // embedMedia (YouTube/Vimeo thumbnail)
+  if (m.embedMedia){
+    const t = m.embedMedia.thumbnail;
+    if (t && t.url) return { kind:'image', url:t.url, alt:post.title || '' };
+  }
+  // flat fallbacks
+  if (m.url) return { kind:'image', url:m.url, alt:post.title || '' };
+  if (m.thumbnail && m.thumbnail.url) return { kind:'image', url:m.thumbnail.url, alt:post.title || '' };
+  return null;
+}
+
+function resolveWixUrl(obj){
+  if (!obj) return '';
+  // Already a string?
+  if (typeof obj === 'string'){
+    if (obj.startsWith('wix:image://v1/')) {
+      const parts = obj.replace('wix:image://v1/', '').split('/');
+      if (parts.length > 0) {
+        return WIX_CDN + parts[0];
+      }
+    }
+    return /^https?:\/\//.test(obj) ? obj : (WIX_CDN + obj);
+  }
+  // .url field present and is a full URL?
+  if (obj.url && /^https?:\/\//.test(obj.url)) return obj.url;
+  // .src.url (rich content image format)
+  if (obj.src && obj.src.url && /^https?:\/\//.test(obj.src.url)) return obj.src.url;
+  // .src.id — bare ID
+  if (obj.src && obj.src.id) return WIX_CDN + obj.src.id;
+  // .id — bare ID
+  if (obj.id) return WIX_CDN + obj.id;
+  // .url with bare ID (no scheme)
+  if (obj.url) return WIX_CDN + obj.url;
+  return '';
+}
+
+/* ---- 4. CATEGORY / OWNER --------------------------------------------- */
+
+function resolveCategoryLabel(post, categoriesList){
+  if (post.categories && post.categories[0]){
+    const c = post.categories[0];
+    // Categories can be objects with label/title, or plain string IDs
+    if (typeof c === 'object') return c.label || c.title || c.slug || 'Post';
+    // string ID — can't display, fall through
+  }
+  if (post.tags && post.tags[0]){
+    const t = post.tags[0];
+    if (typeof t === 'object') return t.label || t.title || 'Post';
+    if (typeof t === 'string') return t;
+  }
+  if (categoriesList && categoriesList[0]){
+    const c = categoriesList[0];
+    if (typeof c === 'object') return c.label || c.title || 'Post';
+  }
+  if (post.hashtags && post.hashtags[0]) return '#' + post.hashtags[0];
+  return 'Post';
+}
+
+function resolveOwner(post){
+  if (!post.owner) return null;
+  const o = post.owner;
+  const img = (o.image && o.image.url) || (typeof o.image === 'string' ? o.image : '');
+  return {
+    name: o.name || o.nickname || '',
+    image: img && /^https?:\/\//.test(img) ? img : ''
+  };
+}
+
+/* ---- 5. RENDER ------------------------------------------------------- */
+
+function renderPost(data){
+  const p = data.post;
+  const cover = resolveCoverMedia(p);
+  const owner = resolveOwner(p);
+  const category = resolveCategoryLabel(p, data.categories);
+
+  // Decide header mode
+  const article = document.getElementById('postArticle');
+  article.setAttribute('data-cover', cover ? 'image' : 'none');
+
+  // Title + sticky
+  document.title = (p.title || 'Post') + ' — Srinivasulu IFS';
+  document.getElementById('postTitleA').textContent = p.title || 'Untitled';
+  document.getElementById('postTitleB').textContent = p.title || 'Untitled';
+  document.getElementById('stickyTitle').textContent = p.title || '';
+  document.getElementById('postCatA').textContent = category;
+  document.getElementById('postCatB').textContent = category;
+  // postCatBreadcrumb may not exist in every layout variant
+  const breadcrumbEl = document.getElementById('postCatBreadcrumb');
+  if (breadcrumbEl) breadcrumbEl.textContent = category;
+
+  // Build meta row (used in both modes)
+  const metaHtml = buildMetaHtml(p, owner);
+  document.getElementById('postMetaA').innerHTML = metaHtml;
+  document.getElementById('postMetaB').innerHTML = metaHtml;
+
+  // Cover image (Mode A only)
+  if (cover){
+    const cov = document.getElementById('postCover');
+    cov.style.backgroundImage = `url('${cover.url.replace(/'/g, "\\'")}')`;
+    // Print-only inline image
+    const pImg = document.getElementById('postCoverImgPrint');
+    pImg.src = cover.url; pImg.alt = cover.alt;
+    // If background image 404s we can't catch it directly; preload to verify.
+    const test = new Image();
+    test.onerror = () => {
+      // Image broken → switch to text-only mode at runtime
+      article.setAttribute('data-cover', 'none');
+    };
+    test.src = cover.url;
+  }
+
+  // Body
+  renderBody(p);
+
+  window.SrIcons && window.SrIcons();
+}
+
+function buildMetaHtml(p, owner){
+  const parts = [];
+
+  // Date
+  const date = p.firstPublishedDate || p.publishedDate || p.lastPublishedDate || p.date;
+  if (date){
+    const d = new Date(date);
+    if (!isNaN(d)){
+      parts.push(`<span><i data-lucide="calendar" class="icon-sm"></i> ${d.toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})}</span>`);
+    }
+  }
+  // Reading time (API may use minutesToRead or timeToRead)
+  const readTime = p.minutesToRead || p.timeToRead;
+  if (readTime){
+    parts.push(`<span><i data-lucide="clock" class="icon-sm"></i> ${readTime} min read</span>`);
+  }
+  // Language flag (only if explicitly set)
+  if (p.language){
+    const lang = p.language.toLowerCase();
+    parts.push(`<span><span class="lang-flag ${lang}">${lang === 'kn' ? 'KN' : lang.toUpperCase()}</span></span>`);
+  }
+  // Views (only if > 0) — API may nest under metrics.views or use flat viewCount
+  const views = (p.metrics && p.metrics.views) || p.viewCount || 0;
+  if (views > 0){
+    parts.push(`<span><i data-lucide="eye" class="icon-sm"></i> ${views}</span>`);
+  }
+  // Author
+  if (owner && owner.name){
+    const avatar = owner.image ? `<img src="${escapeAttr(owner.image)}" alt="" onerror="this.remove()">` : `<i data-lucide="user" class="icon-sm"></i>`;
+    parts.push(`<span class="author">${avatar}<span>${escapeHtml(owner.name)}</span></span>`);
+  }
+
+  return parts.join('');
+}
+
+function renderBody(p){
+  const out = [];
+  if (p.content && typeof p.content === 'string'){
+    out.push(p.content);
+  } else if (p.richContent && Array.isArray(p.richContent.nodes)){
+    p.richContent.nodes.forEach(n => out.push(renderNode(n)));
+  } else if (p.body && typeof p.body === 'string'){
+    out.push(`<div>${p.body}</div>`);
+  } else if (p.excerpt){
+    out.push(`<p>${escapeHtml(p.excerpt)}</p>`);
+  }
+
+  const html = out.join('').trim();
+  const container = document.getElementById('postContent');
+  container.innerHTML = html || '<p style="color:var(--ink-3); font-style:italic;">No content available for this post.</p>';
+
+  // Wire up inline image fallbacks + click-to-zoom
+  container.querySelectorAll('img').forEach(img => {
+    img.addEventListener('error', () => {
+      const fig = img.closest('figure');
+      if (fig) fig.classList.add('is-broken'); else img.remove();
+    });
+  });
+  container.querySelectorAll('figure.is-image').forEach(fig => {
+    fig.addEventListener('click', () => {
+      const img = fig.querySelector('img');
+      if (img && img.src && window.PhotoViewer) {
+        window.PhotoViewer.open([{ src: img.src, alt: img.alt || '' }], 0);
+      }
+    });
+  });
+}
+
+/* ---- 6. RICH CONTENT NODE RENDERER ----------------------------------- */
+
+function renderNode(n){
+  if (!n || typeof n !== 'object') return '';
+  const type = (n.type || '').toUpperCase();
+  const kids = Array.isArray(n.nodes) ? n.nodes.map(renderNode).join('') : '';
+
+  switch (type){
+    case 'PARAGRAPH': {
+      if (!kids.trim()) return '';   // skip empty paragraphs (no empty space)
+      const align = n.paragraphData && n.paragraphData.textStyle && n.paragraphData.textStyle.textAlignment;
+      const a = (align && align !== 'AUTO') ? ` data-align="${String(align).toLowerCase()}"` : '';
+      return `<p${a}>${kids}</p>`;
+    }
+    case 'HEADING': {
+      if (!kids.trim()) return '';
+      const lvl = clamp((n.headingData && n.headingData.level) || 2, 1, 6);
+      return `<h${lvl} id="${escapeAttr(n.id || '')}">${kids}</h${lvl}>`;
+    }
+    case 'TEXT': return renderText(n);
+    case 'IMAGE': {
+      // Wix shape: imageData.image.src.{url|id}
+      const im = (n.imageData && n.imageData.image) || {};
+      const url = resolveWixUrl(im);
+      if (!url) return '';            // no image → render nothing (no empty box)
+      const cap = (n.imageData && n.imageData.caption) || '';
+      const alt = (n.imageData && n.imageData.altText) || cap || '';
+      return `<figure class="is-image"><img src="${escapeAttr(url)}" alt="${escapeAttr(alt)}" loading="lazy">${cap ? `<figcaption>${escapeHtml(cap)}</figcaption>` : ''}</figure>`;
+    }
+    case 'VIDEO': {
+      const vd = n.videoData || {};
+      const v = vd.video || {};
+      const src = (v.src && v.src.url) || v.url || '';
+      if (!src) return '';
+      if (/youtube\.com|youtu\.be|vimeo\.com/.test(src)){
+        return `<figure><iframe src="${escapeAttr(toEmbedUrl(src))}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></figure>`;
+      }
+      return `<figure><video src="${escapeAttr(src)}" controls preload="metadata"></video></figure>`;
+    }
+    case 'BULLETED_LIST': return kids.trim() ? `<ul>${kids}</ul>` : '';
+    case 'ORDERED_LIST':  return kids.trim() ? `<ol>${kids}</ol>` : '';
+    case 'LIST_ITEM':     return kids.trim() ? `<li>${kids}</li>` : '';
+    case 'BLOCKQUOTE':    return kids.trim() ? `<blockquote>${kids}</blockquote>` : '';
+    case 'DIVIDER':       return '<hr>';
+    case 'CODE_BLOCK': {
+      const txt = extractText(n);
+      return txt ? `<pre><code>${escapeHtml(txt)}</code></pre>` : '';
+    }
+    case 'GALLERY': {
+      const items = (n.galleryData && n.galleryData.items) || [];
+      return items.map(it => {
+        const u = resolveWixUrl(it.image || it);
+        return u ? `<figure class="is-image"><img src="${escapeAttr(u)}" alt="" loading="lazy"></figure>` : '';
+      }).filter(Boolean).join('');
+    }
+    case 'GIF': {
+      const g = n.gifData || {};
+      const url = (g.original && (g.original.gif || g.original.url)) || g.url || '';
+      return url ? `<figure><img src="${escapeAttr(url)}" alt="" loading="lazy"></figure>` : '';
+    }
+    case 'FILE': {
+      const f = n.fileData || {};
+      const url = (f.src && f.src.url) || f.url || '';
+      const name = f.name || 'Download';
+      return url ? `<p><a class="btn btn-outline btn-sm" href="${escapeAttr(url)}" download><i data-lucide="download" class="icon-sm"></i> ${escapeHtml(name)}</a></p>` : '';
+    }
+    case 'LINK_PREVIEW': {
+      const lp = n.linkPreviewData || {};
+      const url = (lp.link && lp.link.url) || '';
+      return url ? `<p><a href="${escapeAttr(url)}" target="_blank" rel="noopener">${escapeHtml(lp.title || url)}</a></p>` : '';
+    }
+    case 'HTML': {
+      const html = (n.htmlData && n.htmlData.html) || '';
+      return html ? `<div>${html}</div>` : '';
+    }
+    case 'EMBED':
+    case 'APP_EMBED': {
+      const url = (n.embedData && n.embedData.src) || '';
+      return url ? `<figure><iframe src="${escapeAttr(url)}" allow="encrypted-media" allowfullscreen></iframe></figure>` : '';
+    }
+    default:
+      return kids;   // unknown container → render whatever children it has
+  }
+}
+
+function renderText(n){
+  let t = escapeHtml((n.textData && n.textData.text) || '');
+  if (!t) return '';
+  const decos = (n.textData && n.textData.decorations) || [];
+  decos.forEach(d => {
+    const dt = (d.type || '').toUpperCase();
+    if (dt === 'BOLD') t = `<strong>${t}</strong>`;
+    else if (dt === 'ITALIC') t = `<em>${t}</em>`;
+    else if (dt === 'UNDERLINE') t = `<u>${t}</u>`;
+    else if (dt === 'STRIKETHROUGH' || dt === 'SPOILER') t = `<s>${t}</s>`;
+    else if (dt === 'CODE') t = `<code>${t}</code>`;
+    else if (dt === 'COLOR'){
+      const fg = d.colorData && d.colorData.foreground;
+      if (fg) t = `<span style="color:${escapeAttr(fg)}">${t}</span>`;
+    }
+    else if (dt === 'LINK'){
+      const link = d.linkData && d.linkData.link;
+      const url = (link && (link.url || link.href)) || '';
+      if (url){
+        const tgt = (link && link.target) === 'BLANK' ? ' target="_blank" rel="noopener"' : '';
+        t = `<a href="${escapeAttr(url)}"${tgt}>${t}</a>`;
+      }
+    }
+  });
+  return t;
+}
+
+function extractText(n){
+  if (!n) return '';
+  if (n.textData && n.textData.text) return n.textData.text;
+  if (Array.isArray(n.nodes)) return n.nodes.map(extractText).join('');
+  return '';
+}
+
+function toEmbedUrl(url){
+  let m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([\w-]{11})/);
+  if (m) return `https://www.youtube-nocookie.com/embed/${m[1]}?rel=0`;
+  m = url.match(/vimeo\.com\/(\d+)/);
+  if (m) return `https://player.vimeo.com/video/${m[1]}`;
+  return url;
+}
+
+/* ---- 7. RELATED POSTS ------------------------------------------------ */
+
+function renderRelated(list){
+  const items = list.slice(0, 3);
+  if (!items.length) return;
+  document.getElementById('relatedSection').hidden = false;
+  const grid = document.getElementById('relatedGrid');
+  grid.innerHTML = items.map(rp => {
+    // Related-list shape: `image` is a flat URL on each item
+    const coverMedia = resolveCoverMedia(rp);
+    const imgUrl = (rp.image && /^https?:\/\//.test(rp.image) ? rp.image : '') ||
+                   (rp.coverImage && resolveWixUrl(rp.coverImage)) ||
+                   (coverMedia && coverMedia.url) || '';
+    const cat = resolveCategoryLabel(rp, []);
+    const date = rp.firstPublishedDate || rp.publishedDate || rp.lastPublishedDate;
+    const dateStr = date ? new Date(date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) : '';
+    return `
+      <a class="b-card" href="post.html?slug=${encodeURIComponent(rp.slug || rp._id || rp.id)}" style="text-decoration:none;color:inherit;">
+        ${imgUrl ? `<div class="b-card-img"><img src="${escapeAttr(imgUrl)}" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>` : ''}
+        <div class="b-card-body">
+          <span class="b-tag">${escapeHtml(cat)}</span>
+          <h3 class="b-card-title">${escapeHtml(rp.title || 'Untitled')}</h3>
+          ${rp.excerpt ? `<p class="b-excerpt">${escapeHtml(rp.excerpt)}</p>` : ''}
+          <div class="b-card-foot">
+            ${dateStr ? `<span class="b-date"><i data-lucide="calendar" class="icon-sm"></i> ${dateStr}</span>` : '<span></span>'}
+            <span class="b-read-more">Read <i data-lucide="arrow-right" class="icon-sm"></i></span>
+          </div>
+        </div>
+      </a>`;
+  }).join('');
+  window.SrIcons && window.SrIcons();
+}
+
+/* ---- 8. UTILITIES ---------------------------------------------------- */
+
+function escapeHtml(s){
+  return String(s == null ? '' : s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+}
+function escapeAttr(s){ return escapeHtml(s); }
+function clamp(n, lo, hi){ return Math.max(lo, Math.min(hi, n|0)); }
+
+function showError(title, detail){
+  document.getElementById('postArticle').setAttribute('data-cover', 'none');
+  document.getElementById('postTitleB').textContent = title;
+  document.getElementById('postMetaB').innerHTML = '';
+  document.getElementById('postCatB').style.display = 'none';
+  document.getElementById('postContent').innerHTML = `
+    <div class="post-error">
+      <i data-lucide="alert-triangle"></i>
+      <p style="color:var(--ink-3);">${detail || ''}</p>
+      <p style="margin-top:var(--s-4);"><a class="btn btn-primary btn-sm" href="blog.html"><i data-lucide="arrow-left" class="icon-sm"></i> Back to Blog</a></p>
+    </div>`;
+  window.SrIcons && window.SrIcons();
+}
+
+/* ---- 9. SHARE + DOWNLOAD BUTTONS ------------------------------------- */
+
+function doPrint(){ window.print(); }
+document.getElementById('downloadPost').addEventListener('click', doPrint);
+document.getElementById('downloadPost2').addEventListener('click', doPrint);
+
+document.getElementById('sharePost').addEventListener('click', () => {
+  if (window.SrShare) window.SrShare(document.title, location.href);
+});
+document.querySelectorAll('[data-share]').forEach(b => {
+  b.addEventListener('click', () => {
+    const url = encodeURIComponent(location.href);
+    const t = encodeURIComponent(document.title);
+    const k = b.dataset.share;
+    let target = '';
+    if (k === 'wa') target = `https://wa.me/?text=${t}%20${url}`;
+    else if (k === 'x')  target = `https://twitter.com/intent/tweet?text=${t}&url=${url}`;
+    else if (k === 'fb') target = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+    else if (k === 'li') target = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
+    else if (k === 'copy'){ navigator.clipboard.writeText(location.href); return; }
+    if (target) window.open(target, '_blank', 'noopener,width=600,height=600');
+  });
+});
+
+/* Keyboard shortcut: Ctrl/Cmd+P already triggers browser print — no extra binding needed */
+</script>
+</body>
+</html>

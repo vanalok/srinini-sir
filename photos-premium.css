@@ -1,0 +1,602 @@
+/* ==========================================================================
+   photos-premium.css — Photos page premium overlay
+   Scoped under .pho-v2 (set on <main id="main">). Same vanalok-inspired
+   language as index-premium.css / cv-premium.css: warm IVORY base,
+   Cormorant Garamond display + DM Sans body, GOLD + deep EMERALD +
+   TERRACOTTA accents. Delete this file + the `pho-v2` class to fully revert.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   0 · Palette + typography
+   -------------------------------------------------------------------------- */
+.pho-v2{
+  --v-ivory:#f7f3ec;     --v-ivory-dark:#ede8df;    --v-paper:#fffdf8;
+  --v-gold:#c9a84c;      --v-gold-light:#e8cc7a;     --v-gold-deep:#b08f33;
+  --v-emerald:#0e2e1f;   --v-emerald-mid:#1d5c3a;    --v-emerald-accent:#2e9460;
+  --v-emerald-pale:#e0f0e8;
+  --v-terra:#c4572a;     --v-terra-light:#e8845a;    --v-terra-pale:#f5e8e0;
+  --v-ink:#13201a;       --v-ink-soft:#5a655d;
+
+  --f-display:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --f-body:'DM Sans', 'Noto Sans Kannada', system-ui, sans-serif;
+
+  background:
+    radial-gradient(55% 40% at 100% 18%, rgba(46,148,96,.07), transparent 55%),
+    radial-gradient(50% 40% at 0% 82%, rgba(201,168,76,.07), transparent 55%),
+    var(--v-ivory);
+  color:var(--v-ink);
+}
+.pho-v2 h1, .pho-v2 h2, .pho-v2 h3, .pho-v2 h4{
+  font-family:var(--f-display); letter-spacing:normal; font-weight:600; color:var(--v-emerald);
+}
+.pho-v2 p, .pho-v2 li, .pho-v2 span, .pho-v2 button, .pho-v2 a,
+.pho-v2 input, .pho-v2 select, .pho-v2 textarea, .pho-v2 label{
+  font-family:var(--f-body);
+}
+
+/* shared section eyebrow */
+.pho-v2 .section-eyebrow{
+  color:var(--v-emerald-accent); font-family:var(--f-body);
+  font-weight:600; letter-spacing:.18em; text-transform:uppercase;
+  font-size:12px; display:inline-flex; align-items:center; gap:10px;
+}
+.pho-v2 .section-eyebrow::before{
+  content:''; width:30px; height:2px;
+  background:linear-gradient(90deg, var(--v-gold), var(--v-emerald-accent));
+}
+
+/* buttons */
+.pho-v2 .btn-primary{ background:var(--v-gold); color:var(--v-emerald); border:1px solid var(--v-gold); }
+.pho-v2 .btn-primary:hover{ background:var(--v-gold-light); transform:translateY(-2px); box-shadow:0 10px 26px rgba(201,168,76,.32); }
+.pho-v2 .btn-outline{ border:1.5px solid var(--v-emerald); color:var(--v-emerald); }
+.pho-v2 .btn-outline:hover{ background:var(--v-emerald); color:var(--v-ivory); }
+
+/* --------------------------------------------------------------------------
+   1 · HERO — warm dark emerald hero with gold dotted texture
+   -------------------------------------------------------------------------- */
+.pho-v2 .page-hero{
+  position:relative; overflow:hidden;
+  padding: clamp(28px, 4vw, 52px) 0 clamp(24px, 3.5vw, 44px) !important;
+  background:
+    linear-gradient(135deg, rgba(14,46,31,.72) 0%, rgba(14,46,31,.52) 50%, rgba(14,46,31,.68) 100%),
+    url('./images/photos_bg.png') center center / cover no-repeat;
+  border-bottom:1px solid rgba(201,168,76,.4);
+  color:#F4F0E2;
+}
+/* shimmer overlay */
+.pho-v2 .page-hero::before{
+  content:''; position:absolute; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(60% 70% at 100% 0%, rgba(201,168,76,.22), transparent 55%),
+    radial-gradient(55% 65% at 0% 100%, rgba(46,148,96,.18), transparent 55%);
+}
+.pho-v2 .page-hero::after{
+  content:''; position:absolute; left:0; right:0; bottom:0; height:3px;
+  background:linear-gradient(90deg, transparent, var(--v-gold), var(--v-gold-light), var(--v-gold), transparent);
+  opacity:.75;
+}
+.pho-v2 .page-hero > .container{ position:relative; z-index:1; }
+
+/* glass breadcrumb pill on dark hero */
+.pho-v2 .page-hero .breadcrumb{
+  display:inline-flex; align-items:center; gap:8px;
+  color:#EEE3C9; font-family:var(--f-body); font-size:13px;
+  margin-bottom:var(--s-5); padding:6px 14px;
+  background:rgba(255,255,255,.10); border:1px solid rgba(201,168,76,.4);
+  border-radius:var(--r-pill);
+  -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+}
+.pho-v2 .page-hero .breadcrumb a{ color:var(--v-gold-light); }
+.pho-v2 .page-hero .breadcrumb a:hover{ color:#fff; }
+.pho-v2 .page-hero .breadcrumb [data-lucide],
+.pho-v2 .page-hero .breadcrumb svg{ width:14px; height:14px; }
+
+/* hero title + lede */
+.pho-v2 .page-hero h1{
+  font-family:var(--f-display); font-weight:600;
+  font-size:clamp(40px, 6vw, 80px); line-height:1.04; letter-spacing:-.01em;
+  color:#ffffff; margin:0;
+  text-shadow:0 2px 18px rgba(0,0,0,.35);
+  white-space:nowrap;
+}
+.pho-v2 .page-hero h1::before{ display:none; }
+.pho-v2 .page-hero .lede{
+  font-size:clamp(15px,1.4vw,18px);
+  line-height:1.55;
+  color:#ffffff; margin:0;
+}
+
+/* hero stats — refined gold accent */
+.pho-v2 .page-hero-stats{
+  display:flex; flex-wrap:wrap; gap:clamp(20px, 3vw, 40px);
+  margin:0;
+}
+.pho-v2 .page-hero-stat{ position:relative; text-align:left; }
+.pho-v2 .page-hero-stat::before{
+  content:''; display:block; width:24px; height:2px; margin-bottom:8px;
+  background:linear-gradient(90deg, var(--v-gold), transparent);
+}
+.pho-v2 .page-hero-stat .num{
+  font-family:var(--f-display); font-weight:600;
+  font-size:clamp(32px, 3.4vw, 48px); line-height:1;
+  background:linear-gradient(180deg, #FBF3DC, #D8B36A);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  margin-bottom:6px;
+}
+.pho-v2 .page-hero-stat .lbl{
+  font-family:var(--f-body); font-size:12px; color:#E0D5B5;
+  text-transform:uppercase; letter-spacing:.14em; font-weight:500;
+}
+
+/* --------------------------------------------------------------------------
+   2 · FILTER BAR — sticky pill row on warm ivory-dark band
+   -------------------------------------------------------------------------- */
+.pho-v2 .filter-bar{
+  background:var(--v-ivory-dark);
+  border-bottom:1px solid rgba(14,46,31,.08);
+  padding:var(--s-4) 0;
+}
+.pho-v2 .filter-bar > .container{ gap:var(--s-4); }
+
+/* view toggle (Albums / All photos) */
+.pho-v2 .view-toggle{
+  display:inline-flex;
+  background:var(--v-paper);
+  border:1px solid rgba(14,46,31,.12);
+  border-radius:var(--r-pill);
+  padding:4px;
+  box-shadow:0 1px 2px rgba(14,46,31,.04);
+}
+.pho-v2 .view-toggle button{
+  height:34px; padding:0 16px; border-radius:var(--r-pill);
+  font-family:var(--f-body); font-size:13px; font-weight:500;
+  color:var(--v-ink-soft);
+  display:inline-flex; align-items:center; gap:6px;
+  background:transparent; border:1px solid transparent;
+  transition:background .25s ease, color .25s ease, border-color .25s ease;
+}
+.pho-v2 .view-toggle button:hover{ color:var(--v-emerald); background:rgba(14,46,31,.04); }
+.pho-v2 .view-toggle button.is-active{
+  background:var(--v-emerald); color:var(--v-ivory);
+  border-color:var(--v-emerald);
+  box-shadow:0 4px 10px rgba(14,46,31,.18);
+}
+.pho-v2 .view-toggle button [data-lucide],
+.pho-v2 .view-toggle button svg{ width:14px; height:14px; }
+
+/* category chips */
+.pho-v2 .filter-chips{
+  display:flex; flex-wrap:wrap; gap:8px; align-items:center;
+}
+.pho-v2 .filter-chips .chip{
+  font-family:var(--f-body); font-size:13px; font-weight:500;
+  color:var(--v-ink-soft);
+  background:var(--v-paper);
+  border:1px solid rgba(14,46,31,.12);
+  border-radius:var(--r-pill);
+  padding:7px 14px;
+  transition:background .25s ease, color .25s ease, border-color .25s ease, transform .25s ease;
+}
+.pho-v2 .filter-chips .chip:hover{
+  color:var(--v-emerald); border-color:var(--v-gold);
+  background:#fff; transform:translateY(-1px);
+}
+.pho-v2 .filter-chips .chip.is-active{
+  background:var(--v-emerald); color:var(--v-ivory);
+  border-color:var(--v-emerald);
+  box-shadow:0 6px 14px rgba(14,46,31,.18);
+}
+
+/* --------------------------------------------------------------------------
+   3 · GALLERY SECTION — ivory band, generous breathing
+   -------------------------------------------------------------------------- */
+.pho-v2 .section{
+  padding:clamp(48px, 6vw, 88px) 0;
+  background:var(--v-ivory);
+}
+
+/* --------------------------------------------------------------------------
+   3b · DEPARTMENT GRID — premium logo cards
+   -------------------------------------------------------------------------- */
+.pho-v2 .dept-grid{
+  gap:var(--s-3) !important;
+}
+
+.pho-v2 .dept-card{
+  background:var(--v-paper) !important;
+  border:1px solid rgba(14,46,31,.1) !important;
+  border-radius:14px !important;
+  padding:var(--s-3) !important;
+  min-height:188px !important;
+  display:flex !important; flex-direction:column;
+  align-items:center !important; justify-content:center !important;
+  text-align:center !important;
+  position:relative; overflow:hidden;
+  box-shadow:0 4px 12px rgba(14,46,31,.04);
+  transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  cursor:pointer;
+}
+.pho-v2 .dept-card::before{
+  content:''; position:absolute; left:0; right:0; top:0; height:3px;
+  background:linear-gradient(90deg, var(--v-gold), var(--v-emerald-accent));
+  opacity:0; transition:opacity .25s ease;
+}
+.pho-v2 .dept-card:hover{
+  transform:translateY(-3px) !important;
+  border-color:var(--v-gold) !important;
+  box-shadow:0 18px 36px rgba(14,46,31,.12);
+}
+.pho-v2 .dept-card:hover::before{ opacity:1; }
+
+.pho-v2 .dept-card .dept-logo{
+  width:72px !important; height:72px !important;
+  margin-bottom:var(--s-3) !important;
+  padding:6px !important;
+  background:#fff;
+  border-radius:50%;
+  border:1px solid rgba(14,46,31,.08);
+  object-fit:contain;
+  box-shadow:0 2px 8px rgba(14,46,31,.06);
+}
+.pho-v2 .dept-card h3{
+  font-family:var(--f-display) !important;
+  font-weight:600 !important;
+  color:var(--v-emerald) !important;
+  font-size:14px !important;
+  line-height:1.28 !important;
+  margin-bottom:0 !important;
+  letter-spacing:0;
+}
+
+/* --------------------------------------------------------------------------
+   4 · ALBUM GRID — premium tile cards with gold edge on hover
+   -------------------------------------------------------------------------- */
+.pho-v2 .album-grid{
+  display:grid; grid-template-columns:repeat(4, 1fr);
+  gap:clamp(16px, 2vw, 24px);
+}
+@media (max-width:1024px){ .pho-v2 .album-grid{ grid-template-columns:repeat(3,1fr); } }
+@media (max-width:768px) { .pho-v2 .album-grid{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width:480px) { .pho-v2 .album-grid{ grid-template-columns:1fr; } }
+
+.pho-v2 .album-card{
+  position:relative; aspect-ratio:1/1;
+  border-radius:14px;
+  overflow:hidden; cursor:pointer;
+  background:var(--v-paper);
+  border:1px solid rgba(14,46,31,.1);
+  box-shadow:0 6px 18px rgba(14,46,31,.08);
+  transition:transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+}
+.pho-v2 .album-card:hover{
+  transform:translateY(-4px);
+  border-color:var(--v-gold);
+  box-shadow:0 22px 44px rgba(14,46,31,.20), 0 0 0 1px rgba(201,168,76,.45);
+}
+.pho-v2 .album-card img{
+  width:100%; height:100%; object-fit:cover;
+  transition:transform .55s ease;
+}
+.pho-v2 .album-card:hover img{ transform:scale(1.06); }
+.pho-v2 .album-card::after{
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background:
+    linear-gradient(180deg, transparent 40%, rgba(8,22,15,.78) 100%);
+}
+.pho-v2 .album-card::before{
+  content:''; position:absolute; top:14px; left:14px; z-index:2;
+  width:32px; height:2px;
+  background:linear-gradient(90deg, var(--v-gold), var(--v-emerald-accent));
+  opacity:0; transition:opacity .25s ease;
+}
+.pho-v2 .album-card:hover::before{ opacity:1; }
+
+.pho-v2 .album-cap{
+  position:absolute; left:18px; right:18px; bottom:18px;
+  color:#fff; z-index:2;
+}
+.pho-v2 .album-cap h3{
+  font-family:var(--f-display); font-weight:600;
+  color:#FBF8EC; font-size:22px; line-height:1.18;
+  margin-bottom:4px; letter-spacing:.005em;
+}
+.pho-v2 .album-cap .count{
+  font-family:var(--f-body); font-size:12px; font-weight:500;
+  color:#E6DFCB; text-transform:uppercase; letter-spacing:.12em;
+  display:inline-flex; align-items:center; gap:8px;
+}
+.pho-v2 .album-cap .count::before{
+  content:''; width:18px; height:1px; background:var(--v-gold-light);
+}
+
+/* --------------------------------------------------------------------------
+   5 · MASONRY (all photos) — gentle paper tiles
+   -------------------------------------------------------------------------- */
+.pho-v2 .masonry{
+  column-count:4; column-gap:clamp(12px, 1.6vw, 18px);
+}
+@media (max-width:1100px){ .pho-v2 .masonry{ column-count:3; } }
+@media (max-width:760px) { .pho-v2 .masonry{ column-count:2; } }
+@media (max-width:480px) { .pho-v2 .masonry{ column-count:1; } }
+
+.pho-v2 .photo-tile{
+  display:block; width:100%;
+  margin:0 0 clamp(12px, 1.6vw, 18px);
+  border-radius:12px; overflow:hidden;
+  background:var(--v-paper);
+  border:1px solid rgba(14,46,31,.1);
+  box-shadow:0 4px 14px rgba(14,46,31,.07);
+  cursor:pointer; break-inside:avoid;
+  transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.pho-v2 .photo-tile:hover{
+  transform:translateY(-3px);
+  border-color:var(--v-gold);
+  box-shadow:0 16px 32px rgba(14,46,31,.16), 0 0 0 1px rgba(201,168,76,.4);
+}
+.pho-v2 .photo-tile img{
+  width:100%; display:block;
+  transition:transform .45s ease;
+}
+.pho-v2 .photo-tile:hover img{ transform:scale(1.03); }
+
+/* --------------------------------------------------------------------------
+   6 · PHOTO VIEWER MODAL — lifted from app.js, given premium polish
+   The viewer is rendered outside .pho-v2 so we keep its built-in styles,
+   but we add a subtle gold rule via :where if the viewer ever falls
+   inside .pho-v2.
+   -------------------------------------------------------------------------- */
+.pho-v2 .photo-viewer-overlay,
+.pho-v2 .photo-viewer{ font-family:var(--f-body); }
+
+/* empty-state */
+.pho-v2 #albumsView:empty::after,
+.pho-v2 #allView:empty::after{
+  content:'Loading photos…';
+  display:block; padding:clamp(40px, 6vw, 80px) 0;
+  text-align:center; color:var(--v-ink-soft);
+  font-family:var(--f-display); font-style:italic; font-size:20px;
+}
+
+/* --------------------------------------------------------------------------
+   7 · PRINT — strip chrome, keep tiles
+   -------------------------------------------------------------------------- */
+@media print{
+  .pho-v2 .page-hero{
+    background:none !important; color:#111 !important;
+    border:none; padding:0 0 var(--s-6) 0 !important;
+  }
+  .pho-v2 .page-hero::before,
+  .pho-v2 .page-hero::after{ display:none !important; }
+  .pho-v2 .page-hero h1,
+  .pho-v2 .page-hero .lede,
+  .pho-v2 .page-hero-stat .num,
+  .pho-v2 .page-hero-stat .lbl{ color:#111 !important; -webkit-text-fill-color:#111 !important; background:none !important; }
+  .pho-v2 .filter-bar,
+  .pho-v2 .view-toggle,
+  .pho-v2 .filter-chips,
+  .pho-v2 .breadcrumb{ display:none !important; }
+  .pho-v2 .album-grid{ grid-template-columns:repeat(3, 1fr) !important; gap:10px !important; }
+  .pho-v2 .album-card,
+  .pho-v2 .photo-tile{
+    box-shadow:none !important; border:1px solid #ccc !important;
+    break-inside:avoid; page-break-inside:avoid;
+  }
+  .pho-v2 .album-card::after{ background:linear-gradient(180deg, transparent 60%, rgba(0,0,0,.55)) !important; }
+}
+
+/* --------------------------------------------------------------------------
+   8 · REDUCED MOTION
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce){
+  .pho-v2 .album-card,
+  .pho-v2 .photo-tile,
+  .pho-v2 .album-card img,
+  .pho-v2 .photo-tile img,
+  .pho-v2 .filter-chips .chip,
+  .pho-v2 .view-toggle button{
+    transition:none !important;
+  }
+  .pho-v2 .album-card:hover,
+  .pho-v2 .photo-tile:hover,
+  .pho-v2 .filter-chips .chip:hover{ transform:none !important; }
+  .pho-v2 .album-card:hover img,
+  .pho-v2 .photo-tile:hover img{ transform:none !important; }
+}
+
+/* --------------------------------------------------------------------------
+   9 · MOBILE / RESPONSIVE — comprehensive small-screen adjustments
+   -------------------------------------------------------------------------- */
+
+/* prevent horizontal overflow on all viewports */
+.pho-v2{ overflow-x:hidden; }
+
+/* Tablet landscape and below */
+@media (max-width:1024px){
+  .pho-v2 .page-hero{
+    padding:clamp(44px, 5vw, 72px) 0 clamp(44px, 5vw, 72px) !important;
+  }
+  .pho-v2 .page-hero-stats{
+    gap:clamp(20px, 3vw, 40px);
+  }
+}
+
+/* Tablet / small laptop */
+@media (max-width:768px){
+  .pho-v2 .page-hero{
+    padding:40px 0 40px !important;
+  }
+  .pho-v2 .page-hero h1{
+    font-size:clamp(36px, 7vw, 54px);
+    margin:var(--s-2) 0 var(--s-3);
+  }
+  .pho-v2 .page-hero h1::before{
+    width:48px; margin-bottom:14px;
+  }
+  .pho-v2 .page-hero .lede{
+    font-size:clamp(17px, 2.4vw, 22px);
+    margin-bottom:var(--s-5);
+  }
+  .pho-v2 .page-hero-stats{
+    gap:24px;
+    padding:var(--s-5) 0;
+    margin-top:var(--s-5);
+  }
+  .pho-v2 .page-hero-stat .num{ font-size:clamp(28px, 5vw, 38px); }
+  .pho-v2 .section{ padding:clamp(36px, 5vw, 60px) 0; }
+  .pho-v2 .filter-bar{ padding:var(--s-3) 0; }
+  .pho-v2 .filter-bar > .container{
+    gap:var(--s-3) !important;
+  }
+  .pho-v2 .view-toggle button{
+    height:40px; padding:0 14px; font-size:13px;
+  }
+  .pho-v2 .filter-chips .chip{
+    min-height:36px; padding:8px 12px;
+  }
+  .pho-v2 .album-cap{ left:14px; right:14px; bottom:14px; }
+  .pho-v2 .album-cap h3{ font-size:19px; }
+}
+
+/* Small tablet / large phone */
+@media (max-width:600px){
+  .pho-v2 .page-hero{
+    padding:32px 0 32px !important;
+    border-bottom-width:1px;
+  }
+  .pho-v2 .page-hero .breadcrumb{
+    font-size:12px; padding:5px 12px;
+    margin-bottom:var(--s-4);
+  }
+  .pho-v2 .page-hero h1{
+    font-size:clamp(30px, 8vw, 44px);
+    line-height:1.08;
+  }
+  .pho-v2 .page-hero h1::before{
+    width:40px; height:2px; margin-bottom:12px;
+  }
+  .pho-v2 .page-hero .lede{
+    font-size:16px; line-height:1.5;
+    max-width:100%;
+  }
+  .pho-v2 .page-hero-stats{
+    gap:20px;
+    padding:var(--s-4) 0;
+    margin-top:var(--s-4);
+  }
+  .pho-v2 .page-hero-stat{ flex:1 1 auto; min-width:120px; }
+  .pho-v2 .page-hero-stat .num{ font-size:30px; }
+  .pho-v2 .page-hero-stat .lbl{ font-size:11px; letter-spacing:.12em; }
+
+  .pho-v2 .filter-bar > .container{
+    flex-direction:column !important;
+    align-items:stretch !important;
+    gap:var(--s-3) !important;
+  }
+  .pho-v2 .view-toggle{
+    width:100%;
+    justify-content:center;
+  }
+  .pho-v2 .view-toggle button{
+    flex:1 1 auto;
+    height:42px;
+    justify-content:center;
+  }
+  .pho-v2 .filter-chips{
+    width:100%;
+    gap:6px;
+  }
+  .pho-v2 .filter-chips .chip{
+    font-size:12px;
+    padding:8px 11px;
+    min-height:38px;
+  }
+
+  .pho-v2 .album-grid{
+    gap:14px;
+  }
+  .pho-v2 .album-card{ border-radius:12px; }
+  .pho-v2 .album-cap{ left:12px; right:12px; bottom:12px; }
+  .pho-v2 .album-cap h3{ font-size:17px; }
+  .pho-v2 .album-cap .count{ font-size:11px; }
+  .pho-v2 .album-cap .count::before{ width:14px; }
+
+  .pho-v2 .masonry{ column-gap:10px; }
+  .pho-v2 .photo-tile{ margin-bottom:10px; border-radius:10px; }
+
+  .pho-v2 #albumsView:empty::after,
+  .pho-v2 #allView:empty::after{ font-size:17px; padding:36px 0; }
+}
+
+/* Phone */
+@media (max-width:480px){
+  .pho-v2 .page-hero{
+    padding:28px 0 28px !important;
+  }
+  .pho-v2 .page-hero h1{
+    font-size:clamp(28px, 9vw, 38px);
+  }
+  .pho-v2 .page-hero .lede{
+    font-size:15px;
+  }
+  .pho-v2 .page-hero-stats{
+    flex-direction:column;
+    gap:14px;
+    padding:var(--s-3) 0;
+    align-items:flex-start;
+  }
+  .pho-v2 .page-hero-stat{ width:100%; }
+  .pho-v2 .page-hero-stat .num{ font-size:28px; }
+
+  /* container padding trim on narrow phones */
+  .pho-v2 .container{ padding-left:16px !important; padding-right:16px !important; }
+
+  .pho-v2 .section{ padding:28px 0; }
+
+  .pho-v2 .view-toggle{ padding:3px; }
+  .pho-v2 .view-toggle button{
+    height:40px; padding:0 10px; font-size:12.5px;
+  }
+  .pho-v2 .view-toggle button [data-lucide],
+  .pho-v2 .view-toggle button svg{ width:13px; height:13px; }
+
+  .pho-v2 .filter-chips .chip{
+    font-size:12px; padding:7px 10px;
+    min-height:36px;
+  }
+
+  .pho-v2 .album-grid{ gap:12px; }
+  .pho-v2 .album-card{
+    /* keep 1 col but allow taller portrait crops to read better */
+    aspect-ratio:4/3;
+  }
+  .pho-v2 .album-cap h3{ font-size:18px; }
+
+  /* touch-friendly tap target on tiles */
+  .pho-v2 .photo-tile{ min-height:40px; }
+}
+
+/* Very small / older phones */
+@media (max-width:380px){
+  .pho-v2 .page-hero{ padding:24px 0 24px !important; }
+  .pho-v2 .page-hero h1{ font-size:26px; }
+  .pho-v2 .page-hero .lede{ font-size:14px; }
+  .pho-v2 .page-hero-stat .num{ font-size:26px; }
+
+  .pho-v2 .container{ padding-left:14px !important; padding-right:14px !important; }
+
+  .pho-v2 .view-toggle button{ padding:0 8px; font-size:12px; }
+  .pho-v2 .filter-chips .chip{ font-size:11.5px; padding:7px 9px; }
+
+  .pho-v2 .album-cap{ left:10px; right:10px; bottom:10px; }
+  .pho-v2 .album-cap h3{ font-size:16px; }
+}
+
+/* Hide any potential floating/sticky decoration rails on narrow viewports
+   (defensive — keeps hero/filter content uncluttered if shared chrome
+   injects such elements above .pho-v2 content) */
+@media (max-width:900px){
+  .pho-v2 .scroll-cue,
+  .pho-v2 .social-rail,
+  .pho-v2 .sticky-strip{ display:none !important; }
+}

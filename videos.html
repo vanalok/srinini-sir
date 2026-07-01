@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Videos — Srinivasulu IFS</title>
+  <meta name="description" content="Documentaries, talks, interviews and public-service videos featuring Srinivasulu IFS.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+Kannada:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="design-system.css">
+  <link rel="stylesheet" href="videos-premium.css" />
+  <style>
+    .video-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:var(--s-4); }
+    @media (max-width:1024px){ .video-grid{ grid-template-columns:repeat(3,1fr); } }
+    @media (max-width:768px){ .video-grid{ grid-template-columns:repeat(2,1fr); } }
+    @media (max-width:480px){ .video-grid{ grid-template-columns:1fr; } }
+    .video-card{
+      background:var(--surface); border:1px solid var(--line); border-radius:var(--r-md);
+      overflow:hidden; transition:transform var(--d), box-shadow var(--d), border-color var(--d);
+      cursor:pointer; text-align:left; display:flex; flex-direction:column;
+    }
+    .video-card:hover{ transform:translateY(-3px); box-shadow:var(--e2); border-color:var(--line-2); }
+    .video-thumb{
+      position:relative; aspect-ratio:16/9; background:var(--paper-2); overflow:hidden;
+    }
+    .video-thumb img{ width:100%; height:100%; object-fit:cover; transition:transform var(--d-slow); }
+    .video-card:hover .video-thumb img{ transform:scale(1.05); }
+    .video-play{
+      position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+      width:54px; height:54px; border-radius:50%;
+      background:rgba(15,26,20,.78); color:#fff;
+      display:grid; place-items:center;
+      transition:transform var(--d-fast), background var(--d-fast);
+    }
+    .video-card:hover .video-play{ transform:translate(-50%,-50%) scale(1.1); background:var(--brand); }
+    .video-play [data-lucide]{ width:24px; height:24px; margin-left:2px; }
+    .video-lang{
+      position:absolute; bottom:8px; left:8px;
+    }
+    .video-body{ padding:var(--s-4); display:flex; flex-direction:column; gap:6px; flex:1; }
+    .video-title{
+      font-family:var(--f-display); font-size:var(--t-16); font-weight:600;
+      line-height:1.3; color:var(--ink);
+      display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+    }
+    .video-meta{ font-size:var(--t-12); color:var(--ink-3); display:flex; gap:8px; margin-top:auto; }
+    @media (max-width:768px){
+      .vid-v2 .page-hero > .container > div[style*="grid-template-columns"]{ grid-template-columns:1fr !important; gap:var(--s-4) !important; }
+      .vid-v2 .page-hero h1{ white-space:normal !important; }
+      .vid-v2 .page-hero > .container > div > div[style*="border-left"]{ border-left:none !important; border-top:1px solid rgba(255,255,255,.18) !important; padding-left:0 !important; padding-top:var(--s-4) !important; }
+    }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="sr-chrome-top"></div>
+
+<main id="main" class="vid-v2">
+
+  <section class="page-hero">
+    <div class="container reveal">
+      <div class="breadcrumb"><a href="index.html">Home</a> <i data-lucide="chevron-right" class="icon-sm"></i> <a href="#">Media</a> <i data-lucide="chevron-right" class="icon-sm"></i> <span>Videos</span></div>
+      <div style="display:grid; grid-template-columns:auto 1fr; gap:clamp(24px,4vw,56px); align-items:center;">
+        <h1>Videos</h1>
+        <div style="display:flex; flex-direction:column; gap:var(--s-5); border-left:2px solid rgba(255,255,255,.18); padding-left:clamp(20px,3vw,44px);">
+          <p class="lede">Documentaries, talks, interviews and public-service films — across English and Kannada.</p>
+          <div class="page-hero-stats">
+            <div class="page-hero-stat"><div class="num" id="vCount">—</div><div class="lbl">Total videos</div></div>
+            <div class="page-hero-stat"><div class="num" id="vYears">—</div><div class="lbl">Span</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="filter-bar">
+    <div class="container" style="display:flex;gap:var(--s-4);align-items:center;width:100%;flex-wrap:wrap;">
+      <div class="filter-chips" id="deptFilter">
+        <button class="chip is-active" data-filter="all">All Depts</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="video-grid" id="videoGrid"></div>
+    </div>
+  </section>
+
+</main>
+
+<div id="sr-chrome-footer"></div>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="chrome.js"></script>
+<script src="app.js"></script>
+<script>
+fetch('videos.json').then(r => r.json()).then(videos => {
+  // Detect Kannada by title characters
+  videos.forEach(v => {
+    v.isKannada = /[\u0C80-\u0CFF]/.test(v.title);
+    const t = v.title.toLowerCase();
+    if (t.includes('tedx')) v.kind = 'tedx';
+    else if (t.includes('interview') || t.includes('ಸಂದರ್ಶನ')) v.kind = 'interview';
+    else if (t.includes('talk') || t.includes('lecture') || t.includes('keynote')) v.kind = 'talk';
+    else v.kind = 'documentary';
+  });
+
+  document.getElementById('vCount').textContent = videos.length;
+  document.getElementById('vYears').textContent = '2018–2025';
+
+  const grid = document.getElementById('videoGrid');
+  let deptFilter = 'all';
+  const deptContainer = document.getElementById('deptFilter');
+
+  if (window.SR_DEPTS_CV) {
+    const startYear = (p) => { const m = (p || "").match(/^(\d{4})/); return m ? +m[1] : 0; };
+    const sorted = window.SR_DEPTS_CV.slice().sort((a,b) => startYear(b.period) - startYear(a.period));
+    const first5 = sorted.slice(0, 5);
+    const rest = sorted.slice(5);
+    
+    deptContainer.innerHTML += first5.map(d => `<button class="chip" data-filter="${d.slug}">${d.name}</button>`).join('');
+    deptContainer.innerHTML += rest.map(d => `<button class="chip is-hidden" data-filter="${d.slug}" style="display:none;">${d.name}</button>`).join('');
+    if(rest.length > 0) {
+      deptContainer.innerHTML += `<button class="chip view-more-btn" id="viewMoreDepts">View more...</button>`;
+    }
+  }
+
+  const deptChips = document.querySelectorAll('#deptFilter .chip:not(.view-more-btn)');
+  const viewMoreBtn = document.getElementById('viewMoreDepts');
+  
+  if(viewMoreBtn) {
+    viewMoreBtn.addEventListener('click', () => {
+      const hidden = document.querySelectorAll('#deptFilter .is-hidden');
+      if(hidden.length > 0) {
+        hidden.forEach(el => { el.style.display = 'inline-flex'; el.classList.remove('is-hidden'); });
+        viewMoreBtn.textContent = 'View less';
+      } else {
+        const rest = Array.from(deptChips).slice(6); // 1 for "All Depts" + 5
+        rest.forEach(el => { el.style.display = 'none'; el.classList.add('is-hidden'); });
+        viewMoreBtn.textContent = 'View more...';
+      }
+    });
+  }
+
+  function render(){
+    const list = videos.filter(v => {
+      if (deptFilter !== 'all') {
+        return v.dept === deptFilter || (v.departments && v.departments.includes(deptFilter));
+      }
+      return true;
+    });
+    if (!list.length){
+      grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i data-lucide="film"></i><p>No videos in this category.</p></div>';
+      window.SrIcons && window.SrIcons(); return;
+    }
+    grid.innerHTML = list.map((v, i) => `
+      <button class="video-card" data-i="${videos.indexOf(v)}" aria-label="Play: ${v.title.replace(/"/g,'')}">
+        <div class="video-thumb">
+          <img src="${v.image || 'https://i.ytimg.com/vi/' + v.videoId + '/hqdefault.jpg'}" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/'+'${v.videoId}'+'/hqdefault.jpg';">
+          <div class="video-play"><i data-lucide="play"></i></div>
+          <span class="video-lang lang-flag ${v.isKannada?'kn':'en'}">${v.isKannada?'KN':'EN'}</span>
+        </div>
+        <div class="video-body">
+          <div class="video-title">${v.title}</div>
+          <div class="video-meta"><i data-lucide="youtube" class="icon-sm"></i> YouTube · ${v.kind}</div>
+        </div>
+      </button>`).join('');
+    window.SrIcons && window.SrIcons();
+
+    grid.querySelectorAll('.video-card').forEach(el => {
+      el.addEventListener('click', () => {
+        const list = videos.map(v => ({ videoId: v.videoId, title: v.title, url: 'https://www.youtube.com/watch?v=' + v.videoId }));
+        VideoViewer.open(list, parseInt(el.dataset.i, 10));
+      });
+    });
+  }
+  deptChips.forEach(c => c.addEventListener('click', () => {
+    deptChips.forEach(x => x.classList.remove('is-active'));
+    c.classList.add('is-active');
+    deptFilter = c.dataset.filter; render();
+  }));
+
+  render();
+
+  // Direct deep-link via hash
+  if (location.hash){
+    const id = location.hash.slice(1);
+    const idx = videos.findIndex(v => v.videoId === id);
+    if (idx >= 0){
+      setTimeout(() => {
+        const list = videos.map(v => ({ videoId: v.videoId, title: v.title, url: 'https://www.youtube.com/watch?v=' + v.videoId }));
+        VideoViewer.open(list, idx);
+      }, 300);
+    }
+  }
+});
+</script>
+</body>
+</html>

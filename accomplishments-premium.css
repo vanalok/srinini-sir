@@ -1,0 +1,631 @@
+/* ==========================================================================
+   accomplishments-premium.css — Accomplishments page premium overlay
+   Scoped under .acc-v2 (set on <main id="main">). Loaded only by
+   accomplishments.html; delete this file + the `acc-v2` class to fully revert.
+
+   Same vanalok-inspired language as index-premium.css / cv-premium.css:
+   warm IVORY base, Cormorant Garamond display + DM Sans body, GOLD + deep
+   EMERALD + TERRACOTTA accents. The page is mostly a hero band plus a
+   12-card department grid that opens a drawer; both are reskinned here.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   0 · Palette + typography
+   -------------------------------------------------------------------------- */
+.acc-v2{
+  --v-ivory:#f7f3ec;     --v-ivory-dark:#ede8df;    --v-paper:#fffdf8;
+  --v-gold:#c9a84c;      --v-gold-light:#e8cc7a;     --v-gold-deep:#b08f33;
+  --v-emerald:#0e2e1f;   --v-emerald-mid:#1d5c3a;    --v-emerald-accent:#2e9460;
+  --v-emerald-pale:#e0f0e8;
+  --v-terra:#c4572a;     --v-terra-light:#e8845a;    --v-terra-pale:#f5e8e0;
+  --v-ink:#13201a;       --v-ink-soft:#5a655d;
+
+  --f-display:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --f-body:'DM Sans', 'Noto Sans Kannada', system-ui, sans-serif;
+
+  /* subtle warm-emerald + gold washes layered over ivory */
+  background:
+    radial-gradient(55% 40% at 100% 18%, rgba(46,148,96,.07), transparent 55%),
+    radial-gradient(50% 40% at 0% 82%, rgba(201,168,76,.07), transparent 55%),
+    var(--v-ivory);
+  color:var(--v-ink);
+}
+.acc-v2 h1, .acc-v2 h2, .acc-v2 h3, .acc-v2 h4{
+  font-family:var(--f-display); letter-spacing:normal; font-weight:600; color:var(--v-emerald);
+}
+.acc-v2 p, .acc-v2 li, .acc-v2 span, .acc-v2 button, .acc-v2 a, .acc-v2 input{
+  font-family:var(--f-body);
+}
+
+/* shared button styles */
+.acc-v2 .btn-primary{
+  background:var(--v-gold); color:var(--v-emerald);
+  border:1px solid var(--v-gold); font-family:var(--f-body); font-weight:600;
+}
+.acc-v2 .btn-primary:hover{
+  background:var(--v-gold-light); transform:translateY(-2px);
+  box-shadow:0 10px 26px rgba(201,168,76,.32);
+}
+.acc-v2 .btn-outline{ border:1.5px solid var(--v-emerald); color:var(--v-emerald); }
+.acc-v2 .btn-outline:hover{ background:var(--v-emerald); color:var(--v-ivory); }
+
+/* shared section-eyebrow (in case a future block uses it) */
+.acc-v2 .section-eyebrow{
+  color:var(--v-emerald-accent); font-family:var(--f-body);
+  font-weight:600; letter-spacing:.18em; text-transform:uppercase;
+}
+.acc-v2 .section-eyebrow::before{
+  width:30px; height:2px;
+  background:linear-gradient(90deg, var(--v-gold), var(--v-emerald-accent));
+}
+
+/* --------------------------------------------------------------------------
+   1 · HERO — ivory band, glass breadcrumb pill, large serif title
+   -------------------------------------------------------------------------- */
+.acc-v2 .page-hero{
+  position:relative; overflow:hidden;
+  padding: clamp(28px, 4vw, 52px) 0 clamp(24px, 3.5vw, 44px) !important;
+  background:
+    linear-gradient(135deg, rgba(14,46,31,.72) 0%, rgba(14,46,31,.55) 50%, rgba(14,46,31,.68) 100%),
+    url('./images/hero_bgs/ANP_6231.jpg') center center / cover no-repeat;
+  border-bottom:1px solid rgba(14,46,31,.12);
+}
+/* warm gold shimmer overlay */
+.acc-v2 .page-hero::before{
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background:
+    radial-gradient(55% 60% at 100% 0%, rgba(201,168,76,.18), transparent 55%),
+    radial-gradient(40% 50% at 0% 100%, rgba(46,148,96,.12), transparent 55%);
+}
+.acc-v2 .page-hero::after{
+  content:''; position:absolute; left:0; right:0; bottom:0; height:3px;
+  background:linear-gradient(90deg, transparent, var(--v-gold), var(--v-gold-light), var(--v-gold), transparent);
+  opacity:.75;
+}
+
+/* glass breadcrumb pill */
+.acc-v2 .page-hero .breadcrumb{
+  display:inline-flex; align-items:center; gap:8px;
+  color:rgba(247,243,236,.75); font-family:var(--f-body); font-size:13px;
+  margin-bottom:var(--s-4) !important;
+  padding:6px 14px;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:var(--r-pill);
+  -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+}
+.acc-v2 .page-hero .breadcrumb a{ color:var(--v-gold-light); }
+.acc-v2 .page-hero .breadcrumb a:hover{ color:#fff; }
+.acc-v2 .page-hero .breadcrumb [data-lucide],
+.acc-v2 .page-hero .breadcrumb svg{ width:14px; height:14px; }
+
+/* eyebrow rule above the H1 */
+.acc-v2 .page-hero h1{
+  position:relative;
+  font-family:var(--f-display); font-weight:600;
+  color:#fff;
+  font-size:clamp(40px, 6vw, 72px) !important;
+  line-height:1.04; letter-spacing:-.005em;
+  margin:0 0 var(--s-6) !important;
+  padding-top:20px;
+  text-shadow:0 2px 24px rgba(14,46,31,.4);
+}
+.acc-v2 .page-hero h1::before{
+  content:''; position:absolute; top:0; left:0;
+  width:36px; height:3px; border-radius:2px;
+  background:linear-gradient(90deg, var(--v-gold), var(--v-gold-light));
+}
+
+/* hero controls row — search + count */
+.acc-v2 .page-hero .search-input{
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:var(--r-pill);
+  -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+  transition:border-color var(--d-fast), box-shadow var(--d-fast), background var(--d-fast);
+}
+.acc-v2 .page-hero .search-input:focus-within{
+  border-color:var(--v-gold-light);
+  box-shadow:0 0 0 3px rgba(201,168,76,.22);
+  background:rgba(255,255,255,.18);
+}
+.acc-v2 .page-hero .search-input [data-lucide],
+.acc-v2 .page-hero .search-input svg{ color:var(--v-gold-light); }
+.acc-v2 .page-hero .search-input input{
+  background:transparent; border:none; box-shadow:none;
+  color:#fff; font-family:var(--f-body); font-size:14px;
+}
+.acc-v2 .page-hero .search-input input::placeholder{ color:rgba(247,243,236,.55); }
+
+/* the "12 / Postings on record" stat */
+.acc-v2 .page-hero-stat{
+  position:relative; padding-left:18px;
+  text-align:left;
+}
+.acc-v2 .page-hero-stat::before{
+  content:''; position:absolute; left:0; top:6px;
+  width:3px; height:calc(100% - 12px); border-radius:2px;
+  background:linear-gradient(180deg, var(--v-gold), var(--v-gold-light));
+}
+.acc-v2 .page-hero-stat .num{
+  font-family:var(--f-display) !important; font-weight:700;
+  font-size:clamp(28px, 3vw, 40px) !important; line-height:1;
+  color:var(--v-gold-light); margin-bottom:4px;
+}
+.acc-v2 .page-hero-stat .lbl{
+  font-family:var(--f-body); font-size:11px !important;
+  color:rgb(247,243,236); text-transform:uppercase; letter-spacing:.14em;
+}
+
+/* --------------------------------------------------------------------------
+   2 · DEPT GRID SECTION — ivory-dark band for rhythm
+   -------------------------------------------------------------------------- */
+.acc-v2 .section{
+  background:var(--v-ivory-dark);
+  border-top:1px solid rgba(14,46,31,.06);
+  padding:clamp(48px, 6vw, 88px) 0 !important;
+  position:relative;
+}
+.acc-v2 .section::before{
+  /* delicate dotted texture for depth */
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background-image:radial-gradient(rgba(14,46,31,.05) 1px, transparent 1.4px);
+  background-size:22px 22px;
+  -webkit-mask-image:radial-gradient(120% 90% at 50% 40%, #000, transparent 80%);
+          mask-image:radial-gradient(120% 90% at 50% 40%, #000, transparent 80%);
+}
+.acc-v2 .section > .container{ position:relative; z-index:1; }
+
+/* --------------------------------------------------------------------------
+   3 · DEPT CARDS — paper bg, gold edge on hover, framed monogram
+   The HTML uses inline page-level styles that force compact 6-up cards; we
+   respect that layout and only restyle surfaces, type and motion.
+   -------------------------------------------------------------------------- */
+.acc-v2 .dept-grid{
+  /* honour inline styles but ensure consistent gutters */
+  gap:var(--s-3) !important;
+}
+.acc-v2 .dept-card{
+  background:var(--v-paper) !important;
+  border:1px solid rgba(14,46,31,.1) !important;
+  border-radius:14px !important;
+  box-shadow:0 1px 2px rgba(14,46,31,.04);
+  transition:transform .25s var(--ease), box-shadow .25s, border-color .25s, background .25s;
+  cursor:pointer; position:relative; overflow:hidden;
+}
+/* a soft gold top ribbon that reveals on hover */
+.acc-v2 .dept-card::before{
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg, var(--v-gold), var(--v-emerald-accent));
+  opacity:0; transition:opacity .25s;
+}
+.acc-v2 .dept-card:hover{
+  transform:translateY(-3px) !important;
+  border-color:var(--v-gold) !important;
+  box-shadow:0 14px 30px rgba(14,46,31,.12);
+  background:#fff !important;
+}
+.acc-v2 .dept-card:hover::before{ opacity:1; }
+.acc-v2 .dept-card:focus-visible{
+  outline:2px solid var(--v-emerald-accent); outline-offset:3px;
+}
+
+.acc-v2 .dept-logo{
+  background:#fff !important;
+  border:1px solid rgba(14,46,31,.06);
+  border-radius:50% !important;
+  object-fit:contain;
+  box-shadow:0 4px 10px rgba(14,46,31,.05);
+  transition:transform .25s var(--ease);
+}
+.acc-v2 .dept-card:hover .dept-logo{ transform:scale(1.04); }
+
+.acc-v2 .dept-card h3{
+  font-family:var(--f-display) !important;
+  font-weight:600 !important;
+  color:var(--v-emerald) !important;
+  letter-spacing:0 !important;
+  font-size:13px !important;
+  line-height:1.25 !important;
+}
+
+/* empty state */
+.acc-v2 .empty-state{
+  color:var(--v-ink-soft); font-family:var(--f-body);
+  padding:var(--s-12) var(--s-4);
+}
+.acc-v2 .empty-state [data-lucide],
+.acc-v2 .empty-state svg{ color:rgba(14,46,31,.25); }
+.acc-v2 .empty-state p{ font-family:var(--f-body); color:var(--v-ink-soft); }
+
+/* --------------------------------------------------------------------------
+   4 · DRAWER — restyle the dept detail drawer to match the language
+   The drawer is appended outside <main>, so to keep selectors scoped we use
+   :where() against .drawer that is opened from this page. We use body[data-acc]
+   (set via this page) to scope without coupling to DOM order; if that isn't
+   set, the rules below still inherit safely from the design-system defaults.
+   We therefore reach the drawer via the body class added below.
+   -------------------------------------------------------------------------- */
+body.has-acc-v2 .drawer{
+  background:var(--v-paper);
+  border-left:1px solid rgba(201,168,76,.35);
+}
+body.has-acc-v2 .drawer-head{
+  background:linear-gradient(160deg, var(--v-paper) 0%, var(--v-ivory) 100%);
+  border-bottom:1px solid rgba(14,46,31,.08);
+  position:relative;
+}
+body.has-acc-v2 .drawer-head::after{
+  content:''; position:absolute; left:0; right:0; bottom:0; height:3px;
+  background:linear-gradient(90deg, var(--v-gold), var(--v-emerald-accent), transparent);
+}
+body.has-acc-v2 .drawer-head-logo{
+  background:#fff; border:1px solid rgba(14,46,31,.08);
+  border-radius:50%; padding:6px;
+}
+body.has-acc-v2 .drawer-head-text h2{
+  font-family:'Cormorant Garamond', Georgia, serif;
+  font-weight:600; color:#0e2e1f; font-size:22px; line-height:1.2;
+}
+body.has-acc-v2 .drawer-head-text .meta{
+  font-family:'DM Sans', system-ui, sans-serif;
+  color:#5a655d; font-size:12px; letter-spacing:.04em;
+}
+body.has-acc-v2 .drawer-close{
+  color:#5a655d; border-radius:50%;
+}
+body.has-acc-v2 .drawer-close:hover{
+  background:#e0f0e8; color:#0e2e1f;
+}
+
+/* drawer tabs */
+body.has-acc-v2 .drawer-tabs{
+  background:#fffdf8; border-bottom:1px solid rgba(14,46,31,.08);
+  gap:6px !important;
+}
+body.has-acc-v2 .drawer-tabs .tab{
+  font-family:'DM Sans', system-ui, sans-serif;
+  font-weight:500; font-size:13px;
+  color:#5a655d;
+  padding:10px 16px; border-radius:999px;
+  background:transparent; border:1px solid transparent;
+  transition:background .2s, color .2s, border-color .2s;
+}
+body.has-acc-v2 .drawer-tabs .tab:hover{
+  background:rgba(14,46,31,.06); color:#0e2e1f;
+}
+body.has-acc-v2 .drawer-tabs .tab.is-active{
+  background:#0e2e1f; color:#f7f3ec; border-color:#0e2e1f;
+}
+
+/* drawer body — overview cards (the inline "card" stat blocks) */
+body.has-acc-v2 .drawer-body{
+  background:linear-gradient(180deg, #fffdf8 0%, #f7f3ec 100%);
+}
+body.has-acc-v2 .drawer-body .card{
+  background:#fffdf8;
+  border:1px solid rgba(14,46,31,.1);
+  border-radius:14px;
+  box-shadow:0 1px 2px rgba(14,46,31,.04);
+  transition:transform .25s, box-shadow .25s, border-color .25s;
+  position:relative; overflow:hidden;
+}
+body.has-acc-v2 .drawer-body .card::before{
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg, #c9a84c, #2e9460);
+  opacity:.85;
+}
+body.has-acc-v2 .drawer-body .card:hover{
+  transform:translateY(-2px);
+  border-color:#c9a84c;
+  box-shadow:0 14px 30px rgba(14,46,31,.1);
+}
+body.has-acc-v2 .drawer-body .card .num{
+  font-family:'Cormorant Garamond', Georgia, serif;
+  font-weight:700; color:#0e2e1f;
+  font-size:30px; line-height:1;
+}
+body.has-acc-v2 .drawer-body .card .lbl{
+  font-family:'DM Sans', system-ui, sans-serif;
+  color:#5a655d; font-size:11px;
+  text-transform:uppercase; letter-spacing:.12em;
+}
+
+/* drawer body — posts (item-card) */
+body.has-acc-v2 .drawer-body .item-card{
+  background:#fffdf8;
+  border:1px solid rgba(14,46,31,.1);
+  border-radius:12px;
+  padding:10px;
+  transition:transform .25s, border-color .25s, box-shadow .25s;
+}
+body.has-acc-v2 .drawer-body .item-card:hover{
+  border-color:#c9a84c;
+  transform:translateX(-2px);
+  box-shadow:0 10px 22px rgba(14,46,31,.08);
+}
+body.has-acc-v2 .drawer-body .item-card-img{
+  border-radius:8px; background:#ede8df;
+}
+body.has-acc-v2 .drawer-body .item-card-title{
+  font-family:'Cormorant Garamond', Georgia, serif;
+  font-weight:600; color:#0e2e1f;
+  font-size:16px; line-height:1.3;
+}
+body.has-acc-v2 .drawer-body .item-card-meta{
+  font-family:'DM Sans', system-ui, sans-serif;
+  color:#5a655d; font-size:11px;
+  letter-spacing:.04em;
+}
+body.has-acc-v2 .drawer-body .item-card-meta [data-lucide],
+body.has-acc-v2 .drawer-body .item-card-meta svg{ color:#2e9460; }
+
+/* drawer empty / loading state */
+body.has-acc-v2 .drawer-body .empty{
+  text-align:center; padding:48px 16px;
+  color:#5a655d; font-family:'DM Sans', system-ui, sans-serif;
+  background:rgba(255,253,248,.6);
+  border:1px dashed rgba(14,46,31,.12);
+  border-radius:12px;
+}
+body.has-acc-v2 .drawer-body .empty a{
+  color:#2e9460; font-weight:600; text-decoration:underline;
+  text-underline-offset:3px;
+}
+
+/* drawer overview body copy + CTA */
+body.has-acc-v2 .drawer-body .tab-panel p{
+  font-family:'DM Sans', system-ui, sans-serif;
+  color:#5a655d; line-height:1.7;
+}
+body.has-acc-v2 .drawer-body .tab-panel p strong{ color:#0e2e1f; }
+body.has-acc-v2 .drawer-body .btn-primary{
+  background:#c9a84c; color:#0e2e1f;
+  border:1px solid #c9a84c;
+  font-family:'DM Sans', system-ui, sans-serif; font-weight:600;
+  border-radius:999px;
+}
+body.has-acc-v2 .drawer-body .btn-primary:hover{
+  background:#e8cc7a; transform:translateY(-2px);
+  box-shadow:0 10px 24px rgba(201,168,76,.3);
+}
+
+/* --------------------------------------------------------------------------
+   5 · PRINT — strip chrome, simplify card grid for paper
+   -------------------------------------------------------------------------- */
+@media print{
+  .acc-v2 .page-hero{ padding:18px 0 12px !important; background:none !important; }
+  .acc-v2 .page-hero::after{ display:none !important; }
+  .acc-v2 .page-hero .breadcrumb,
+  .acc-v2 .page-hero .search-input,
+  .acc-v2 .page-hero-stat{ display:none !important; }
+  .acc-v2 .page-hero h1{ font-size:26px !important; color:#000 !important; }
+  .acc-v2 .page-hero h1::before{ display:none !important; }
+
+  .acc-v2 .section{ background:none !important; padding:8px 0 !important; }
+  .acc-v2 .section::before{ display:none !important; }
+  .acc-v2 .dept-grid{
+    display:grid !important;
+    grid-template-columns:repeat(3, 1fr) !important;
+    gap:10px !important;
+  }
+  .acc-v2 .dept-card{
+    box-shadow:none !important; border:1px solid #999 !important;
+    page-break-inside:avoid; break-inside:avoid;
+    min-height:auto !important;
+  }
+  .acc-v2 .dept-card::before,
+  .acc-v2 .dept-card:hover{ box-shadow:none !important; transform:none !important; }
+  .acc-v2 .dept-card h3{ color:#000 !important; }
+
+  /* drawer must never print */
+  body.has-acc-v2 .drawer{ display:none !important; }
+}
+
+/* --------------------------------------------------------------------------
+   6 · Reduced motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce){
+  .acc-v2 .dept-card,
+  .acc-v2 .dept-logo,
+  body.has-acc-v2 .drawer-body .card,
+  body.has-acc-v2 .drawer-body .item-card{
+    transition:none !important;
+  }
+  .acc-v2 .dept-card:hover,
+  .acc-v2 .dept-card:hover .dept-logo,
+  body.has-acc-v2 .drawer-body .card:hover,
+  body.has-acc-v2 .drawer-body .item-card:hover{
+    transform:none !important;
+  }
+}
+
+/* ==========================================================================
+   7 · MOBILE / RESPONSIVE — small-screen overrides (scoped under .acc-v2)
+   Appended at the end so these win without changing desktop intent.
+   ========================================================================== */
+
+/* Safety: prevent any accidental horizontal overflow from decorative washes */
+.acc-v2{ overflow-x:hidden; }
+
+/* ---------- <=1024px : tablets ---------- */
+@media (max-width: 1024px){
+  .acc-v2 .page-hero{
+    padding:clamp(36px, 6vw, 64px) 0 clamp(28px, 4vw, 48px) !important;
+  }
+  .acc-v2 .page-hero h1{
+    font-size:clamp(34px, 5.2vw, 56px) !important;
+  }
+  body.has-acc-v2 .drawer-body .tab-panel > div[style*="grid-template-columns:1fr 1fr"]{
+    grid-template-columns:1fr 1fr !important;
+  }
+}
+
+/* ---------- <=768px : large phones / small tablets ---------- */
+@media (max-width: 768px){
+  .acc-v2 .page-hero{
+    padding:clamp(28px, 5vw, 48px) 0 clamp(22px, 4vw, 36px) !important;
+  }
+  .acc-v2 .page-hero h1{
+    font-size:clamp(28px, 6vw, 40px) !important;
+    padding-top:14px;
+    margin:0 0 var(--s-2) !important;
+    white-space:normal !important;
+  }
+  /* hero two-column: collapse to single column on mobile */
+  .acc-v2 .page-hero .container > div[style*="grid-template-columns"]{
+    grid-template-columns:1fr !important;
+    gap:var(--s-4) !important;
+  }
+  .acc-v2 .page-hero .container > div > div[style*="border-left"]{
+    border-left:none !important;
+    border-top:1px solid rgba(255,255,255,.18) !important;
+    padding-left:0 !important;
+    padding-top:var(--s-4) !important;
+  }
+  .acc-v2 .page-hero .search-input{
+    flex:1 1 100% !important;
+    max-width:100% !important;
+    width:100% !important;
+  }
+  .acc-v2 .page-hero-stat{
+    margin-left:0 !important;
+  }
+
+  .acc-v2 .section{
+    padding:clamp(28px, 5vw, 56px) 0 !important;
+  }
+  /* drawer head: allow wrapping on narrow */
+  body.has-acc-v2 .drawer-head{ flex-wrap:wrap !important; gap:10px !important; }
+  body.has-acc-v2 .drawer-head-text h2{ font-size:18px !important; }
+  /* drawer tabs: chip-style wrap */
+  body.has-acc-v2 .drawer-tabs{ flex-wrap:wrap !important; }
+  body.has-acc-v2 .drawer-tabs .tab{
+    padding:8px 12px !important;
+    font-size:12px !important;
+    min-height:40px;
+  }
+  /* drawer overview cards: keep 2-up but tighten */
+  body.has-acc-v2 .drawer-body .card{ padding:var(--s-3) !important; }
+  body.has-acc-v2 .drawer-body .card .num{ font-size:24px !important; }
+
+  /* empty state tighter */
+  .acc-v2 .empty-state{ padding:var(--s-6) var(--s-3) !important; }
+}
+
+/* ---------- <=600px : phones ---------- */
+@media (max-width: 600px){
+  .acc-v2 .page-hero .breadcrumb{
+    font-size:12px;
+    padding:5px 11px;
+    margin-bottom:var(--s-3) !important;
+  }
+  .acc-v2 .page-hero h1{
+    font-size:clamp(24px, 7vw, 34px) !important;
+    line-height:1.1;
+  }
+  .acc-v2 .page-hero .search-input input{
+    font-size:13px;
+  }
+  .acc-v2 .page-hero-stat{ padding-left:14px; }
+  .acc-v2 .page-hero-stat .num{ font-size:24px !important; }
+  .acc-v2 .page-hero-stat .lbl{ font-size:10px !important; letter-spacing:.12em; }
+
+  /* drawer overview cards: stack 1-up on phones */
+  body.has-acc-v2 .drawer-body .tab-panel > div[style*="grid-template-columns:1fr 1fr"]{
+    grid-template-columns:1fr !important;
+    gap:var(--s-2) !important;
+  }
+  /* drawer body item-card: stack image above text */
+  body.has-acc-v2 .drawer-body .item-card{
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:stretch !important;
+    gap:8px;
+  }
+  body.has-acc-v2 .drawer-body .item-card-img{
+    width:100% !important;
+    max-width:100% !important;
+    height:auto !important;
+    aspect-ratio:16/9;
+  }
+  body.has-acc-v2 .drawer-body .item-card-img img{
+    width:100% !important;
+    height:100% !important;
+    object-fit:cover;
+    border-radius:8px;
+  }
+  body.has-acc-v2 .drawer-body .item-card-title{ font-size:15px !important; }
+  body.has-acc-v2 .drawer-body .item-card-meta{
+    flex-wrap:wrap !important;
+    gap:8px 12px !important;
+  }
+  /* drawer head logo smaller on phones */
+  body.has-acc-v2 .drawer-head-logo{
+    width:40px !important;
+    height:40px !important;
+  }
+  /* touch target for breadcrumb link */
+  .acc-v2 .page-hero .breadcrumb a{
+    display:inline-block;
+    min-height:24px;
+    line-height:1.6;
+  }
+  /* touch target for drawer close */
+  body.has-acc-v2 .drawer-close{
+    min-width:40px;
+    min-height:40px;
+  }
+  /* primary CTA in drawer: full width and comfortable height */
+  body.has-acc-v2 .drawer-body .btn-primary{
+    width:100%;
+    justify-content:center;
+    min-height:44px;
+  }
+}
+
+/* ---------- <=480px : small phones ---------- */
+@media (max-width: 480px){
+  .acc-v2 .page-hero{
+    padding:24px 0 18px !important;
+  }
+  .acc-v2 .page-hero h1{
+    font-size:clamp(22px, 7vw, 28px) !important;
+    padding-top:12px;
+  }
+  .acc-v2 .page-hero h1::before{ width:24px; }
+
+  /* container side padding trim on tiny screens */
+  .acc-v2 .container{ padding-left:16px !important; padding-right:16px !important; }
+
+  /* section dotted texture is decorative — soften further */
+  .acc-v2 .section{ padding:24px 0 !important; }
+  .acc-v2 .section::before{ background-size:18px 18px; }
+
+  /* dept-grid gap tighter on phones (works with inline 2-col layout) */
+  .acc-v2 .dept-grid{ gap:var(--s-2) !important; }
+
+  /* drawer-head text: keep title from overflowing */
+  body.has-acc-v2 .drawer-head-text h2{ font-size:16px !important; line-height:1.25; }
+  body.has-acc-v2 .drawer-head-text .meta{ font-size:11px !important; }
+
+  /* drawer body padding tighter */
+  body.has-acc-v2 .drawer-body{ padding:var(--s-3) !important; }
+}
+
+/* ---------- <=380px : very small phones ---------- */
+@media (max-width: 380px){
+  .acc-v2 .page-hero h1{
+    font-size:20px !important;
+  }
+  .acc-v2 .page-hero .breadcrumb{
+    font-size:11px;
+    padding:4px 9px;
+  }
+  .acc-v2 .page-hero-stat .num{ font-size:22px !important; }
+  body.has-acc-v2 .drawer-tabs .tab{
+    flex:1 1 auto;
+    padding:8px 10px !important;
+    font-size:11px !important;
+  }
+}

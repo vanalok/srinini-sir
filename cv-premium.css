@@ -1,0 +1,592 @@
+/* ==========================================================================
+   cv-premium.css — CV page premium overlay
+   Scoped under .cv-v2 (set on <main id="main">). Builds on design-system.css.
+   Same vanalok-inspired language as index-premium.css: warm IVORY base,
+   Cormorant Garamond display + DM Sans body, GOLD + deep EMERALD + TERRACOTTA
+   accents. Delete this file + the `cv-v2` class to fully revert.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   0 · Palette + typography
+   -------------------------------------------------------------------------- */
+.cv-v2{
+  --v-ivory:#f7f3ec;     --v-ivory-dark:#ede8df;    --v-paper:#fffdf8;
+  --v-gold:#c9a84c;      --v-gold-light:#e8cc7a;     --v-gold-deep:#b08f33;
+  --v-emerald:#0e2e1f;   --v-emerald-mid:#1d5c3a;    --v-emerald-accent:#2e9460;
+  --v-emerald-pale:#e0f0e8;
+  --v-terra:#c4572a;     --v-terra-light:#e8845a;    --v-terra-pale:#f5e8e0;
+  --v-ink:#13201a;       --v-ink-soft:#5a655d;
+
+  --f-display:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --f-body:'DM Sans', 'Noto Sans Kannada', system-ui, sans-serif;
+
+  /* subtle warm-emerald + gold washes layered over ivory */
+  background:
+    radial-gradient(55% 40% at 100% 18%, rgba(46,148,96,.07), transparent 55%),
+    radial-gradient(50% 40% at 0% 82%, rgba(201,168,76,.07), transparent 55%),
+    var(--v-ivory);
+  color:var(--v-ink);
+}
+.cv-v2 h1, .cv-v2 h2, .cv-v2 h3, .cv-v2 h4{
+  font-family:var(--f-display); letter-spacing:normal; font-weight:600; color:var(--v-emerald);
+}
+.cv-v2 p, .cv-v2 li, .cv-v2 span, .cv-v2 button, .cv-v2 a{ font-family:var(--f-body); }
+
+/* shared section accents */
+.cv-v2 .section-eyebrow{
+  color:var(--v-emerald-accent); font-family:var(--f-body);
+  font-weight:600; letter-spacing:.18em;
+}
+.cv-v2 .section-eyebrow::before{
+  width:30px; height:2px;
+  background:linear-gradient(90deg, var(--v-gold), var(--v-emerald-accent));
+}
+
+/* buttons */
+.cv-v2 .btn-primary{ background:var(--v-gold); color:var(--v-emerald); border:1px solid var(--v-gold); }
+.cv-v2 .btn-primary:hover{ background:var(--v-gold-light); transform:translateY(-2px); box-shadow:0 10px 26px rgba(201,168,76,.32); }
+.cv-v2 .btn-outline{ border:1.5px solid var(--v-emerald); color:var(--v-emerald); }
+.cv-v2 .btn-outline:hover{ background:var(--v-emerald); color:var(--v-ivory); }
+
+/* breadcrumb — force inline-flex so the chevron SVG sits on the same line */
+.cv-v2 .breadcrumb{
+  display:inline-flex; align-items:center; gap:8px;
+  color:var(--v-ink-soft); font-family:var(--f-body); font-size:13px;
+  margin-bottom:var(--s-5); padding:6px 14px;
+  background:rgba(255,255,255,.55); border:1px solid rgba(14,46,31,.08);
+  border-radius:var(--r-pill);
+  -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
+}
+.cv-v2 .breadcrumb a{ color:var(--v-emerald-accent); }
+.cv-v2 .breadcrumb a:hover{ color:var(--v-emerald); }
+.cv-v2 .breadcrumb [data-lucide], .cv-v2 .breadcrumb svg{ width:14px; height:14px; }
+
+/* --------------------------------------------------------------------------
+   1 · HERO — warm ivory, framed portrait left, intro right
+   -------------------------------------------------------------------------- */
+/* DARK editorial hero — kspcb backdrop under a warm dark overlay */
+.cv-v2 .about-hero{
+  position:relative; overflow:hidden;
+  /* Compact banner — matches honours.html / accomplishments.html .page-hero */
+  padding:clamp(28px, 4vw, 48px) 0 clamp(20px, 3vw, 36px);
+  background:
+    radial-gradient(55% 70% at 100% 0%, rgba(201,168,76,.22), transparent 55%),
+    radial-gradient(60% 70% at 0% 100%, rgba(46,148,96,.18), transparent 55%),
+    linear-gradient(135deg, rgba(28,36,28,.92) 0%, rgba(10,16,12,.86) 50%, rgba(29,24,18,.92) 100%),
+    url('images/kspcb-Photos/IMG_2364-min.webp') center/cover no-repeat;
+  border-bottom:1px solid rgba(201,168,76,.4);
+  color:#F4F0E2;
+}
+/* subtle gold dotted texture (editorial, NOT a photo) */
+.cv-v2 .about-hero::before{
+  content:''; position:absolute; inset:0; z-index:0; pointer-events:none;
+  background-image:radial-gradient(rgba(201,168,76,.09) 1.2px, transparent 1.6px);
+  background-size:26px 26px;
+  -webkit-mask-image:radial-gradient(120% 90% at 50% 40%, #000, transparent 80%);
+          mask-image:radial-gradient(120% 90% at 50% 40%, #000, transparent 80%);
+}
+.cv-v2 .about-hero > .container{ position:relative; z-index:1; }
+.cv-v2 .about-hero::after{
+  content:''; position:absolute; left:0; right:0; bottom:0; height:2px;
+  background:linear-gradient(90deg, transparent, var(--v-gold), transparent);
+  opacity:.75;
+}
+
+/* dark-hero text overrides — strong, fully readable on the solid dark */
+.cv-v2 .about-hero .breadcrumb{
+  background:rgba(10,16,12,.55);
+  border-color:rgba(201,168,76,.4);
+  color:#EEE3C9;
+}
+.cv-v2 .about-hero .breadcrumb a{ color:var(--v-gold-light); }
+.cv-v2 .about-hero .breadcrumb a:hover{ color:#fff; }
+.cv-v2 .about-hero .tag{
+  background:rgba(201,168,76,.22) !important;
+  border:1px solid rgba(201,168,76,.6) !important;
+  color:#F4E7BD !important;
+}
+.cv-v2 .about-hero h1{ color:#fdfaf0 !important; text-shadow:0 2px 18px rgba(0,0,0,.35); }
+.cv-v2 .about-hero > .container > .about-hero-grid > div:last-child > p{
+  color:#ffffff !important;
+}
+.cv-v2 .about-hero .about-quickstats{
+  border-top-color:rgba(201,168,76,.35) !important;
+  border-bottom-color:rgba(201,168,76,.35) !important;
+}
+.cv-v2 .about-hero .page-hero-stat .num{
+  background:linear-gradient(180deg, #FBF3DC, #D8B36A);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.cv-v2 .about-hero .page-hero-stat .lbl{
+  color:#E0D5B5; font-weight:500;
+}
+.cv-v2 .about-hero .btn-outline{
+  border:1.5px solid rgba(248,243,221,.55); color:#FBF8EC;
+  background:rgba(255,255,255,.04);
+}
+.cv-v2 .about-hero .btn-outline:hover{
+  background:rgba(255,255,255,.12); border-color:var(--v-gold-light); color:#fff;
+}
+.cv-v2 .about-hero-grid{
+  grid-template-columns:260px 1fr; gap:clamp(28px, 4vw, 56px); align-items:center;
+}
+@media (max-width:900px){ .cv-v2 .about-hero-grid{ grid-template-columns:1fr; gap:var(--s-8); } }
+
+/* framed portrait (stacked card) */
+.cv-v2 .about-portrait{
+  position:relative;
+  aspect-ratio:645 / 726; border-radius:var(--r-xl);
+  overflow:visible; background:transparent; max-width:260px;
+}
+.cv-v2 .about-portrait::before{
+  content:''; position:absolute; inset:0; z-index:0;
+  transform:translate(16px,16px); border-radius:var(--r-xl);
+  background:linear-gradient(150deg, rgba(201,168,76,.32), rgba(201,168,76,.06));
+  border:1px solid rgba(201,168,76,.4);
+}
+.cv-v2 .about-portrait img{
+  position:relative; z-index:1;
+  width:100%; height:100%; object-fit:cover; object-position:center top;
+  border-radius:var(--r-xl);
+  border:1px solid rgba(201,168,76,.45);
+  box-shadow:0 26px 56px rgba(14,46,31,.22), 0 10px 22px rgba(14,46,31,.12);
+}
+
+.cv-v2 .about-hero .tag{
+  background:var(--v-emerald-pale); color:var(--v-emerald-mid);
+  border:1px solid rgba(46,148,96,.22);
+}
+.cv-v2 .about-hero h1{
+  font-size:clamp(34px, 4.2vw, 56px) !important; line-height:1.05; letter-spacing:-.01em;
+  margin:var(--s-2) 0 var(--s-3) !important;
+}
+.cv-v2 .about-hero > .container > .about-hero-grid > div:last-child > p{
+  color:#ffffffcb !important; font-family:var(--f-body); line-height:1.7;
+  max-width:60ch;
+}
+
+/* quick stats — refined with gold accent rule */
+.cv-v2 .about-quickstats{
+  border-top:1px solid rgba(14,46,31,.12); border-bottom:1px solid rgba(14,46,31,.12);
+  padding:var(--s-6) 0; margin:var(--s-8) 0 !important;
+}
+.cv-v2 .page-hero-stat{ position:relative; text-align:left; }
+.cv-v2 .page-hero-stat::before{
+  content:''; display:block; width:24px; height:2px; margin-bottom:8px;
+  background:linear-gradient(90deg, var(--v-gold), transparent);
+}
+.cv-v2 .page-hero-stat .num{
+  font-family:var(--f-display); font-weight:600;
+  font-size:clamp(28px, 3vw, 40px); line-height:1; color:var(--v-emerald);
+  margin-bottom:4px;
+}
+.cv-v2 .page-hero-stat .lbl{
+  font-family:var(--f-body); font-size:12px; color:var(--v-ink-soft);
+  text-transform:uppercase; letter-spacing:.12em;
+}
+
+/* --------------------------------------------------------------------------
+   2 · TABS — pill-style on ivory-dark band
+   -------------------------------------------------------------------------- */
+.cv-v2 .tabs{
+  background:var(--v-ivory-dark);
+  border-bottom:1px solid rgba(14,46,31,.08);
+  padding:var(--s-2) 0;
+  position:sticky; top:var(--nav-h, 64px); z-index:30;
+}
+.cv-v2 .tabs > .container{ gap:6px !important; }
+.cv-v2 .tab{
+  font-family:var(--f-body); font-weight:500; font-size:14px;
+  color:var(--v-ink-soft);
+  padding:10px 18px; border-radius:var(--r-pill);
+  background:transparent; border:1px solid transparent;
+  transition:background var(--d), color var(--d), border-color var(--d);
+}
+.cv-v2 .tab:hover{ background:rgba(14,46,31,.06); color:var(--v-emerald); }
+.cv-v2 .tab.is-active{
+  background:var(--v-emerald); color:var(--v-ivory);
+  border-color:var(--v-emerald);
+}
+
+/* tab panels container */
+.cv-v2 > .container{ padding-block:clamp(48px, 6vw, 80px); }
+.cv-v2 .tab-panel{ display:none; }
+.cv-v2 .tab-panel.is-active{
+  display:block;
+  padding:clamp(28px, 3.5vw, 48px);
+  border-radius:var(--r-xl);
+  border:1px solid rgba(14,46,31,.08);
+  box-shadow:0 14px 36px rgba(14,46,31,.05);
+  margin-bottom:var(--s-12);
+  position:relative; overflow:hidden;
+}
+/* per-panel background tint — varies as you switch tabs */
+.cv-v2 #ov.is-active{       background:linear-gradient(160deg, var(--v-paper) 0%, var(--v-ivory) 100%); }
+.cv-v2 #career.is-active{   background:linear-gradient(160deg, var(--v-ivory-dark) 0%, var(--v-paper) 100%); }
+.cv-v2 #edu.is-active{      background:linear-gradient(160deg, var(--v-emerald-pale) 0%, var(--v-paper) 100%); }
+.cv-v2 #rec.is-active{      background:linear-gradient(160deg, var(--v-terra-pale) 0%, var(--v-paper) 100%); }
+.cv-v2 #documents.is-active{background:linear-gradient(160deg, var(--v-paper) 0%, var(--v-ivory-dark) 100%); }
+/* gold top accent appears on every active panel */
+.cv-v2 .tab-panel.is-active::before{
+  content:''; position:absolute; left:0; right:0; top:0; height:3px;
+  background:linear-gradient(90deg, var(--v-gold), var(--v-emerald-accent), transparent);
+}
+
+/* common tab panel typography */
+.cv-v2 .tab-panel h2{
+  font-size:clamp(32px, 4vw, 52px); line-height:1.08; letter-spacing:-.005em;
+  position:relative; padding-bottom:16px;
+}
+.cv-v2 .tab-panel h2::after{
+  content:''; position:absolute; left:0; bottom:0; width:48px; height:3px;
+  border-radius:2px; background:linear-gradient(90deg, var(--v-gold), var(--v-emerald-accent));
+}
+
+/* --------------------------------------------------------------------------
+   3 · OVERVIEW panel
+   -------------------------------------------------------------------------- */
+.cv-v2 #ov p{ color:var(--v-ink-soft) !important; font-family:var(--f-body); line-height:1.8; }
+.cv-v2 #ov ul{ margin-top:var(--s-6) !important; }
+.cv-v2 #ov ul li{
+  font-family:var(--f-body); color:var(--v-ink); font-size:15px; line-height:1.55;
+  padding-bottom:12px; border-bottom:1px solid rgba(14,46,31,.08);
+}
+.cv-v2 #ov ul li:last-child{ border-bottom:none; padding-bottom:0; }
+.cv-v2 #ov ul li i{ color:var(--v-emerald-accent) !important; }
+.cv-v2 #ov figure{
+  border:1px solid rgba(14,46,31,.1); box-shadow:0 18px 36px rgba(14,46,31,.12);
+  border-radius:var(--r-xl) !important;
+}
+
+/* --------------------------------------------------------------------------
+   4 · CAREER timeline — compact wrap-grid (no scroll, 2 rows on desktop)
+   -------------------------------------------------------------------------- */
+.cv-v2 .career-track{
+  display:grid;
+  grid-template-columns:repeat(8, 1fr);  /* 15 cards -> 8 + 7 = 2 rows on desktop */
+  gap:var(--s-3);
+  padding:var(--s-4) 0 var(--s-6);
+  overflow:visible;
+  scroll-snap-type:none;
+}
+.cv-v2 .career-track > article{
+  flex:initial; width:auto; scroll-snap-align:none;
+}
+.cv-v2 .career-node{
+  background:var(--v-paper); border:1px solid rgba(14,46,31,.1);
+  border-radius:var(--r-md);
+  transition:transform var(--d) var(--ease), box-shadow var(--d), border-color var(--d);
+}
+.cv-v2 .career-node:hover{ transform:translateY(-3px); box-shadow:var(--e2); border-color:var(--v-gold); }
+.cv-v2 .career-img{
+  aspect-ratio:1 / 1; background:#fff !important;
+  border-bottom:1px solid rgba(14,46,31,.08);
+}
+.cv-v2 .career-img img{ background:#fff !important; padding:12px !important; }
+.cv-v2 .career-body{ padding:8px 10px 10px; }
+.cv-v2 .career-period{
+  font-family:var(--f-body) !important; font-weight:600;
+  color:var(--v-emerald-accent) !important; font-size:10px; letter-spacing:.04em;
+  margin-bottom:3px;
+}
+.cv-v2 .career-role{
+  font-family:var(--f-display) !important; font-weight:600;
+  color:var(--v-emerald); font-size:13px; line-height:1.22;
+  margin-bottom:3px;
+  display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;
+}
+.cv-v2 .career-loc{
+  font-family:var(--f-body); color:var(--v-ink-soft) !important; font-size:11px;
+  line-height:1.4;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+}
+/* responsive column counts (no scroll at any size) */
+@media (max-width:1280px){ .cv-v2 .career-track{ grid-template-columns:repeat(5, 1fr); } } /* 5 × 3 rows */
+@media (max-width:900px) { .cv-v2 .career-track{ grid-template-columns:repeat(4, 1fr); } } /* 4 × 4 rows */
+@media (max-width:600px) { .cv-v2 .career-track{ grid-template-columns:repeat(3, 1fr); } } /* 3 × 5 rows */
+@media (max-width:420px) { .cv-v2 .career-track{ grid-template-columns:repeat(2, 1fr); } }
+
+/* --------------------------------------------------------------------------
+   5 · EDUCATION grid
+   -------------------------------------------------------------------------- */
+.cv-v2 .edu-grid{ gap:var(--s-5); margin-top:var(--s-4); }
+.cv-v2 .edu-card{
+  background:var(--v-paper); border:1px solid rgba(14,46,31,.1) !important;
+  border-radius:var(--r-xl) !important; padding:clamp(24px, 3vw, 36px) !important;
+  text-align:center; position:relative; overflow:hidden;
+  transition:transform var(--d) var(--ease), box-shadow var(--d), border-color var(--d);
+}
+.cv-v2 .edu-card::before{
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg, var(--v-gold), var(--v-emerald-accent));
+  opacity:0; transition:opacity var(--d);
+}
+.cv-v2 .edu-card:hover{ transform:translateY(-4px); border-color:var(--v-gold) !important; box-shadow:0 18px 36px rgba(14,46,31,.12); }
+.cv-v2 .edu-card:hover::before{ opacity:1; }
+.cv-v2 .edu-card .edu-icon{
+  width:56px !important; height:56px !important; border-radius:50% !important;
+  background:linear-gradient(135deg, var(--v-gold-light), var(--v-gold)) !important;
+  color:var(--v-emerald) !important;
+  margin-bottom:var(--s-4) !important;
+  box-shadow:0 8px 18px rgba(201,168,76,.28);
+}
+.cv-v2 .edu-card .edu-icon i{ width:24px; height:24px; }
+.cv-v2 .edu-card h4{
+  font-family:var(--f-display) !important; font-weight:600;
+  color:var(--v-emerald); font-size:20px !important; margin-bottom:8px !important;
+}
+.cv-v2 .edu-card p{
+  font-family:var(--f-body); color:var(--v-ink-soft) !important; font-size:14px !important;
+  line-height:1.55;
+}
+
+/* --------------------------------------------------------------------------
+   6 · RECOGNITION panel
+   -------------------------------------------------------------------------- */
+.cv-v2 #rec{
+  background:linear-gradient(160deg, var(--v-emerald-pale) 0%, var(--v-paper) 100%);
+  border-radius:var(--r-xl); padding:clamp(40px, 5vw, 64px) !important;
+  border:1px solid rgba(14,46,31,.1); margin-top:var(--s-4);
+}
+.cv-v2 #rec p{ color:var(--v-ink-soft) !important; font-size:16px; line-height:1.7; }
+
+/* --------------------------------------------------------------------------
+   7 · DOCUMENTS panel (hidden by inline style but styled for future use)
+   -------------------------------------------------------------------------- */
+.cv-v2 #documents .card{
+  background:var(--v-paper); border:1px solid rgba(14,46,31,.1) !important;
+  border-radius:var(--r-xl); padding:clamp(24px,3vw,36px) !important;
+  transition:transform var(--d) var(--ease), box-shadow var(--d), border-color var(--d);
+}
+.cv-v2 #documents .card:hover{ transform:translateY(-3px); border-color:var(--v-gold) !important; box-shadow:0 18px 36px rgba(14,46,31,.12); }
+.cv-v2 #documents .card i.icon-lg{ color:var(--v-emerald-accent) !important; }
+.cv-v2 #documents .card h4{ color:var(--v-emerald); }
+.cv-v2 #documents .card p{ color:var(--v-ink-soft) !important; font-family:var(--f-body); }
+
+/* --------------------------------------------------------------------------
+   8 · reduced motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce){
+  .cv-v2 .career-node:hover,
+  .cv-v2 .edu-card:hover,
+  .cv-v2 #documents .card:hover{ transform:none; }
+}
+
+/* ==========================================================================
+   9 · MOBILE / RESPONSIVE — appended fixes for small viewports
+   All selectors scoped under .cv-v2 to avoid touching shared infra.
+   ========================================================================== */
+
+/* Prevent horizontal scrolling at any size on the CV page */
+.cv-v2,
+.cv-v2 main{ overflow-x:hidden; }
+
+/* ---------- <= 1024px : tablets ---------- */
+@media (max-width: 1024px){
+  /* Overview panel uses inline 1fr 1fr grid — collapse */
+  .cv-v2 #ov > div[style*="grid-template-columns"]{
+    grid-template-columns:1fr !important;
+    gap:var(--s-6) !important;
+  }
+  /* Tighten panel inner padding */
+  .cv-v2 .tab-panel.is-active{
+    padding:clamp(20px, 3vw, 36px);
+  }
+}
+
+/* ---------- <= 900px : large phone landscape / small tablet ---------- */
+@media (max-width: 900px){
+  /* Hero portrait — center & cap width since grid collapses */
+  .cv-v2 .about-portrait{
+    max-width:300px;
+    margin:0 auto;
+  }
+  /* Hero h1 size trim */
+  .cv-v2 .about-hero h1{
+    font-size:clamp(36px, 7vw, 56px) !important;
+  }
+  /* Sticky tabs — keep sticky but make sure they don't overflow */
+  .cv-v2 .tabs > .container{
+    flex-wrap:wrap !important;
+    row-gap:6px !important;
+  }
+}
+
+/* ---------- <= 768px : phones (portrait) ---------- */
+@media (max-width: 768px){
+  /* Hero padding trim */
+  .cv-v2 .about-hero{
+    padding:clamp(32px, 6vw, 56px) 0 clamp(36px, 6vw, 60px);
+  }
+  /* Tab panel padding trim */
+  .cv-v2 .tab-panel.is-active{
+    padding:24px 18px;
+    margin-bottom:var(--s-8);
+  }
+  /* Tab pills smaller */
+  .cv-v2 .tab{
+    padding:8px 14px;
+    font-size:13px;
+    min-height:40px;
+    display:inline-flex;
+    align-items:center;
+  }
+  /* Hero stats trimmed margins */
+  .cv-v2 .about-quickstats{
+    margin:var(--s-6) 0 !important;
+    padding:var(--s-4) 0;
+  }
+  /* Hero buttons full row, touch-friendly */
+  .cv-v2 .about-hero .btn,
+  .cv-v2 .btn{
+    min-height:44px;
+  }
+  /* Documents/grid-3 — collapse to 1-2 cols */
+  .cv-v2 #documents .grid-3{
+    grid-template-columns:repeat(2, 1fr) !important;
+    gap:var(--s-3) !important;
+  }
+  /* H2 inside tab panels */
+  .cv-v2 .tab-panel h2{
+    font-size:clamp(26px, 6vw, 36px);
+  }
+}
+
+/* ---------- <= 600px : small phones ---------- */
+@media (max-width: 600px){
+  /* Remove portrait offset decoration so it doesn't push width */
+  .cv-v2 .about-portrait::before{
+    transform:translate(8px, 8px);
+  }
+  .cv-v2 .about-portrait{
+    max-width:260px;
+  }
+  /* Hero h1 further trim */
+  .cv-v2 .about-hero h1{
+    font-size:clamp(30px, 8vw, 44px) !important;
+    margin:var(--s-2) 0 var(--s-3) !important;
+  }
+  /* Hero intro paragraph smaller */
+  .cv-v2 .about-hero > .container > .about-hero-grid > div:last-child > p{
+    font-size:15px !important;
+    line-height:1.6 !important;
+  }
+  /* Quickstats stat numbers smaller */
+  .cv-v2 .about-hero .page-hero-stat .num,
+  .cv-v2 .page-hero-stat .num{
+    font-size:clamp(22px, 6vw, 30px);
+  }
+  .cv-v2 .page-hero-stat .lbl{
+    font-size:11px;
+    letter-spacing:.08em;
+  }
+  /* Tab panel sits flush to viewport edges */
+  .cv-v2 .tab-panel.is-active{
+    padding:20px 14px;
+    border-radius:var(--r-md);
+  }
+  /* Career cards — text bigger so it's readable at 3-col on phone */
+  .cv-v2 .career-body{ padding:8px; }
+  .cv-v2 .career-role{ font-size:12px; }
+  .cv-v2 .career-loc{ font-size:10px; }
+  .cv-v2 .career-period{ font-size:9px; }
+  /* Recognition panel padding */
+  .cv-v2 #rec{
+    padding:clamp(24px, 5vw, 40px) !important;
+  }
+}
+
+/* ---------- <= 480px : phones (typical) ---------- */
+@media (max-width: 480px){
+  /* Hero overall padding floor reduced */
+  .cv-v2 .about-hero{
+    padding:28px 0 32px;
+  }
+  /* Hero buttons go full-width side-by-side then wrap */
+  .cv-v2 .about-hero-grid > div:last-child > div[style*="display:flex"]:last-child{
+    flex-direction:column !important;
+    gap:10px !important;
+  }
+  .cv-v2 .about-hero-grid > div:last-child > div[style*="display:flex"]:last-child > .btn{
+    width:100%;
+    justify-content:center;
+  }
+  /* Documents grid: 1 col */
+  .cv-v2 #documents .grid-3{
+    grid-template-columns:1fr !important;
+  }
+  /* Education cards padding trim */
+  .cv-v2 .edu-card{
+    padding:clamp(18px, 4vw, 26px) !important;
+  }
+  .cv-v2 .edu-card .edu-icon{
+    width:48px !important;
+    height:48px !important;
+    margin-bottom:var(--s-3) !important;
+  }
+  .cv-v2 .edu-card h4{ font-size:17px !important; }
+  .cv-v2 .edu-card p{ font-size:13px !important; }
+  /* Container padding floor */
+  .cv-v2 .container,
+  .cv-v2 .tabs > .container{
+    padding-left:16px !important;
+    padding-right:16px !important;
+  }
+  /* Breadcrumb tighter */
+  .cv-v2 .breadcrumb{
+    font-size:12px;
+    padding:5px 10px;
+  }
+  /* Tab panel container vertical rhythm */
+  .cv-v2 > .container{
+    padding-block:24px;
+  }
+  /* Tabs wrap nicely */
+  .cv-v2 .tabs{
+    padding:6px 0;
+  }
+  .cv-v2 .tab{
+    flex:1 1 auto;
+    text-align:center;
+    justify-content:center;
+  }
+  /* Touch targets for links/buttons */
+  .cv-v2 .btn,
+  .cv-v2 .career-node{
+    min-height:44px;
+  }
+}
+
+/* ---------- <= 380px : very small phones ---------- */
+@media (max-width: 380px){
+  /* Quickstats — keep 2 cols but tighten */
+  .cv-v2 .about-quickstats{
+    gap:var(--s-2) !important;
+    margin:var(--s-4) 0 !important;
+    padding:var(--s-3) 0;
+  }
+  /* Career grid: drop to 2 cols already at 420; here ensure readable */
+  .cv-v2 .career-track{
+    gap:8px;
+  }
+  /* Hero h1 floor */
+  .cv-v2 .about-hero h1{
+    font-size:26px !important;
+    line-height:1.1 !important;
+  }
+  /* Tag wraps within container */
+  .cv-v2 .about-hero .tag{
+    font-size:11px;
+    letter-spacing:.06em;
+  }
+  /* H2 floor inside panels */
+  .cv-v2 .tab-panel h2{
+    font-size:22px;
+  }
+  /* Container padding floor */
+  .cv-v2 .container,
+  .cv-v2 .tabs > .container{
+    padding-left:12px !important;
+    padding-right:12px !important;
+  }
+}

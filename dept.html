@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Department Details — Srinivasulu IFS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+Kannada:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="design-system.css">
+  <link rel="stylesheet" href="accomplishments-premium.css" />
+  <link rel="stylesheet" href="publications-premium.css" />
+  <style>
+    .dept-hero {
+      padding: var(--s-10) 0 var(--s-6);
+      background: var(--paper);
+    }
+    .dept-hero-grid {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: var(--s-6);
+      align-items: center;
+    }
+    .dept-hero-logo {
+      width: 140px;
+      height: 140px;
+      border-radius: var(--r-md);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      padding: var(--s-3);
+      object-fit: contain;
+    }
+    .dept-hero-meta {
+      font-family: var(--f-mono);
+      font-size: var(--t-14);
+      color: var(--ink-3);
+      margin-bottom: var(--s-2);
+    }
+    .dept-hero h1 {
+      margin-bottom: var(--s-2);
+      line-height: 1.1;
+    }
+    .dept-hero-kind {
+      font-size: var(--t-18);
+      color: var(--ink-2);
+    }
+    @media (max-width: 640px) {
+      .dept-hero-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .dept-hero-logo {
+        margin: 0 auto;
+      }
+    }
+
+    /* Overrides for rendering items in tabs */
+    .tab-panel {
+      padding: var(--s-6) 0;
+    }
+    .empty-state {
+      text-align: center;
+      padding: var(--s-10) var(--s-4);
+      color: var(--ink-3);
+      background: var(--paper-2);
+      border-radius: var(--r-md);
+    }
+    .empty-state svg {
+      width: 48px;
+      height: 48px;
+      margin-bottom: var(--s-3);
+      opacity: 0.5;
+    }
+    
+    /* Photo grid for dept.html */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--s-4);
+    }
+    @media (max-width: 1024px) { .photo-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 768px) { .photo-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .photo-grid { grid-template-columns: 1fr; } }
+    
+    .photo-tile {
+      width: 100%; border-radius: var(--r-sm); overflow: hidden;
+      cursor: pointer; background: var(--paper-2);
+      transition: transform var(--d), box-shadow var(--d);
+      aspect-ratio: 1/1;
+    }
+    .photo-tile:hover { transform: scale(1.02); box-shadow: var(--e2); }
+    .photo-tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="sr-chrome-top"></div>
+
+<main id="main">
+  <section class="dept-hero">
+    <div class="container reveal">
+      <div class="breadcrumb" id="breadcrumbNav">
+        <a href="index.html">Home</a> <i data-lucide="chevron-right" class="icon-sm"></i> <a href="accomplishments.html" id="backLink">Departments</a> <i data-lucide="chevron-right" class="icon-sm"></i> <span id="bcName">...</span>
+      </div>
+      <div class="dept-hero-grid">
+        <img id="dhLogo" class="dept-hero-logo" src="" alt="" loading="eager">
+        <div>
+          <div class="dept-hero-meta"><span id="dhCode"></span> · <span id="dhPeriod"></span></div>
+          <h1 id="dhName">Loading...</h1>
+          <div class="dept-hero-kind" id="dhKind"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="tabs" role="tablist">
+    <div class="container" style="display:flex; gap:var(--s-1);">
+      <button class="tab" role="tab" data-target="accomplishments">Accomplishments (<span id="accCount">0</span>)</button>
+      <button class="tab" role="tab" data-target="publications">Publications (<span id="pubCount">0</span>)</button>
+      <button class="tab" role="tab" data-target="photos">Photos (<span id="phoCount">0</span>)</button>
+    </div>
+  </div>
+
+  <div class="container" style="min-height: 50vh;">
+    <section class="tab-panel" id="accomplishments" role="tabpanel">
+      <div id="accContent" class="grid grid-3"></div>
+    </section>
+
+    <section class="tab-panel" id="publications" role="tabpanel">
+      <div id="pubContent" class="pub-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--s-4);"></div>
+    </section>
+
+    <section class="tab-panel" id="photos" role="tabpanel">
+      <div id="phoContent" class="photo-grid"></div>
+    </section>
+  </div>
+</main>
+
+<div id="sr-chrome-footer"></div>
+
+<script src="photos.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="chrome.js"></script>
+<script src="app.js"></script>
+<script>
+window.addEventListener('load', async () => {
+  const params = new URLSearchParams(location.search);
+  const slug = params.get('dept');
+  let activeTab = params.get('page') || 'accomplishments';
+  
+  if (!slug) {
+    location.href = 'accomplishments.html';
+    return;
+  }
+
+  const data = window.SR_DEPTS_CV || [];
+  const logos = window.SR_LOGOS || {};
+
+  // Support the special 'family' slug which isn't in SR_DEPTS_CV
+  const EXTRA_DEPTS = {
+    'family': { slug: 'family', name: 'Family', code: 'FAM', period: 'Personal Gallery', kind: 'Photo Album' }
+  };
+
+  const dept = data.find(x => x.slug === slug) || EXTRA_DEPTS[slug];
+
+  if (!dept) {
+    location.href = 'accomplishments.html';
+    return;
+  }
+
+  // Populate Hero
+  document.title = dept.name + ' — Srinivasulu IFS';
+  document.getElementById('bcName').textContent = dept.name;
+  document.getElementById('dhLogo').src = logos[slug] || '';
+  document.getElementById('dhName').textContent = dept.name;
+  document.getElementById('dhPeriod').textContent = dept.period;
+  document.getElementById('dhCode').textContent = dept.code;
+  document.getElementById('dhKind').textContent = dept.kind;
+
+  // Set up back link based on page
+  const backLink = document.getElementById('backLink');
+  if (activeTab === 'accomplishments') { backLink.href = 'accomplishments.html'; backLink.textContent = 'Accomplishments'; }
+  else if (activeTab === 'publications') { backLink.href = 'publications.html'; backLink.textContent = 'Publications'; }
+  else if (activeTab === 'photos') { backLink.href = 'photos.html'; backLink.textContent = 'Photos'; }
+
+  // Category mapping
+  const DEPT_CATEGORY_MAP_ACC = {
+    'kspcb': ['KSPCB', 'KSPCB photos'],
+    'kali-tiger-reserve': ['Kali Tiger Reserve'],
+    'nagarhole-national-park': [],
+    'karnataka-forest-department': ['KFD - Wildlife'],
+    'shimoga': ['Forest Department - Shimogga'],
+    'chitradurga': ['Forest Department - Chitradurga'],
+    'kalaburagi': [],
+    'academics': [],
+    'adcl': ['Dr B R Ambedkar Development Corp.'],
+    'ayush': ['Ayush', 'Ayush Accomplishments'],
+    'kfcsc': [],
+    'ecology-environment': ['Ecology & Environment'],
+    'general': ['Accomplishments']
+  };
+
+  const DEPT_CATEGORY_MAP_PUB = {
+    'kspcb': ['KSPCB_publications'],
+    'kali-tiger-reserve': ['Kali Tiger Reserve_publications'],
+    'nagarhole-national-park': ['Nagarhole_publications'],
+    'karnataka-forest-department':['Karnataka Forest Department_publica','Wildlife & Forest'],
+    'shimoga': ['Shimoga_Publications'],
+    'chitradurga': ['Chitradurga_publications'],
+    'kalaburagi': ['Gulbarga_publications'],
+    'academics': ['Academics_publications'],
+    'adcl': ['ADCL_publications'],
+    'ayush': [],
+    'kfcsc': [],
+    'ecology-environment': ['Ecology & Environment'],
+    'general': ['Publications']
+  };
+
+  const PHOTO_CAT_NAMES = {
+    'kspcb-photos': 'kspcb',
+    'family':       'family',
+    'academics':    'academics',
+    'shimoga':      'shimoga',
+    'honours':      'honours',
+    'ayush-photos': 'ayush',
+    'adcl':         'adcl',
+    'forestdeptphotos': 'karnataka-forest-department',
+    'kali':         'kali-tiger-reserve',
+    'chitradurga':  'chitradurga'
+  };
+
+  // For family slug, skip data fetches and just show photos tab
+  const isFamilyOnly = (slug === 'family');
+  if (isFamilyOnly) {
+    logos['family'] = logos['family'] || '';
+    activeTab = 'photos';
+  }
+
+  // Hide Acc/Pub tabs for family
+  if (isFamilyOnly) {
+    document.querySelectorAll('.tab[data-target="accomplishments"], .tab[data-target="publications"]').forEach(t => t.style.display = 'none');
+  }
+
+  // Fetch all required data (skip for family)
+  let postsData = [], accomplishmentsData = { departments: {} }, publicationsData = { departments: {} };
+  if (!isFamilyOnly) {
+    const postsRes = await fetch('./assets/posts-full.json');
+    postsData = await postsRes.json();
+    const accRes = await fetch('./accomplishments.json');
+    accomplishmentsData = await accRes.json();
+    const pubRes = await fetch('./publications.json');
+    publicationsData = await pubRes.json();
+  }
+
+  // 1. Process Accomplishments
+  let accList = [];
+  try {
+    const mappedCats = DEPT_CATEGORY_MAP_ACC[slug] || [];
+    const allAccs = [];
+    const seenIds = new Set();
+    for (const k in accomplishmentsData.departments) {
+      for (const item of (accomplishmentsData.departments[k] || [])) {
+        if (!seenIds.has(item.id)) { seenIds.add(item.id); allAccs.push(item); }
+      }
+    }
+    const filtered = allAccs.filter(p => {
+      if (p.dept === slug) return true;
+      if (p.categories) {
+        const itemCats = p.categories.split(',').map(c => c.trim().toLowerCase());
+        if (mappedCats.some(mc => itemCats.includes(mc.toLowerCase()))) return true;
+      }
+      return false;
+    });
+    accList = filtered.map(p => {
+      const post = (postsData || []).find(x => x.slug === p.slug);
+      return {
+        title: p.title || (post && post.title) || '',
+        slug: p.slug,
+        postPageUrl: `posts/${p.slug}.html`,
+        coverImage: (post && post.image) || '',
+        publishedDate: (post && post.date) || new Date().toISOString(),
+        timeToRead: (post && (post.minutesToRead || post.timeToRead)) || 0,
+        viewCount: (post && post.viewCount) || 0
+      };
+    }).sort((a,b) => new Date(b.publishedDate) - new Date(a.publishedDate));
+  } catch (e) {}
+
+  document.getElementById('accCount').textContent = accList.length;
+  const accHtml = accList.length ? accList.map(p => `
+    <a class="item-card acc-card" href="${p.postPageUrl}" style="display:flex;flex-direction:column;border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;background:var(--surface);color:inherit;transition:transform 0.2s,box-shadow 0.2s;">
+      <div style="aspect-ratio:16/9;background:var(--paper-2);overflow:hidden;">
+        ${p.coverImage ? `<img src="${p.coverImage}" loading="lazy" style="width:100%;height:100%;object-fit:cover;">` : ''}
+      </div>
+      <div style="padding:var(--s-4);display:flex;flex-direction:column;flex:1;">
+        <h3 style="font-size:var(--t-16);margin-bottom:var(--s-2);line-height:1.4;">${p.title}</h3>
+        <div style="display:flex;gap:var(--s-3);font-size:var(--t-12);color:var(--ink-3);margin-top:auto;">
+          <span><i data-lucide="calendar" style="width:14px;height:14px;"></i> ${new Date(p.publishedDate).toLocaleDateString('en-IN', {year:'numeric',month:'short'})}</span>
+          ${p.timeToRead ? `<span><i data-lucide="clock" style="width:14px;height:14px;"></i> ${p.timeToRead}m</span>` : ''}
+        </div>
+      </div>
+    </a>
+  `).join('') : '<div class="empty-state" style="grid-column:1/-1;"><i data-lucide="folder-open"></i><p>No accomplishments recorded for this department.</p></div>';
+  document.getElementById('accContent').innerHTML = accHtml;
+
+  // 2. Process Publications
+  let pubList = [];
+  try {
+    const mappedCats = DEPT_CATEGORY_MAP_PUB[slug] || [];
+    const allPubs = [];
+    const seenIds = new Set();
+    for (const k in publicationsData.departments) {
+      for (const item of (publicationsData.departments[k] || [])) {
+        if (!seenIds.has(item.id)) { seenIds.add(item.id); allPubs.push(item); }
+      }
+    }
+    const filtered = allPubs.filter(p => {
+      if (p.dept === slug) return true;
+      if (p.categories) {
+        const itemCats = p.categories.split(',').map(c => c.trim().toLowerCase());
+        if (mappedCats.some(mc => itemCats.includes(mc.toLowerCase()))) return true;
+      }
+      return false;
+    });
+    pubList = filtered.map(p => {
+      const post = (postsData || []).find(x => x.slug === p.slug);
+      return {
+        title: p.title || (post && post.title) || '',
+        slug: p.slug,
+        postPageUrl: `posts/${p.slug}.html`,
+        coverImage: (post && post.image) || '',
+        language: (post && post.language) || 'EN',
+        publishedDate: (post && post.date) || new Date().toISOString(),
+        timeToRead: (post && (post.minutesToRead || post.timeToRead)) || 0
+      };
+    }).sort((a,b) => new Date(b.publishedDate) - new Date(a.publishedDate));
+  } catch(e) {}
+
+  document.getElementById('pubCount').textContent = pubList.length;
+  const pubHtml = pubList.length ? pubList.map(p => {
+    const lang = (p.language || 'EN').toLowerCase();
+    const langLabel = lang === 'kn' ? 'ಕನ್ನಡ' : (p.language || 'EN');
+    const year = new Date(p.publishedDate).getFullYear();
+    const readTime = p.timeToRead ? `<span class="dot"></span><span>${p.timeToRead} min read</span>` : '';
+    const cover = p.coverImage ? `<img src="${p.coverImage}" alt="" loading="lazy">` : `<div class="pub-cover-placeholder" style="display:grid;place-items:center;height:100%;background:var(--paper-2);"><i data-lucide="file-text"></i></div>`;
+    return `
+      <a class="pub-card" href="${p.postPageUrl}" target="_blank" rel="noopener" style="display:flex;flex-direction:column;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface);">
+        <div class="pub-cover" style="aspect-ratio:16/9;overflow:hidden;flex-shrink:0;">${cover}</div>
+        <div class="pub-body" style="padding:16px;display:flex;flex-direction:column;flex:1;">
+          <div class="pub-title" style="font-size:var(--t-16);font-weight:600;margin-bottom:8px;">${p.title}</div>
+          <div class="pub-meta" style="font-size:var(--t-12);color:var(--ink-3);display:flex;align-items:center;gap:6px;margin-bottom:12px;">
+            <span style="background:var(--brand-soft);color:var(--brand);padding:2px 6px;border-radius:4px;font-weight:600;">${langLabel}</span>
+            <span style="width:3px;height:3px;background:currentColor;border-radius:50%;"></span>
+            <span>${year}</span>
+            ${readTime}
+          </div>
+          <div style="margin-top:auto;"><span class="btn btn-outline btn-sm"><i data-lucide="external-link" class="icon-sm"></i> Open</span></div>
+        </div>
+      </a>`;
+  }).join('') : '<div class="empty-state" style="grid-column:1/-1;"><i data-lucide="file-text"></i><p>No publications recorded for this department.</p></div>';
+  document.getElementById('pubContent').innerHTML = pubHtml;
+
+  // 3. Process Photos
+  const rawPhotos = (typeof photos !== 'undefined') ? photos : [];
+  let phoList = rawPhotos.filter(p => {
+    return PHOTO_CAT_NAMES[p.category] === slug;
+  });
+
+  document.getElementById('phoCount').textContent = phoList.length;
+  const phoHtml = phoList.length ? phoList.map((p, i) => `
+    <button class="photo-tile" data-i="${i}" aria-label="Open photo">
+      <img src="${p.src}" alt="${p.category}" loading="lazy">
+    </button>
+  `).join('') : '<div class="empty-state" style="grid-column:1/-1;"><i data-lucide="image"></i><p>No photos recorded for this department.</p></div>';
+  document.getElementById('phoContent').innerHTML = phoHtml;
+
+  // Re-run icons
+  window.SrIcons && window.SrIcons();
+
+  // Bind Photo Viewer
+  document.querySelectorAll('#phoContent .photo-tile').forEach(t => {
+    t.addEventListener('click', () => {
+      const items = phoList.map(p => ({ src:p.src, alt:dept.name, category:dept.name }));
+      PhotoViewer.open(items, parseInt(t.dataset.i, 10));
+    });
+  });
+
+  // Setup Tabs
+  const tabBtns = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('.tab-panel');
+  
+  function activateTab(target) {
+    tabBtns.forEach(t => {
+      if (t.dataset.target === target) {
+        t.classList.add('is-active');
+        t.setAttribute('aria-selected', 'true');
+      } else {
+        t.classList.remove('is-active');
+        t.setAttribute('aria-selected', 'false');
+      }
+    });
+    panels.forEach(p => {
+      if (p.id === target) p.classList.add('is-active');
+      else p.classList.remove('is-active');
+    });
+    // update URL
+    const url = new URL(location.href);
+    url.searchParams.set('page', target);
+    history.replaceState(null, '', url);
+  }
+
+  tabBtns.forEach(t => {
+    t.addEventListener('click', () => {
+      activateTab(t.dataset.target);
+    });
+  });
+
+  // Activate initial tab
+  activateTab(activeTab);
+});
+</script>
+</body>
+</html>

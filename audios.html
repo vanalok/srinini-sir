@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Audios — Srinivasulu IFS</title>
+  <meta name="description" content="Documentaries, talks, interviews and public-service audios featuring Srinivasulu IFS.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+Kannada:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="design-system.css">
+  <style>
+    .audio-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:var(--s-4); }
+    @media (max-width:1024px){ .audio-grid{ grid-template-columns:repeat(3,1fr); } }
+    @media (max-width:768px){ .audio-grid{ grid-template-columns:repeat(2,1fr); } }
+    @media (max-width:480px){ .audio-grid{ grid-template-columns:1fr; } }
+    .audio-card{
+      background:var(--surface); border:1px solid var(--line); border-radius:var(--r-md);
+      overflow:hidden; transition:transform var(--d), box-shadow var(--d), border-color var(--d);
+      cursor:pointer; text-align:left; display:flex; flex-direction:column;
+    }
+    .audio-card:hover{ transform:translateY(-3px); box-shadow:var(--e2); border-color:var(--line-2); }
+    .audio-thumb{
+      position:relative; aspect-ratio:16/9; background:var(--paper-2); overflow:hidden;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .audio-thumb img{ width:100%; height:100%; object-fit:cover; transition:transform var(--d-slow); }
+    .audio-card:hover .audio-thumb img{ transform:scale(1.05); }
+    .audio-play{
+      position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+      width:54px; height:54px; border-radius:50%;
+      background:rgba(15,26,20,.78); color:#fff;
+      display:grid; place-items:center;
+      transition:transform var(--d-fast), background var(--d-fast);
+      z-index:2;
+    }
+    .audio-card:hover .audio-play{ transform:translate(-50%,-50%) scale(1.1); background:var(--brand); }
+    .audio-play [data-lucide]{ width:24px; height:24px; margin-left:2px; }
+    .audio-lang{
+      position:absolute; bottom:8px; left:8px; z-index:2;
+    }
+    .audio-body{ padding:var(--s-4); display:flex; flex-direction:column; gap:6px; flex:1; }
+    .audio-title{
+      font-family:var(--f-display); font-size:var(--t-16); font-weight:600;
+      line-height:1.3; color:var(--ink);
+      display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+    }
+    .audio-meta{ font-size:var(--t-12); color:var(--ink-3); display:flex; gap:8px; margin-top:auto; }
+
+    /* ── Hero background image ── */
+    .page-hero{
+      position:relative; overflow:hidden;
+      padding: clamp(28px,4vw,52px) 0 clamp(24px,3.5vw,44px) !important;
+      background:
+        linear-gradient(135deg, rgba(14,46,31,.72) 0%, rgba(14,46,31,.52) 50%, rgba(14,46,31,.68) 100%),
+        url('./images/audio_bg.png') center center / cover no-repeat;
+      border-bottom:3px solid #c9a84c;
+    }
+    .page-hero::before{
+      content:''; position:absolute; inset:0; pointer-events:none;
+      background: radial-gradient(60% 70% at 100% 0%, rgba(201,168,76,.18), transparent 55%),
+                  radial-gradient(55% 65% at 0% 100%, rgba(46,148,96,.12), transparent 55%);
+    }
+    .page-hero > .container{ position:relative; z-index:1; }
+    /* breadcrumb */
+    .page-hero .breadcrumb{
+      display:inline-flex; align-items:center; gap:8px;
+      color:rgba(247,243,236,.75); font-size:13px;
+      margin-bottom:16px; padding:6px 14px;
+      background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.22);
+      border-radius:999px; backdrop-filter:blur(8px);
+    }
+    .page-hero .breadcrumb a{ color:#e8cc7a; text-decoration:none; }
+    .page-hero .breadcrumb a:hover{ color:#fff; }
+    /* h1 */
+    .page-hero h1{
+      font-size:clamp(40px,6vw,80px) !important;
+      color:#fff !important;
+      text-shadow:0 2px 24px rgba(14,46,31,.4);
+      margin:0 !important;
+      white-space:nowrap;
+    }
+    /* lede */
+    .lede{
+      font-size:clamp(15px,1.4vw,18px);
+      color:#fff;
+      margin:0;
+      line-height:1.55;
+    }
+    /* stats */
+    .page-hero-stats{ display:flex; flex-wrap:wrap; gap:clamp(20px,3vw,40px); margin:0; }
+    .page-hero-stat{ position:relative; padding-left:14px; }
+    .page-hero-stat::before{
+      content:''; position:absolute; left:0; top:4px;
+      width:3px; height:calc(100% - 8px); border-radius:2px;
+      background:linear-gradient(180deg, #c9a84c, #e8cc7a);
+    }
+    .page-hero-stat .num{ font-size:clamp(26px,2.8vw,38px) !important; color:#e8cc7a !important; line-height:1; margin-bottom:4px; }
+    .page-hero-stat .lbl{ font-size:12px !important; color:rgba(247,243,236,.65) !important; text-transform:uppercase; letter-spacing:.14em; }
+    /* two-column layout */
+    .hero-cols{ display:grid; grid-template-columns:auto 1fr; gap:clamp(24px,4vw,56px); align-items:center; }
+    .hero-right{ display:flex; flex-direction:column; gap:20px; border-left:2px solid rgba(255,255,255,.18); padding-left:clamp(20px,3vw,44px); }
+    @media (max-width:768px){
+      .hero-cols{ grid-template-columns:1fr !important; gap:16px !important; }
+      .page-hero h1{ white-space:normal !important; }
+      .hero-right{ border-left:none !important; border-top:1px solid rgba(255,255,255,.18) !important; padding-left:0 !important; padding-top:16px !important; }
+    }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="sr-chrome-top"></div>
+
+<main id="main">
+
+  <section class="page-hero">
+    <div class="container reveal">
+      <div class="breadcrumb"><a href="index.html">Home</a> <i data-lucide="chevron-right" class="icon-sm"></i> <a href="#">Media</a> <i data-lucide="chevron-right" class="icon-sm"></i> <span>Audios</span></div>
+      <div class="hero-cols">
+        <h1>Audios</h1>
+        <div class="hero-right">
+          <p class="lede">Audio talks, interviews, speeches and public-service recordings — across English and Kannada.</p>
+          <div class="page-hero-stats">
+            <div class="page-hero-stat"><div class="num" id="aCount">—</div><div class="lbl">Total audios</div></div>
+            <div class="page-hero-stat"><div class="num" id="aYears">—</div><div class="lbl">Span</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="filter-bar">
+    <div class="container" style="display:flex;gap:var(--s-4);align-items:center;width:100%;flex-wrap:wrap;">
+      <div class="filter-chips" id="aFilter">
+        <button class="chip is-active" data-filter="all">All</button>
+        <button class="chip" data-filter="documentary">Documentaries</button>
+        <button class="chip" data-filter="talk">Talks</button>
+        <button class="chip" data-filter="interview">Interviews</button>
+        <button class="chip" data-filter="kn">ಕನ್ನಡ</button>
+        <button class="chip" data-filter="en">English</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="audio-grid" id="audioGrid"></div>
+    </div>
+  </section>
+
+</main>
+
+<div id="sr-chrome-footer"></div>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="chrome.js"></script>
+<script src="app.js"></script>
+<script>
+fetch('audios.json').then(r => r.json()).then(audios => {
+  // Detect Kannada by title characters
+  audios.forEach(a => {
+    a.isKannada = /[\u0C80-\u0CFF]/.test(a.title);
+    const t = a.title.toLowerCase();
+    if (t.includes('interview') || t.includes('ಸಂದರ್ಶನ')) a.kind = 'interview';
+    else if (t.includes('talk') || t.includes('lecture') || t.includes('keynote')) a.kind = 'talk';
+    else a.kind = 'documentary';
+  });
+
+  document.getElementById('aCount').textContent = audios.length;
+  document.getElementById('aYears').textContent = '2018–2025';
+
+  const grid = document.getElementById('audioGrid');
+  const chips = document.querySelectorAll('#aFilter .chip');
+  let filter = 'all';
+
+  function render(){
+    const list = audios.filter(a => {
+      if (filter === 'all') return true;
+      if (filter === 'kn') return a.isKannada;
+      if (filter === 'en') return !a.isKannada;
+      return a.kind === filter;
+    });
+    if (!list.length){
+      grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><i data-lucide="headphones"></i><p>No audios in this category.</p></div>';
+      window.SrIcons && window.SrIcons(); return;
+    }
+    grid.innerHTML = list.map((a, i) => `
+      <button class="audio-card" data-i="${audios.indexOf(a)}" aria-label="Play: ${a.title.replace(/"/g,'')}">
+        <div class="audio-thumb">
+          <img src="${a.image || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1280 720%22%3E%3Crect fill=%22%23f5f5f5%22 width=%221280%22 height=%22720%22/%3E%3C/svg%3E'}" alt="" loading="lazy">
+          <div class="audio-play"><i data-lucide="play"></i></div>
+          <span class="audio-lang lang-flag ${a.isKannada?'kn':'en'}">${a.isKannada?'KN':'EN'}</span>
+        </div>
+        <div class="audio-body">
+          <div class="audio-title">${a.title}</div>
+          <div class="audio-meta"><i data-lucide="headphones" class="icon-sm"></i> Audio · ${a.kind} ${a.duration ? ' · ' + a.duration : ''}</div>
+        </div>
+      </button>`).join('');
+    window.SrIcons && window.SrIcons();
+
+    grid.querySelectorAll('.audio-card').forEach(el => {
+      el.addEventListener('click', () => {
+        const idx = parseInt(el.dataset.i, 10);
+        const audio = audios[idx];
+        const player = new Audio(audio.audioUrl);
+        player.play();
+        if (audio.webUrl) {
+          setTimeout(() => window.open(audio.webUrl, '_blank'), 500);
+        }
+      });
+    });
+  }
+
+  chips.forEach(c => c.addEventListener('click', () => {
+    chips.forEach(x => x.classList.remove('is-active'));
+    c.classList.add('is-active');
+    filter = c.dataset.filter; render();
+  }));
+
+  render();
+
+  // Direct deep-link via hash
+  if (location.hash){
+    const id = location.hash.slice(1);
+    const idx = audios.findIndex(a => a.audioId === id);
+    if (idx >= 0){
+      setTimeout(() => {
+        const audio = audios[idx];
+        const player = new Audio(audio.audioUrl);
+        player.play();
+      }, 300);
+    }
+  }
+});
+</script>
+</body>
+</html>

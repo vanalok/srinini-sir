@@ -1,0 +1,544 @@
+/* ==========================================================================
+   contact-premium.css — Contact page premium overlay
+   Scoped under .con-v2 (set on <main id="main">). Builds on design-system.css.
+   Same vanalok-inspired language as index-premium.css / cv-premium.css:
+   warm IVORY base, Cormorant Garamond display + DM Sans body,
+   GOLD + deep EMERALD + TERRACOTTA accents.
+   Delete this file + the `con-v2` class to fully revert.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   0 · Palette + typography (scoped)
+   -------------------------------------------------------------------------- */
+.con-v2{
+  --v-ivory:#f7f3ec;     --v-ivory-dark:#ede8df;   --v-paper:#fffdf8;
+  --v-gold:#c9a84c;      --v-gold-light:#e8cc7a;    --v-gold-deep:#b08f33;
+  --v-emerald:#0e2e1f;   --v-emerald-mid:#1d5c3a;   --v-emerald-accent:#2e9460;
+  --v-emerald-pale:#e0f0e8;
+  --v-terra:#c4572a;     --v-terra-light:#e8845a;   --v-terra-pale:#f5e8e0;
+  --v-ink:#13201a;       --v-ink-soft:#5a655d;
+
+  --f-display:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --f-body:'DM Sans', 'Noto Sans Kannada', system-ui, sans-serif;
+
+  background:
+    radial-gradient(50% 40% at 100% 12%, rgba(46,148,96,.06), transparent 55%),
+    radial-gradient(45% 35% at 0% 88%, rgba(201,168,76,.07), transparent 55%),
+    var(--v-ivory);
+  color:var(--v-ink);
+}
+.con-v2 h1, .con-v2 h2, .con-v2 h3, .con-v2 h4{
+  font-family:var(--f-display); letter-spacing:normal; font-weight:600; color:var(--v-emerald);
+}
+.con-v2 p, .con-v2 li, .con-v2 span, .con-v2 button, .con-v2 a,
+.con-v2 label, .con-v2 input, .con-v2 select, .con-v2 textarea,
+.con-v2 address, .con-v2 .hint{ font-family:var(--f-body); }
+
+/* shared section eyebrow (kept here in case of future use) */
+.con-v2 .section-eyebrow{
+  color:var(--v-emerald-accent); font-family:var(--f-body);
+  font-weight:600; letter-spacing:.18em;
+}
+.con-v2 .section-eyebrow::before{
+  width:30px; height:2px;
+  background:linear-gradient(90deg, var(--v-gold), var(--v-emerald-accent));
+}
+
+/* buttons */
+.con-v2 .btn-primary{
+  background:var(--v-gold); color:var(--v-emerald); border:1px solid var(--v-gold);
+  font-family:var(--f-body); font-weight:600; letter-spacing:.02em;
+}
+.con-v2 .btn-primary:hover{
+  background:var(--v-gold-light); transform:translateY(-2px);
+  box-shadow:0 10px 26px rgba(201,168,76,.32);
+}
+.con-v2 .btn-outline{ border:1.5px solid var(--v-emerald); color:var(--v-emerald); }
+.con-v2 .btn-outline:hover{ background:var(--v-emerald); color:var(--v-ivory); }
+
+/* --------------------------------------------------------------------------
+   1 · HERO — warm ivory glass breadcrumb, gold eyebrow rule, large serif title
+   -------------------------------------------------------------------------- */
+.con-v2 .page-hero{
+  position:relative;
+  padding:clamp(56px, 7vw, 104px) 0 clamp(28px, 3vw, 48px) !important;
+  background:
+    radial-gradient(60% 70% at 100% 0%, rgba(201,168,76,.12), transparent 60%),
+    radial-gradient(55% 65% at 0% 100%, rgba(46,148,96,.10), transparent 60%),
+    linear-gradient(180deg, var(--v-ivory) 0%, var(--v-paper) 100%);
+  border-bottom:1px solid rgba(14,46,31,.06);
+  overflow:hidden;
+}
+.con-v2 .page-hero::after{
+  content:''; position:absolute; left:0; right:0; bottom:0; height:2px;
+  background:linear-gradient(90deg, transparent, var(--v-gold), transparent);
+  opacity:.55;
+}
+
+/* glass breadcrumb pill */
+.con-v2 .breadcrumb{
+  display:inline-flex; align-items:center; gap:8px;
+  color:var(--v-ink-soft); font-family:var(--f-body); font-size:13px;
+  margin-bottom:var(--s-5); padding:6px 14px;
+  background:rgba(255,255,255,.55); border:1px solid rgba(14,46,31,.08);
+  border-radius:var(--r-pill);
+  -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
+}
+.con-v2 .breadcrumb a{ color:var(--v-emerald-accent); }
+.con-v2 .breadcrumb a:hover{ color:var(--v-emerald); }
+.con-v2 .breadcrumb [data-lucide], .con-v2 .breadcrumb svg{ width:14px; height:14px; }
+
+/* eyebrow rule above the H1 — gold→emerald 30px gradient */
+.con-v2 .page-hero h1{
+  position:relative; padding-top:18px;
+  font-family:var(--f-display); font-weight:600;
+  font-size:clamp(48px, 6vw, 84px); line-height:1.04; letter-spacing:-.005em;
+  color:var(--v-emerald); margin:var(--s-2) 0 var(--s-3);
+}
+.con-v2 .page-hero h1::before{
+  content:''; position:absolute; top:0; left:0;
+  width:30px; height:2px; border-radius:1px;
+  background:linear-gradient(90deg, var(--v-gold), var(--v-emerald-accent));
+}
+.con-v2 .page-hero .lede{
+  font-family:var(--f-display); font-style:italic;
+  font-size:clamp(18px, 1.7vw, 22px); line-height:1.55;
+  color:var(--v-ink-soft); max-width:62ch;
+  font-weight:400;
+}
+
+/* --------------------------------------------------------------------------
+   2 · CONTACT GRID — left portrait + methods, right form card
+   (ivory base, no extra background)
+   -------------------------------------------------------------------------- */
+.con-v2 .contact-grid{
+  padding:clamp(40px, 5vw, 72px) 0 !important;
+}
+
+/* LEFT — portrait card */
+.con-v2 .contact-image{
+  border-radius:var(--r-xl) !important;
+  border:1px solid rgba(201,168,76,.32);
+  box-shadow:0 22px 48px rgba(14,46,31,.18), 0 8px 18px rgba(14,46,31,.08);
+  overflow:hidden;
+}
+.con-v2 .contact-image::after{
+  background:linear-gradient(180deg, transparent 40%, rgba(8,22,15,.86)) !important;
+}
+.con-v2 .contact-image .overlay h2{
+  font-family:var(--f-display); font-weight:600;
+  color:#FBF8F0 !important; font-size:clamp(22px, 2vw, 28px); line-height:1.15;
+}
+.con-v2 .contact-image .overlay p{
+  font-family:var(--f-body); color:rgba(244,236,215,.78) !important; font-size:13px;
+  letter-spacing:.02em;
+}
+
+/* LEFT — contact methods list */
+.con-v2 .contact-methods a{
+  background:var(--v-paper);
+  border:1px solid rgba(14,46,31,.1) !important;
+  border-radius:var(--r-lg) !important;
+  padding:14px 16px !important;
+  color:var(--v-ink) !important;
+  transition:transform var(--d) var(--ease), border-color var(--d), box-shadow var(--d), background var(--d);
+}
+.con-v2 .contact-methods a:hover{
+  transform:translateY(-2px);
+  border-color:var(--v-gold) !important;
+  background:var(--v-paper) !important;
+  box-shadow:0 12px 26px rgba(14,46,31,.08);
+}
+.con-v2 .contact-methods a strong{
+  font-family:var(--f-display); font-weight:600;
+  color:var(--v-emerald); font-size:16px; letter-spacing:.005em;
+}
+.con-v2 .contact-methods a > span:last-child > span{
+  color:var(--v-ink-soft) !important; font-family:var(--f-body); font-size:13px !important;
+}
+.con-v2 .contact-methods .ico{
+  width:42px !important; height:42px !important;
+  background:linear-gradient(135deg, var(--v-gold-light), var(--v-gold)) !important;
+  color:var(--v-emerald) !important;
+  box-shadow:0 6px 14px rgba(201,168,76,.28);
+}
+.con-v2 .contact-methods .ico [data-lucide],
+.con-v2 .contact-methods .ico svg{ width:18px; height:18px; }
+
+/* RIGHT — message form card */
+.con-v2 .contact-grid > div:last-child > .card,
+.con-v2 .contact-grid .card{
+  background:var(--v-paper) !important;
+  border:1px solid rgba(14,46,31,.1) !important;
+  border-radius:var(--r-xl) !important;
+  box-shadow:0 18px 40px rgba(14,46,31,.08), 0 6px 14px rgba(14,46,31,.04);
+  position:relative; overflow:hidden;
+  transition:border-color var(--d), box-shadow var(--d);
+}
+.con-v2 .contact-grid .card::before{
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg, var(--v-gold), var(--v-emerald-accent), transparent);
+}
+.con-v2 .contact-grid .card:hover{
+  border-color:rgba(201,168,76,.5) !important;
+}
+.con-v2 .contact-grid .card h2{
+  font-family:var(--f-display); font-weight:600;
+  color:var(--v-emerald) !important;
+  font-size:clamp(26px, 2.6vw, 36px) !important;
+  line-height:1.1;
+  position:relative; padding-bottom:14px;
+  margin-bottom:var(--s-3) !important;
+}
+.con-v2 .contact-grid .card h2::after{
+  content:''; position:absolute; left:0; bottom:0;
+  width:48px; height:3px; border-radius:2px;
+  background:linear-gradient(90deg, var(--v-gold), var(--v-emerald-accent));
+}
+.con-v2 .contact-grid .card > p{
+  font-family:var(--f-body); color:var(--v-ink-soft) !important;
+  font-size:14px !important; line-height:1.6;
+}
+
+/* form fields */
+.con-v2 #contactForm .form-row{ margin-bottom:var(--s-4); }
+.con-v2 #contactForm label{
+  display:block; font-family:var(--f-body); font-weight:600;
+  color:var(--v-emerald); font-size:13px; letter-spacing:.02em;
+  margin-bottom:6px;
+}
+.con-v2 #contactForm label span{
+  color:var(--v-ink-soft); font-weight:400; font-size:12px;
+}
+.con-v2 #contactForm input,
+.con-v2 #contactForm select,
+.con-v2 #contactForm textarea{
+  width:100%; padding:0 16px; height:50px;
+  border-radius:var(--r-md);
+  background:rgba(255,255,255,.85);
+  border:1px solid rgba(14,46,31,.18);
+  color:var(--v-ink); font-family:var(--f-body); font-size:14px;
+  transition:border-color var(--d-fast), background var(--d-fast), box-shadow var(--d-fast);
+}
+.con-v2 #contactForm textarea{
+  height:auto; padding:14px 16px; resize:vertical; min-height:140px; line-height:1.55;
+}
+.con-v2 #contactForm input::placeholder,
+.con-v2 #contactForm textarea::placeholder{ color:rgba(19,32,26,.42); }
+.con-v2 #contactForm select{ color:var(--v-ink); }
+.con-v2 #contactForm input:focus,
+.con-v2 #contactForm select:focus,
+.con-v2 #contactForm textarea:focus{
+  outline:none;
+  border-color:var(--v-emerald-accent);
+  background:#fff;
+  box-shadow:0 0 0 3px rgba(46,148,96,.16);
+}
+.con-v2 #contactForm .hint{
+  display:block; margin-top:6px; font-size:12px;
+  color:var(--v-ink-soft); font-family:var(--f-body); letter-spacing:.01em;
+}
+
+/* primary send button */
+.con-v2 #cSubmit{
+  display:inline-flex; align-items:center; gap:10px;
+  padding:0 26px; height:52px;
+  background:var(--v-gold); color:var(--v-emerald);
+  border:1px solid var(--v-gold); border-radius:var(--r-md);
+  font-family:var(--f-body); font-weight:600; font-size:14px; letter-spacing:.04em;
+  transition:background var(--d), transform var(--d) var(--ease), box-shadow var(--d);
+}
+.con-v2 #cSubmit:hover{
+  background:var(--v-gold-light); transform:translateY(-2px);
+  box-shadow:0 12px 28px rgba(201,168,76,.34);
+}
+.con-v2 #cSubmit [data-lucide], .con-v2 #cSubmit svg{ width:18px; height:18px; }
+
+.con-v2 #cStatus{
+  font-family:var(--f-body); font-size:13px;
+  color:var(--v-ink-soft);
+}
+
+/* --------------------------------------------------------------------------
+   3 · MAP section — warm ivory-dark band, framed map
+   -------------------------------------------------------------------------- */
+.con-v2 .section:has(#map){
+  background:var(--v-ivory-dark);
+  border-top:1px solid rgba(14,46,31,.08);
+  border-bottom:1px solid rgba(14,46,31,.08);
+  padding:clamp(48px, 6vw, 88px) 0 !important;
+}
+/* fallback for browsers without :has() — every .section after .contact-grid */
+.con-v2 .contact-grid ~ .section,
+.con-v2 main > .section + .section{
+  background:var(--v-ivory-dark);
+}
+.con-v2 #map{
+  border-radius:var(--r-xl) !important;
+  border:1px solid rgba(14,46,31,.1);
+  box-shadow:0 18px 40px rgba(14,46,31,.10), 0 6px 14px rgba(14,46,31,.04);
+  height:440px !important;
+  overflow:hidden;
+}
+/* keep Leaflet controls readable on the warm palette */
+.con-v2 .leaflet-control a{
+  font-family:var(--f-body) !important; color:var(--v-emerald) !important;
+}
+.con-v2 .leaflet-popup-content{
+  font-family:var(--f-body); color:var(--v-ink); font-size:13px;
+}
+.con-v2 .leaflet-popup-content-wrapper{
+  border-radius:var(--r-md);
+  background:var(--v-paper); color:var(--v-ink);
+  border:1px solid rgba(201,168,76,.3);
+}
+.con-v2 .leaflet-popup-tip{ background:var(--v-paper); }
+
+/* --------------------------------------------------------------------------
+   4 · PRINT — hide chrome, simplify form, keep info legible
+   -------------------------------------------------------------------------- */
+@media print{
+  .con-v2{
+    background:#fff !important; color:#000 !important;
+  }
+  .con-v2 .page-hero{
+    background:#fff !important; padding:8px 0 !important; border:none;
+  }
+  .con-v2 .page-hero::after,
+  .con-v2 .breadcrumb,
+  .con-v2 #cSubmit,
+  .con-v2 #cStatus,
+  .con-v2 #map,
+  .con-v2 .section:has(#map){ display:none !important; }
+  .con-v2 .contact-image{ box-shadow:none; border:1px solid #ccc; }
+  .con-v2 .contact-image::after{ display:none; }
+  .con-v2 .contact-image .overlay{
+    position:static !important; color:#000 !important;
+    padding:8px 0; margin-top:8px;
+  }
+  .con-v2 .contact-image .overlay h2{ color:#000 !important; }
+  .con-v2 .contact-image .overlay p{ color:#222 !important; }
+  .con-v2 .contact-methods a{
+    box-shadow:none !important; border:1px solid #ccc !important;
+    transform:none !important; background:#fff !important;
+  }
+  .con-v2 .contact-grid .card{
+    box-shadow:none !important; border:1px solid #ccc !important;
+  }
+  .con-v2 .contact-grid .card::before{ display:none; }
+  .con-v2 #contactForm input,
+  .con-v2 #contactForm select,
+  .con-v2 #contactForm textarea{
+    border:1px solid #aaa !important; background:#fff !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   5 · reduced motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce){
+  .con-v2 .contact-methods a:hover,
+  .con-v2 .btn-primary:hover,
+  .con-v2 #cSubmit:hover{
+    transform:none !important;
+  }
+}
+
+/* ==========================================================================
+   6 · MOBILE / RESPONSIVE — small-screen overrides (scoped to .con-v2)
+   Appended to address mobile-breaking patterns: hero scale, grid collapses,
+   form padding, map height, touch targets, container padding, overflow safety.
+   ========================================================================== */
+
+/* --- Global overflow safety + container padding (applies wherever .con-v2 is) --- */
+@media (max-width: 768px){
+  .con-v2{
+    overflow-x: hidden;
+  }
+  .con-v2 .container{
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+  /* Hero shrink */
+  .con-v2 .page-hero{
+    padding:clamp(36px, 8vw, 56px) 0 clamp(20px, 3vw, 32px) !important;
+  }
+  .con-v2 .page-hero h1{
+    font-size:clamp(34px, 7vw, 48px) !important;
+    line-height:1.08;
+  }
+  .con-v2 .page-hero .lede{
+    font-size:clamp(16px, 2.4vw, 18px) !important;
+    line-height:1.5;
+  }
+
+  /* Contact grid spacing */
+  .con-v2 .contact-grid{
+    padding:clamp(24px, 5vw, 40px) 0 !important;
+  }
+
+  /* Form card — trim inline 32px padding via override on the .card itself */
+  .con-v2 .contact-grid .card{
+    padding:24px !important;
+  }
+  .con-v2 .contact-grid .card h2{
+    font-size:clamp(22px, 4.5vw, 28px) !important;
+  }
+
+  /* Map — shorter on tablets */
+  .con-v2 #map{
+    height:340px !important;
+  }
+  .con-v2 .section:has(#map){
+    padding:clamp(32px, 5vw, 56px) 0 !important;
+  }
+
+  /* Office card: keep image visible but reduce width */
+  .con-v2 .office-card{
+    grid-template-columns:110px 1fr !important;
+  }
+
+  /* Touch targets */
+  .con-v2 .contact-methods a{
+    min-height:56px;
+  }
+  .con-v2 #cSubmit{
+    min-height:48px;
+    width:100%;
+    justify-content:center;
+  }
+}
+
+/* --- Mid-mobile: collapse two-column form fields --- */
+@media (max-width: 600px){
+  .con-v2 .form-grid{
+    display:flex !important;
+    flex-direction:column !important;
+    gap:0 !important;
+  }
+  .con-v2 .form-grid .form-row{
+    width:100%;
+  }
+  .con-v2 .contact-image{
+    aspect-ratio: 4 / 4.2 !important;
+  }
+  .con-v2 .contact-image .overlay{
+    left:16px !important;
+    right:16px !important;
+    bottom:16px !important;
+  }
+  .con-v2 .contact-image .overlay h2{
+    font-size:20px !important;
+  }
+  .con-v2 #map{
+    height:300px !important;
+  }
+}
+
+/* --- Small phones --- */
+@media (max-width: 480px){
+  .con-v2 .container{
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  .con-v2 .page-hero{
+    padding:32px 0 16px !important;
+  }
+  .con-v2 .page-hero h1{
+    font-size:clamp(28px, 8vw, 36px) !important;
+    padding-top:14px;
+  }
+  .con-v2 .page-hero .lede{
+    font-size:15px !important;
+  }
+  .con-v2 .breadcrumb{
+    font-size:12px;
+    padding:5px 12px;
+  }
+
+  /* Contact image — smaller aspect ratio so it doesn't dominate */
+  .con-v2 .contact-image{
+    aspect-ratio: 4 / 3.6 !important;
+  }
+
+  /* Form card — slim padding */
+  .con-v2 .contact-grid .card{
+    padding:18px !important;
+    border-radius:var(--r-lg) !important;
+  }
+  .con-v2 .contact-grid .card h2{
+    font-size:22px !important;
+    padding-bottom:10px;
+  }
+  .con-v2 .contact-grid .card > p{
+    font-size:13px !important;
+  }
+
+  /* Contact methods — tighter padding, smaller icon */
+  .con-v2 .contact-methods a{
+    padding:12px 14px !important;
+    gap:12px;
+  }
+  .con-v2 .contact-methods .ico{
+    width:38px !important;
+    height:38px !important;
+  }
+  .con-v2 .contact-methods a strong{
+    font-size:15px;
+  }
+
+  /* Form inputs — slightly shorter, still touch-friendly */
+  .con-v2 #contactForm input,
+  .con-v2 #contactForm select{
+    height:46px;
+    font-size:15px; /* prevents iOS zoom on focus */
+  }
+  .con-v2 #contactForm textarea{
+    font-size:15px;
+    min-height:120px;
+  }
+  .con-v2 #contactForm label{
+    font-size:12px;
+  }
+
+  /* Submit button */
+  .con-v2 #cSubmit{
+    height:48px;
+    padding:0 18px;
+    font-size:13px;
+  }
+
+  /* Map */
+  .con-v2 #map{
+    height:260px !important;
+    border-radius:var(--r-lg) !important;
+  }
+
+  /* Office card stacks (already handled in inline style at 480, reinforce) */
+  .con-v2 .office-card{
+    grid-template-columns:1fr !important;
+  }
+}
+
+/* --- Tiny phones --- */
+@media (max-width: 380px){
+  .con-v2 .container{
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+  .con-v2 .page-hero h1{
+    font-size:26px !important;
+  }
+  .con-v2 .contact-grid .card{
+    padding:14px !important;
+  }
+  .con-v2 .contact-methods a{
+    padding:10px 12px !important;
+  }
+  .con-v2 .contact-methods a strong{
+    font-size:14px;
+  }
+  .con-v2 #map{
+    height:220px !important;
+  }
+}

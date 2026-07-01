@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Blog — Srinivasulu IFS</title>
+  <meta name="description" content="Field notes, reflections, and articles by Srinivasulu IFS across forestry, ecology, and public administration.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+Kannada:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="design-system.css">
+  <style>
+    /* Blog hero — creative "Blog" banner background */
+    .page-hero{
+      position:relative; overflow:hidden;
+      padding: clamp(28px,4vw,52px) 0 clamp(24px,3.5vw,44px);
+      background:
+        linear-gradient(135deg, rgba(14,46,31,.74) 0%, rgba(14,46,31,.54) 50%, rgba(14,46,31,.70) 100%),
+        url('./images/content-showcase-creative-banner-highlighting-word-blog-designed-attract-audience-interest-enhance-online-presence-appealing-visuals-compelling-messaging-dynamic-digital-experience.jpg') center center / cover no-repeat;
+      border-bottom:3px solid #c9a84c;
+    }
+    .page-hero .breadcrumb,
+    .page-hero .breadcrumb a,
+    .page-hero .breadcrumb span{ color:#fff !important; }
+    .page-hero h1{ color:#fff !important; text-shadow:0 2px 18px rgba(0,0,0,.35); }
+    .page-hero .lede{ color:#fff !important; }
+
+    /* EMPRI featured strip — sits between hero and the dynamic blog grid */
+    .empri-feature{
+      padding:32px 0;
+      background:linear-gradient(180deg, #f7f3ec 0%, #ede8df 100%);
+      border-bottom:1px solid rgba(14,46,31,.08);
+    }
+    .empri-card{
+      display:grid; grid-template-columns:auto 1fr auto; align-items:center;
+      gap:clamp(18px,2.2vw,28px);
+      padding:clamp(16px,2vw,22px) clamp(18px,2.4vw,28px);
+      background:#fffdf8; border:1px solid rgba(14,46,31,.1);
+      border-left:5px solid #c9a84c;
+      border-radius:14px;
+      box-shadow:0 16px 36px rgba(14,46,31,.08);
+      color:inherit; text-decoration:none;
+      transition:transform .25s cubic-bezier(.32,.72,0,1), box-shadow .25s, border-color .25s;
+    }
+    .empri-card:hover{
+      transform:translateY(-3px);
+      box-shadow:0 22px 48px rgba(14,46,31,.14);
+      border-color:#c9a84c;
+    }
+    .empri-thumb{
+      position:relative; flex:0 0 auto;
+      width:clamp(140px, 16vw, 200px); aspect-ratio:4 / 3;
+      border-radius:10px; overflow:hidden;
+      border:1px solid rgba(14,46,31,.12);
+      background:#ede8df;
+      box-shadow:0 8px 18px rgba(14,46,31,.12);
+    }
+    .empri-thumb img{
+      width:100%; height:100%; object-fit:cover; display:block;
+      transition:transform .35s cubic-bezier(.32,.72,0,1);
+    }
+    .empri-card:hover .empri-thumb img{ transform:scale(1.05); }
+    .empri-thumb::after{
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(180deg, transparent 55%, rgba(14,46,31,.35));
+      pointer-events:none;
+    }
+    .empri-badge{
+      position:absolute; top:10px; left:10px; z-index:2;
+      display:inline-flex; align-items:center; gap:6px;
+      padding:5px 11px; border-radius:999px;
+      background:#0e2e1f; color:#e8cc7a;
+      font-family:'DM Sans', system-ui, sans-serif;
+      font-size:10.5px; font-weight:700; letter-spacing:.18em; text-transform:uppercase;
+      box-shadow:0 6px 16px rgba(14,46,31,.32);
+    }
+    .empri-text strong{
+      display:block;
+      font-family:'Cormorant Garamond', Georgia, serif;
+      font-weight:600; color:#0e2e1f;
+      font-size:clamp(20px,2vw,28px); line-height:1.2;
+      margin-bottom:6px;
+    }
+    .empri-text span{
+      display:block;
+      font-family:'DM Sans', system-ui, sans-serif;
+      font-size:13px; color:#5a655d;
+    }
+    .empri-text em{
+      font-style:normal; font-weight:600; color:#2e9460;
+    }
+    .empri-arrow{
+      width:48px; height:48px; flex:0 0 auto;
+      display:grid; place-items:center; border-radius:50%;
+      background:linear-gradient(135deg, #c9a84c, #e8cc7a);
+      color:#0e2e1f;
+      transition:transform .25s cubic-bezier(.32,.72,0,1);
+    }
+    .empri-card:hover .empri-arrow{ transform:translateX(4px); }
+    @media (max-width:720px){
+      .empri-card{ grid-template-columns:auto 1fr; }
+      .empri-arrow{ grid-column:1/-1; justify-self:end; width:40px; height:40px; }
+    }
+
+    /* ============================================================
+       MOBILE / RESPONSIVE — appended for small-screen support
+       ============================================================ */
+
+    /* Global guards: prevent horizontal overflow on phones */
+    @media (max-width: 768px){
+      html, body { overflow-x: hidden; max-width: 100%; }
+    }
+
+    /* Tablet (<=1024px): blog grid trims to 2 columns if design-system left it at 3+ */
+    @media (max-width: 1024px){
+      .blog-grid{
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 20px;
+      }
+    }
+
+    /* Medium phones / small tablets (<=768px) */
+    @media (max-width: 768px){
+      .page-hero{ padding-block: clamp(28px, 6vw, 48px); }
+      .page-hero h1{ font-size: clamp(32px, 7vw, 44px); line-height: 1.1; }
+      .page-hero .lede{ font-size: 15px; line-height: 1.5; }
+
+      .empri-feature{ padding: 24px 0; }
+      .empri-card{
+        grid-template-columns: auto 1fr;
+        gap: 14px;
+        padding: 14px 16px;
+        border-radius: 12px;
+        border-left-width: 4px;
+      }
+      .empri-thumb{ width: clamp(110px, 28vw, 150px); }
+      .empri-text strong{ font-size: clamp(17px, 3.4vw, 21px); line-height: 1.22; }
+      .empri-text span{ font-size: 12.5px; line-height: 1.45; }
+      .empri-badge{ font-size: 9.5px; padding: 4px 9px; }
+
+      /* Filter bar: ensure chips + search wrap and become full-width */
+      .filter-bar .container{ gap: 12px; }
+      .filter-chips{ display: flex; flex-wrap: wrap; gap: 8px; width: 100%; }
+      .filter-chips .filter-btn,
+      .filter-bar .filter-btn{
+        padding: 8px 14px;
+        font-size: 13px;
+        min-height: 40px;
+      }
+      .filter-tools{ width: 100%; }
+      .search-input{ width: 100%; max-width: 100%; }
+      .search-input input{ width: 100%; min-height: 40px; }
+
+      /* Blog grid collapses to single column on phones */
+      .blog-grid{
+        grid-template-columns: 1fr !important;
+        gap: 18px;
+      }
+
+      /* Pagination touch targets */
+      .pagination{ flex-wrap: wrap; gap: 6px; justify-content: center; }
+      .page-btn{ min-width: 40px; min-height: 40px; padding: 8px 12px; }
+    }
+
+    /* Small phones (<=600px) */
+    @media (max-width: 600px){
+      .empri-card{
+        grid-template-columns: 1fr;
+        text-align: left;
+      }
+      .empri-thumb{
+        width: 100%;
+        max-width: 100%;
+        aspect-ratio: 16 / 9;
+      }
+      .empri-arrow{
+        grid-column: 1 / -1;
+        justify-self: flex-end;
+        width: 40px; height: 40px;
+        margin-top: 4px;
+      }
+    }
+
+    /* Phones (<=480px): container padding trims, decorative trims */
+    @media (max-width: 480px){
+      .container{ padding-left: 16px !important; padding-right: 16px !important; }
+
+      .page-hero{ padding-block: 24px; }
+      .page-hero h1{ font-size: clamp(26px, 8vw, 34px); }
+      .page-hero .lede{ font-size: 14px; }
+      .breadcrumb{ font-size: 12px; }
+
+      .empri-feature{ padding: 18px 0; }
+      .empri-card{
+        padding: 12px;
+        gap: 10px;
+        border-radius: 10px;
+        box-shadow: 0 10px 22px rgba(14,46,31,.08);
+      }
+      .empri-thumb{ aspect-ratio: 16 / 10; border-radius: 8px; }
+      .empri-text strong{ font-size: 16px; }
+      .empri-text span{ font-size: 12px; }
+      .empri-badge{ top: 8px; left: 8px; font-size: 9px; padding: 3px 8px; letter-spacing: .14em; }
+
+      .filter-bar .container{ padding-left: 16px !important; padding-right: 16px !important; }
+      .filter-chips .filter-btn,
+      .filter-bar .filter-btn{ padding: 7px 12px; font-size: 12.5px; }
+
+      .blog-grid{ gap: 14px; }
+      .b-card-title{ font-size: 18px; line-height: 1.25; }
+      .b-excerpt{ font-size: 13.5px; line-height: 1.5; }
+      .b-card-body{ padding: 14px; }
+
+      .page-btn{ min-width: 36px; min-height: 40px; padding: 6px 10px; font-size: 13px; }
+    }
+
+    /* Very narrow phones (<=380px) */
+    @media (max-width: 380px){
+      .container{ padding-left: 14px !important; padding-right: 14px !important; }
+      .page-hero h1{ font-size: 24px; }
+      .empri-card{ padding: 10px; }
+      .empri-text strong{ font-size: 15px; }
+      .empri-badge{ font-size: 8.5px; }
+      .b-card-title{ font-size: 17px; }
+    }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="sr-chrome-top"></div>
+
+<main id="main">
+
+  <section class="page-hero">
+    <div class="container reveal">
+      <div class="breadcrumb"><a href="index.html">Home</a> <i data-lucide="chevron-right" class="icon-sm"></i> <span>Blog</span></div>
+      <h1>Blog</h1>
+      <p class="lede">Posts, field notes and reflections — across all twelve departments of service.</p>
+    </div>
+  </section>
+
+  <!-- EMPRI featured article — click navigates to the content page -->
+  <section class="empri-feature">
+    <div class="container">
+      <a href="posts/empri-circular-economy-karnataka.html" class="empri-card" aria-label="Read: Turning Waste into Wealth — Karnataka's Circular Economy">
+        <div class="empri-thumb">
+          <img src="./images/Index_hero_section.webp" alt="" loading="lazy">
+          <span class="empri-badge">EMPRI</span>
+        </div>
+        <div class="empri-text">
+          <strong>Turning Waste into Wealth — Karnataka&rsquo;s ₹20,000-Crore Circular Economy</strong>
+          <span><em>Ecology &amp; Environment</em> &middot; By Srinivasulu IFS &middot; Outlook Planet, 11 June 2026</span>
+        </div>
+        <span class="empri-arrow" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <div class="filter-bar">
+    <div class="container" style="display:flex;gap:var(--s-4);align-items:center;width:100%;flex-wrap:wrap;">
+      <div class="filter-chips" id="filterBar"></div>
+      <div class="filter-tools">
+        <div class="search-input">
+          <i data-lucide="search" class="icon-sm"></i>
+          <input id="blogSearch" type="search" placeholder="Search posts…">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div id="blogCounter" style="font-size:var(--t-13);color:var(--ink-3);margin-bottom:var(--s-5);"></div>
+      <div class="blog-grid" id="blogGrid"></div>
+      <div class="pagination" id="blogPagination"></div>
+    </div>
+  </section>
+
+</main>
+
+<div id="sr-chrome-footer"></div>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="chrome.js"></script>
+<script src="app.js"></script>
+<script>
+/* Local blog renderer — reads assets/posts-full.json, links to posts/<slug>.html.
+   Replaces the Wix-API BlogEngine for blog.html. Filter + search + pagination
+   are all client-side now (no network calls). */
+(function(){
+  const PAGE_SIZE = 9;
+  let allPosts = [], currentCategory = 'All', currentPage = 1, searchQuery = '';
+
+  const grid     = document.getElementById('blogGrid');
+  const counter  = document.getElementById('blogCounter');
+  const pager    = document.getElementById('blogPagination');
+  const filter   = document.getElementById('filterBar');
+  const search   = document.getElementById('blogSearch');
+
+  // Show skeleton placeholders while loading
+  grid.innerHTML = Array.from({length: PAGE_SIZE}, () =>
+    '<div class="b-skeleton"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line short"></div><div class="skeleton-line medium" style="height:20px;margin:10px 0 15px;"></div><div class="skeleton-line long"></div><div class="skeleton-line medium"></div></div></div>'
+  ).join('');
+
+  fetch('./assets/posts-full.json')
+    .then(r => r.json())
+    .then(data => {
+      allPosts = data.sort((a,b) => new Date(b.date || 0) - new Date(a.date || 0));
+      buildFilterChips();
+      render();
+    })
+    .catch(err => {
+      grid.innerHTML = '<div class="blog-empty"><h3>Couldn’t load posts</h3><p>Check the browser console for details.</p></div>';
+      console.error('posts-full.json load failed:', err);
+    });
+
+  function buildFilterChips(){
+    const cats = ['All'], seen = new Set();
+    for (const p of allPosts) for (const c of (p.categories || [])) {
+      if (!seen.has(c)) { seen.add(c); cats.push(c); }
+    }
+    filter.innerHTML = cats.map(c => {
+      const active = c === currentCategory ? ' active' : '';
+      const label = c === 'All' ? 'All Updates' : c;
+      return `<button class="filter-btn${active}" data-cat="${c.replace(/"/g,'&quot;')}">${label}</button>`;
+    }).join('');
+    filter.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+      currentCategory = b.dataset.cat;
+      currentPage = 1;
+      buildFilterChips();
+      render();
+    }));
+  }
+
+  function render(){
+    let list = allPosts.slice();
+    if (currentCategory !== 'All') list = list.filter(p => (p.categories || []).includes(currentCategory));
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      list = list.filter(p =>
+        (p.title || '').toLowerCase().includes(q) ||
+        (p.excerpt || '').toLowerCase().includes(q));
+    }
+
+    const total = list.length;
+    const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    if (currentPage > totalPages) currentPage = totalPages;
+    const start = (currentPage - 1) * PAGE_SIZE;
+    const slice = list.slice(start, start + PAGE_SIZE);
+
+    if (!slice.length) {
+      grid.innerHTML = '<div class="blog-empty"><h3>No posts found</h3><p>Try a different category or search term.</p></div>';
+    } else {
+      grid.innerHTML = slice.map(p => {
+        const img  = p.image || 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=600&q=80';
+        const tag  = (p.categories && p.categories[0]) ? `<span class="b-tag">${esc(p.categories[0])}</span>` : '';
+        return `
+        <a href="${esc(p.localUrl || ('posts/'+(p.slug||'')+'.html'))}" class="b-card">
+          <div class="b-card-img"><img src="${esc(img)}" alt="${esc(p.title || '')}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1448375240586-882707db888b?w=600&q=80'"></div>
+          <div class="b-card-body">
+            ${tag}
+            <h3 class="b-card-title">${esc(p.title || '')}</h3>
+            <p class="b-excerpt">${esc(p.excerpt || '')}</p>
+            <div class="b-card-foot">
+              <div class="b-date">${formatDate(p.date)}</div>
+              <span class="b-read-more">Read</span>
+            </div>
+          </div>
+        </a>`;
+      }).join('');
+    }
+
+    counter.textContent = total ? `Showing ${slice.length} of ${total} posts` : '';
+    renderPagination(totalPages);
+  }
+
+  function renderPagination(totalPages){
+    if (totalPages <= 1) { pager.innerHTML = ''; return; }
+    let html = '';
+    const btn = (i, lbl, disabled, active) =>
+      `<button class="page-btn${active ? ' active' : ''}" ${disabled ? 'disabled' : ''} data-page="${i}">${lbl}</button>`;
+    html += btn(currentPage - 1, '‹', currentPage === 1, false);
+    for (let i = 1; i <= totalPages; i++) {
+      if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+        html += btn(i, String(i), false, i === currentPage);
+      } else if (i === currentPage - 2 || i === currentPage + 2) {
+        html += '<span class="page-ellipsis">…</span>';
+      }
+    }
+    html += btn(currentPage + 1, '›', currentPage === totalPages, false);
+    pager.innerHTML = html;
+    pager.querySelectorAll('button[data-page]').forEach(b => b.addEventListener('click', () => {
+      const p = parseInt(b.dataset.page, 10);
+      if (!Number.isNaN(p) && p >= 1 && p <= totalPages) {
+        currentPage = p;
+        render();
+        window.scrollTo({top: document.querySelector('.filter-bar').offsetTop - 80, behavior: 'smooth'});
+      }
+    }));
+  }
+
+  function debounce(fn, ms){ let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; }
+  search.addEventListener('input', debounce(e => {
+    searchQuery = e.target.value.trim();
+    currentPage = 1;
+    render();
+  }, 250));
+
+  function formatDate(iso){
+    if (!iso) return '';
+    try { return new Date(iso).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' }); }
+    catch { return iso; }
+  }
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+})();
+</script>
+</body>
+</html>
