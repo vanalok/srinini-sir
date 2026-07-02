@@ -681,6 +681,74 @@
         "type": "publication",
         "dept": "ecology-environment"
       }
+    ],
+    "ayush": [
+      {
+        "id": "2-hennina-arogya-ayush-karnataka",
+        "title": "2 Hennina Arogya — ಹೆಣ್ಣಿನ ಆರೋಗ್ಯ (Women's Health)",
+        "slug": "2-hennina-arogya-ayush-karnataka",
+        "categories": "Ayush_publications",
+        "broadCategory": "Ayush_publications",
+        "hasYouTube": false,
+        "hasPDF": true,
+        "type": "publication",
+        "dept": "ayush"
+      },
+      {
+        "id": "3-samanya-rogagalige-unani-ayush-karnataka",
+        "title": "3 Samanya Rogagalige Unani — ಸಾಮಾನ್ಯ ರೋಗಗಳಿಗೆ ಉನಾನಿ",
+        "slug": "3-samanya-rogagalige-unani-ayush-karnataka",
+        "categories": "Ayush_publications",
+        "broadCategory": "Ayush_publications",
+        "hasYouTube": false,
+        "hasPDF": true,
+        "type": "publication",
+        "dept": "ayush"
+      },
+      {
+        "id": "6-sampoorna-homeopathy-ayush-karnataka",
+        "title": "6 Sampoorna Arogyakke Homeopathy — ಸಂಪೂರ್ಣ ಆರೋಗ್ಯಕ್ಕೆ ಹೋಮಿಯೋಪತಿ",
+        "slug": "6-sampoorna-homeopathy-ayush-karnataka",
+        "categories": "Ayush_publications",
+        "broadCategory": "Ayush_publications",
+        "hasYouTube": false,
+        "hasPDF": true,
+        "type": "publication",
+        "dept": "ayush"
+      },
+      {
+        "id": "7-mane-maddu-ayush-karnataka",
+        "title": "7 Mane Maddu — ಮನೆ ಮದ್ದು (Home Remedies)",
+        "slug": "7-mane-maddu-ayush-karnataka",
+        "categories": "Ayush_publications",
+        "broadCategory": "Ayush_publications",
+        "hasYouTube": false,
+        "hasPDF": true,
+        "type": "publication",
+        "dept": "ayush"
+      },
+      {
+        "id": "8-gruhavaidya-pradeepike-ayush-karnataka",
+        "title": "8 Gruhavaidya Pradeepike — ಗೃಹವೈದ್ಯ ಪ್ರದೀಪಿಕೆ (Home Health Guide)",
+        "slug": "8-gruhavaidya-pradeepike-ayush-karnataka",
+        "categories": "Ayush_publications",
+        "broadCategory": "Ayush_publications",
+        "hasYouTube": false,
+        "hasPDF": true,
+        "type": "publication",
+        "dept": "ayush"
+      },
+      {
+        "id": "ayush4u-online-journal-karnataka-dept-ayush",
+        "title": "Ayush4U — Inaugural Online Journal of the Karnataka Department of Ayush",
+        "slug": "ayush4u-online-journal-karnataka-dept-ayush",
+        "categories": "Ayush_publications",
+        "broadCategory": "Ayush_publications",
+        "hasYouTube": false,
+        "hasPDF": true,
+        "type": "publication",
+        "dept": "ayush"
+      }
     ]
   }
 }
