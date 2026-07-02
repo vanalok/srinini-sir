@@ -3,6 +3,14 @@
  */
 const API_BASE = 'https://www.srinivasifs.com/_functions';
 
+/* Cover overrides for posts that have no cover image in the source
+   (otherwise the engine falls back to a generic stock photo). */
+const COVER_OVERRIDES = {
+  'on-duty-officer-season-01-ep-01-sri-srinivasulu-ifs-bhima-tv-kannada': 'https://i.ytimg.com/vi/kao02GvMs0c/hqdefault.jpg',
+  'ktr-promo-a': 'images/forestDeptPhotos/ktr.webp',
+  'samsara': 'images/forestDeptPhotos/ktr2.webp'
+};
+
 const BlogEngine = (function () {
   let state = {
     mode: 'all',
@@ -287,7 +295,7 @@ const BlogEngine = (function () {
 
     state.posts.forEach(post => {
       // Determine image to show
-      const imgUrl = getWixImageUrl(post.coverImage);
+      const imgUrl = COVER_OVERRIDES[post.slug] || getWixImageUrl(post.coverImage);
       const dateStr = formatDate(post.publishedDate);
       const categoryTag = post.categories && post.categories.length > 0 ? getCategoryName(post.categories[0]) : 'Update';
       const excerpt = post.excerpt || '';
@@ -451,7 +459,7 @@ const BlogEngine = (function () {
       
       relatedGrid.innerHTML = '';
       posts.forEach(post => {
-        const imgUrl = getWixImageUrl(post.coverImage);
+        const imgUrl = COVER_OVERRIDES[post.slug] || getWixImageUrl(post.coverImage);
         const card = document.createElement('a');
         card.href = `post.html?slug=${post.slug}`;
         card.className = 'b-card';
