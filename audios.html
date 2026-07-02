@@ -106,6 +106,17 @@
       .page-hero h1{ white-space:normal !important; }
       .hero-right{ border-left:none !important; border-top:1px solid rgba(255,255,255,.18) !important; padding-left:0 !important; padding-top:16px !important; }
     }
+    /* Inline audio player modal */
+    .audio-player-modal{ position:fixed; inset:0; z-index:1000; display:none; align-items:center; justify-content:center; padding:20px; background:rgba(14,26,20,.86); -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px); }
+    .audio-player-modal.is-open{ display:flex; }
+    .apm-card{ position:relative; width:min(460px,100%); background:var(--surface,#fff); border-radius:18px; overflow:hidden; box-shadow:0 30px 70px rgba(0,0,0,.4); }
+    .apm-cover{ width:100%; height:200px; object-fit:cover; display:block; background:var(--paper-2,#eee); }
+    .apm-title{ font-family:var(--f-display,serif); font-size:18px; font-weight:600; line-height:1.35; padding:18px 20px 4px; }
+    .apm-meta{ font-size:13px; color:var(--ink-3,#777); padding:0 20px 14px; text-transform:capitalize; }
+    .apm-audio{ width:calc(100% - 40px); margin:0 20px 20px; display:block; }
+    .apm-close{ position:absolute; top:12px; right:12px; width:36px; height:36px; border-radius:50%; border:0; cursor:pointer; background:rgba(0,0,0,.5); color:#fff; display:grid; place-items:center; }
+    .apm-close:hover{ background:rgba(0,0,0,.7); }
+    .apm-close i{ width:18px; height:18px; }
   </style>
 </head>
 <body>
@@ -175,6 +186,42 @@ fetch('audios.json').then(r => r.json()).then(audios => {
   const chips = document.querySelectorAll('#aFilter .chip');
   let filter = 'all';
 
+  // Inline audio player
+  const AudioPlayer = (function(){
+    let root, audioEl;
+    function ensure(){
+      if (root) return;
+      root = document.createElement('div');
+      root.className = 'audio-player-modal';
+      root.setAttribute('role','dialog'); root.setAttribute('aria-modal','true'); root.setAttribute('aria-label','Audio player');
+      root.innerHTML = `
+        <div class="apm-card">
+          <button class="apm-close" aria-label="Close"><i data-lucide="x"></i></button>
+          <img class="apm-cover" alt="">
+          <div class="apm-title"></div>
+          <div class="apm-meta"></div>
+          <audio class="apm-audio" controls preload="auto"></audio>
+        </div>`;
+      document.body.appendChild(root);
+      audioEl = root.querySelector('.apm-audio');
+      root.querySelector('.apm-close').addEventListener('click', close);
+      root.addEventListener('click', e => { if (e.target === root) close(); });
+      document.addEventListener('keydown', e => { if (e.key === 'Escape' && root.classList.contains('is-open')) close(); });
+    }
+    function open(a){
+      ensure();
+      root.querySelector('.apm-cover').src = a.image || '';
+      root.querySelector('.apm-title').textContent = a.title;
+      root.querySelector('.apm-meta').textContent = 'Audio · ' + (a.kind || '');
+      audioEl.src = a.audioUrl;
+      root.classList.add('is-open'); document.body.style.overflow = 'hidden';
+      audioEl.play().catch(()=>{});
+      window.SrIcons && window.SrIcons();
+    }
+    function close(){ if (!root) return; audioEl.pause(); audioEl.removeAttribute('src'); audioEl.load(); root.classList.remove('is-open'); document.body.style.overflow=''; }
+    return { open, close };
+  })();
+
   function render(){
     const list = audios.filter(a => {
       if (filter === 'all') return true;
@@ -202,13 +249,7 @@ fetch('audios.json').then(r => r.json()).then(audios => {
 
     grid.querySelectorAll('.audio-card').forEach(el => {
       el.addEventListener('click', () => {
-        const idx = parseInt(el.dataset.i, 10);
-        const audio = audios[idx];
-        const player = new Audio(audio.audioUrl);
-        player.play();
-        if (audio.webUrl) {
-          setTimeout(() => window.open(audio.webUrl, '_blank'), 500);
-        }
+        AudioPlayer.open(audios[parseInt(el.dataset.i, 10)]);
       });
     });
   }
@@ -221,18 +262,6 @@ fetch('audios.json').then(r => r.json()).then(audios => {
 
   render();
 
-  // Direct deep-link via hash
-  if (location.hash){
-    const id = location.hash.slice(1);
-    const idx = audios.findIndex(a => a.audioId === id);
-    if (idx >= 0){
-      setTimeout(() => {
-        const audio = audios[idx];
-        const player = new Audio(audio.audioUrl);
-        player.play();
-      }, 300);
-    }
-  }
 });
 </script>
 </body>
