@@ -29,6 +29,7 @@ const photos = [
 { category: 'adcl', src: 'images/adcl/adcl1.webp', alt: 'adcl' },
 { category: 'adcl', src: 'images/adcl/adcl10.webp', alt: 'adcl' },
 { category: 'adcl', src: 'images/adcl/adcl11.webp', alt: 'adcl' },
+{ category: 'ayush-photos', src: 'images/ayush-photos/ayush-2026-07-02.jpeg', alt: 'ayush-photos' },
 { category: 'ayush-photos', src: 'images/ayush-photos/0165160e-83e1-4859-9654-6eb243b989a1.webp', alt: 'ayush-photos' },
 { category: 'ayush-photos', src: 'images/ayush-photos/12e81100-0fcd-4f5b-adba-c5fcfb1e537c.webp', alt: 'ayush-photos' },
 { category: 'ayush-photos', src: 'images/ayush-photos/62690832-d4bc-4c1f-81f6-39d533a9b1d8.webp', alt: 'ayush-photos' },
