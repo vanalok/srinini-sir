@@ -4,3 +4,5 @@
 .wrangler
 wrangler.toml
 node_modules
+# 895-page survey PDF exceeds Cloudflare's 25MB asset limit; served on GoDaddy instead
+assets/pdf/f453f3_8f29666e401c413ebf0b7e95d805db5e.pdf
