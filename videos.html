@@ -119,7 +119,14 @@ fetch('videos.json').then(r => r.json()).then(videos => {
   if (window.SR_DEPTS_CV) {
     // Only show departments that actually have videos tagged to them
     const present = new Set(videos.map(v => v.dept).filter(Boolean));
+    // Custom (non-department) categories for videos that don't fit a department
+    const EXTRA_CATS = { 'talks': 'Talks & Keynotes' };
     const avail = window.SR_DEPTS_CV.filter(d => present.has(d.slug));
+    Object.keys(EXTRA_CATS).forEach(slug => {
+      if (present.has(slug) && !avail.some(d => d.slug === slug)) {
+        avail.push({ slug: slug, name: EXTRA_CATS[slug] });
+      }
+    });
     const first5 = avail.slice(0, 5);
     const rest = avail.slice(5);
     
