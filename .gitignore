@@ -16,3 +16,6 @@ _*.py
 _webp_mapping.json
 
 __pycache__/
+
+# Wrangler local state
+.wrangler/
