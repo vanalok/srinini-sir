@@ -312,6 +312,55 @@
   })();
   window.VideoViewer = VideoViewer;
 
+  /* ---- PDF preview viewer (preview → download) ---- */
+  const PdfViewer = (function(){
+    let root;
+    function ensure(){
+      if (root) return;
+      root = document.createElement('div');
+      root.className = 'pdf-viewer';
+      root.setAttribute('role','dialog'); root.setAttribute('aria-modal','true'); root.setAttribute('aria-label','PDF preview');
+      root.innerHTML = `
+        <div class="pdf-viewer-bar">
+          <span class="pdf-viewer-title" id="pvTitle"></span>
+          <div class="pdf-viewer-actions">
+            <a class="pdf-btn" id="pvDownload"><i data-lucide="download"></i><span>Download</span></a>
+            <a class="pdf-btn" id="pvOpen" target="_blank" rel="noopener"><i data-lucide="external-link"></i><span>Open</span></a>
+            <button class="pdf-btn pdf-btn-close" id="pvClose" aria-label="Close"><i data-lucide="x"></i></button>
+          </div>
+        </div>
+        <div class="pdf-viewer-stage"><iframe id="pvFrame" title="PDF preview"></iframe></div>`;
+      document.body.appendChild(root);
+      root.querySelector('#pvClose').addEventListener('click', close);
+      root.addEventListener('click', e => { if (e.target === root) close(); });
+      document.addEventListener('keydown', e => { if (e.key === 'Escape' && root.classList.contains('is-open')) close(); });
+    }
+    function open(url, name){
+      ensure();
+      root.querySelector('#pvTitle').textContent = name || 'Document';
+      root.querySelector('#pvFrame').src = url + '#view=FitH';
+      const dl = root.querySelector('#pvDownload'); dl.href = url; dl.setAttribute('download', name || '');
+      root.querySelector('#pvOpen').href = url;
+      root.classList.add('is-open'); document.body.style.overflow = 'hidden';
+      renderIcons();
+    }
+    function close(){ if (!root) return; root.classList.remove('is-open'); document.body.style.overflow=''; root.querySelector('#pvFrame').src = ''; }
+    return { open, close };
+  })();
+  window.PdfViewer = PdfViewer;
+
+  function bindPdfPreview(){
+    document.querySelectorAll('a.post-file[href$=".pdf"], a.post-file[href*=".pdf"]').forEach(a => {
+      if (a.dataset.pdfBound) return; a.dataset.pdfBound = '1';
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        const url = a.getAttribute('href');
+        const name = a.getAttribute('download') || (url.split('/').pop() || 'document.pdf');
+        PdfViewer.open(url, name);
+      });
+    });
+  }
+
   /* ---- Share helper ---- */
   window.SrShare = async function(title, url){
     if (navigator.share){
@@ -346,5 +395,6 @@
     bindNavShrink();
     bindReveal();
     bindSearch();
+    bindPdfPreview();
   });
 })();
