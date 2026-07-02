@@ -677,6 +677,39 @@ section.bio-section h2 .section-title span { color: #e07b39 !important; }
 .pdf-viewer-stage iframe{ width:100%; height:100%; border:0; display:block; }
 @media (max-width:600px){ .pdf-btn span{ display:none; } .pdf-btn{ padding:0 11px; } }
 
+/* ============================================================
+   Global small-screen & overflow safety (site-wide)
+   Prevents horizontal scroll and keeps content readable down
+   to very small phones (<=340px).
+   ============================================================ */
+img, svg, video, iframe { max-width: 100%; }
+.post-body img, article img, .b-card-img img, .card-media img { height: auto; }
+/* break long words / URLs instead of overflowing the viewport */
+h1, h2, h3, h4, p, li, blockquote, figcaption,
+.b-card-title, .post-title, .career-role, .audio-title, .video-title,
+.hero-pdf-text, .breadcrumb, .pub-title, .apm-title, .pdf-viewer-title {
+  overflow-wrap: break-word;
+}
+.post-body a, .post-body p, .b-card-excerpt, .post-file { overflow-wrap: anywhere; }
+/* wide code/tables scroll inside their box, not the whole page */
+pre, table { display: block; max-width: 100%; overflow-x: auto; }
+
+/* phones */
+@media (max-width: 480px){
+  .container, .container-narrow { padding-inline: var(--s-4); }   /* 16px gutters */
+}
+/* small phones (<=380px, covers 320–360px devices) */
+@media (max-width: 380px){
+  body { font-size: 15px; }
+  .container, .container-narrow { padding-inline: 14px; }
+  h1 { font-size: clamp(1.55rem, 8.5vw, 2rem); }
+  h2 { font-size: clamp(1.35rem, 6.5vw, 1.7rem); }
+  h3 { font-size: 1.15rem; }
+  .btn { padding-inline: 14px; }
+  .page-hero-stats, .about-quickstats { gap: 14px; }
+  .filter-bar .container { gap: var(--s-2); }
+}
+
 .search-input{
   position:relative; display:flex; align-items:center;
 }
