@@ -117,10 +117,11 @@ fetch('videos.json').then(r => r.json()).then(videos => {
   const deptContainer = document.getElementById('deptFilter');
 
   if (window.SR_DEPTS_CV) {
-    const startYear = (p) => { const m = (p || "").match(/^(\d{4})/); return m ? +m[1] : 0; };
-    const sorted = window.SR_DEPTS_CV.slice().sort((a,b) => startYear(b.period) - startYear(a.period));
-    const first5 = sorted.slice(0, 5);
-    const rest = sorted.slice(5);
+    // Only show departments that actually have videos tagged to them
+    const present = new Set(videos.map(v => v.dept).filter(Boolean));
+    const avail = window.SR_DEPTS_CV.filter(d => present.has(d.slug));
+    const first5 = avail.slice(0, 5);
+    const rest = avail.slice(5);
     
     deptContainer.innerHTML += first5.map(d => `<button class="chip" data-filter="${d.slug}">${d.name}</button>`).join('');
     deptContainer.innerHTML += rest.map(d => `<button class="chip is-hidden" data-filter="${d.slug}" style="display:none;">${d.name}</button>`).join('');
