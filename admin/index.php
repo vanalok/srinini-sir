@@ -16,9 +16,9 @@ $cards = [
   ['videos.php',        'Videos',         '🎬', count_json('videos.json'),          true],
   ['audios.php',        'Audios',         '🎧', count_json('audios.json'),          true],
   ['honours.php',       'Honours',        '🏆', count_json('honours.json'),         true],
-  ['publications.php',  'Publications',   '📄', count_json('publications.json'),    false],
-  ['accomplishments.php','Accomplishments','🏅', count_json('accomplishments.json'), false],
-  ['photos.php',        'Photos',         '🖼️', null,                                false],
+  ['publications.php',  'Publications',   '📄', count_json('publications.json'),    true],
+  ['accomplishments.php','Accomplishments','🏅', count_json('accomplishments.json'), true],
+  ['photos.php',        'Photos',         '🖼️', null,                                true],
   ['blog.php',          'Blog posts',     '📝', null,                                false],
 ];
 
