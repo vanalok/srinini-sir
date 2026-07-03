@@ -389,7 +389,7 @@
    3 · STATS — rich GOLD band, deep-emerald serif numerals
    ========================================================================== */
 .home-v2 .stats-strip {
-  padding: clamp(24px, 2.6vw, 38px) 0;
+  padding: clamp(14px, 1.5vw, 22px) 0;
   background: linear-gradient(135deg, #d2b157ef 0%, #c9a84c 45%, #b8923c 100%);
   border-top: 1px solid rgba(14, 46, 31, .18);
   border-bottom: 1px solid rgba(14, 46, 31, .18);
@@ -411,9 +411,9 @@
 .home-v2 .stat-item::before {
   content: '';
   display: block;
-  width: 30px;
+  width: 26px;
   height: 2px;
-  margin: 0 auto var(--s-3);
+  margin: 0 auto var(--s-2);
   background: rgba(14, 46, 31, .5);
 }
 
@@ -424,7 +424,7 @@
 .home-v2 .stat-item .stat-num {
   font-family: var(--f-display);
   font-weight: 700;
-  font-size: clamp(var(--t-40), 4.4vw, 64px);
+  font-size: clamp(var(--t-32), 3vw, 46px);
   letter-spacing: 0;
   color: var(--v-emerald);
   background: none;
