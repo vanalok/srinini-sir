@@ -24,6 +24,12 @@ $cards = [
 ];
 $total = array_sum(array_map(fn($c) => $c[3], $cards));
 
+// engagement cards (DB-backed; show a label instead of a count)
+$extra = [
+  ['analytics.php', 'Analytics', '📈', 'Visitors & views'],
+  ['comments.php',  'Comments',  '💬', 'Moderate comments'],
+];
+
 admin_head('Dashboard');
 echo render_flash();
 ?>
@@ -42,6 +48,14 @@ echo render_flash();
       <span class="a-card-ico"><?= $icon ?></span>
       <span class="a-card-name"><?= h($label) ?></span>
       <span class="a-card-count"><?= (int)$count ?> item<?= $count == 1 ? '' : 's' ?></span>
+    </a>
+  <?php endforeach; ?>
+  <?php foreach ($extra as [$href, $label, $icon, $desc]): ?>
+    <a class="a-card" href="<?= h($href) ?>">
+      <span class="a-card-cta">Open →</span>
+      <span class="a-card-ico"><?= $icon ?></span>
+      <span class="a-card-name"><?= h($label) ?></span>
+      <span class="a-card-count"><?= h($desc) ?></span>
     </a>
   <?php endforeach; ?>
 </div>

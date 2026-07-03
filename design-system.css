@@ -1636,3 +1636,34 @@ footer{
   transform:translateY(-2px);
   box-shadow:0 8px 24px rgba(184,150,94,.3);
 }
+
+/* ============================================================
+   Engagement: views / likes / comments (post pages)
+   ============================================================ */
+.engage{ padding:var(--s-6) 0 var(--s-10); border-top:1px solid var(--line); margin-top:var(--s-8); }
+.engage-bar{ display:flex; align-items:center; gap:22px; flex-wrap:wrap; margin-bottom:var(--s-8); }
+.engage-stat{ display:inline-flex; align-items:center; gap:7px; color:var(--ink-3); font-size:var(--t-14); }
+.engage-stat b{ color:var(--ink); font-weight:700; }
+.engage-stat i{ width:18px; height:18px; }
+.engage-like{ display:inline-flex; align-items:center; gap:7px; padding:8px 16px; border:1px solid var(--line); border-radius:var(--r-pill); background:var(--surface); color:var(--ink-2); font:inherit; font-size:var(--t-14); font-weight:600; cursor:pointer; transition:all var(--d-fast); }
+.engage-like i{ width:18px; height:18px; }
+.engage-like:hover{ border-color:#e2b3ab; color:#c0392b; }
+.engage-like.is-on{ background:#fdecea; border-color:#e2b3ab; color:#c0392b; }
+.engage-like.is-on i{ fill:currentColor; }
+
+.engage-comments h3{ font-size:var(--t-20); margin-bottom:var(--s-4); }
+.engage-form{ display:flex; flex-direction:column; gap:10px; max-width:640px; margin-bottom:var(--s-6); }
+.engage-hp{ position:absolute !important; left:-9999px; width:1px; height:1px; opacity:0; }
+.engage-form input, .engage-form textarea{ font:inherit; padding:11px 13px; border:1px solid var(--line); border-radius:var(--r-md); background:var(--surface); }
+.engage-form input:focus, .engage-form textarea:focus{ outline:none; border-color:var(--gold); box-shadow:0 0 0 3px rgba(201,168,76,.2); }
+.engage-form-foot{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.engage-msg{ font-size:var(--t-13); }
+.engage-msg.is-ok{ color:var(--success,#2e9460); }
+.engage-msg.is-err{ color:#c0392b; }
+.engage-list{ display:flex; flex-direction:column; gap:14px; max-width:720px; }
+.engage-c{ padding:14px 16px; background:var(--paper-2); border:1px solid var(--line); border-radius:var(--r-md); }
+.engage-c-head{ display:flex; align-items:baseline; gap:10px; margin-bottom:5px; }
+.engage-c-head b{ font-size:var(--t-14); }
+.engage-c-head span{ font-size:var(--t-12); color:var(--ink-3); }
+.engage-c p{ font-size:var(--t-14); line-height:1.6; margin:0; white-space:pre-wrap; }
+.engage-empty{ color:var(--ink-3); font-size:var(--t-14); }

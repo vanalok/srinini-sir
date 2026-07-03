@@ -387,6 +387,75 @@
     });
   }
 
+  /* ---- Engagement: visit tracking + views/likes/comments on posts ---- */
+  const API = '/api';
+  function engEsc(s){ const d=document.createElement('div'); d.textContent = s==null?'':s; return d.innerHTML; }
+  function engDate(s){ try{ return new Date(String(s).replace(' ','T')+'Z').toLocaleDateString('en-IN',{year:'numeric',month:'short',day:'numeric'}); }catch(e){ return ''; } }
+
+  function bindEngagement(){
+    const m = location.pathname.match(/\/posts\/([^\/]+)\.html$/);
+    const slug = m ? decodeURIComponent(m[1]) : '';
+    const body = 'path=' + encodeURIComponent(location.pathname) + (slug ? '&slug=' + encodeURIComponent(slug) : '');
+    fetch(API + '/track.php', {method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body})
+      .then(r => r.json()).then(stats => { if (slug && stats && !stats.error) renderEngagement(slug, stats); })
+      .catch(()=>{});   // no API (e.g. static host) — silently skip
+  }
+
+  function renderEngagement(slug, stats){
+    const main = document.getElementById('main') || document.querySelector('main') || document.body;
+    const host = document.createElement('section');
+    host.className = 'engage';
+    host.innerHTML =
+      '<div class="container"><div class="engage-bar">'
+      + '<span class="engage-stat"><i data-lucide="eye"></i><b id="engViews">'+stats.views+'</b> views</span>'
+      + '<button class="engage-like'+(stats.liked?' is-on':'')+'" id="engLike"><i data-lucide="heart"></i><b id="engLikes">'+stats.likes+'</b></button>'
+      + '<a class="engage-stat" href="#comments"><i data-lucide="message-circle"></i><b id="engComments">'+stats.comments+'</b> comments</a>'
+      + '</div>'
+      + '<section class="engage-comments" id="comments"><h3>Comments</h3>'
+      + '<form class="engage-form" id="engForm" autocomplete="off">'
+      + '<input type="text" name="website" class="engage-hp" tabindex="-1" autocomplete="off" aria-hidden="true">'
+      + '<input type="text" id="engName" placeholder="Your name" maxlength="120" required>'
+      + '<textarea id="engBody" placeholder="Write a comment…" rows="3" maxlength="2000" required></textarea>'
+      + '<div class="engage-form-foot"><span id="engMsg" class="engage-msg"></span>'
+      + '<button type="submit" class="btn btn-primary btn-sm">Post comment</button></div></form>'
+      + '<div class="engage-list" id="engList"></div></section></div>';
+    main.appendChild(host);
+    renderIcons();
+
+    host.querySelector('#engLike').addEventListener('click', function(){
+      const btn = this;
+      fetch(API+'/like.php?slug='+encodeURIComponent(slug), {method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:''})
+        .then(r=>r.json()).then(d=>{ if(d.error) return; host.querySelector('#engLikes').textContent=d.likes; btn.classList.toggle('is-on', d.liked); }).catch(()=>{});
+    });
+
+    loadComments(slug, host);
+
+    host.querySelector('#engForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      const msg = host.querySelector('#engMsg');
+      const data = 'slug='+encodeURIComponent(slug)
+        + '&name='+encodeURIComponent(host.querySelector('#engName').value.trim())
+        + '&body='+encodeURIComponent(host.querySelector('#engBody').value.trim())
+        + '&website='+encodeURIComponent(this.querySelector('.engage-hp').value);
+      fetch(API+'/comments.php', {method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:data})
+        .then(r=>r.json()).then(d=>{
+          if(d.error){ msg.textContent=d.error; msg.className='engage-msg is-err'; return; }
+          msg.textContent = d.message || 'Thanks!'; msg.className='engage-msg is-ok';
+          host.querySelector('#engName').value=''; host.querySelector('#engBody').value='';
+        }).catch(()=>{ msg.textContent='Could not submit.'; msg.className='engage-msg is-err'; });
+    });
+  }
+
+  function loadComments(slug, host){
+    fetch(API+'/comments.php?slug='+encodeURIComponent(slug)).then(r=>r.json()).then(d=>{
+      const list = host.querySelector('#engList'); if(!list) return;
+      const cs = (d && d.comments) || [];
+      list.innerHTML = cs.length
+        ? cs.map(c => '<div class="engage-c"><div class="engage-c-head"><b>'+engEsc(c.name)+'</b><span>'+engDate(c.created_at)+'</span></div><p>'+engEsc(c.body)+'</p></div>').join('')
+        : '<p class="engage-empty">No comments yet — be the first.</p>';
+    }).catch(()=>{});
+  }
+
   /* ---- Boot ---- */
   document.addEventListener('DOMContentLoaded', () => {
     renderIcons();
@@ -396,5 +465,6 @@
     bindReveal();
     bindSearch();
     bindPdfPreview();
+    bindEngagement();
   });
 })();

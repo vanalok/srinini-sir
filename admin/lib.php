@@ -120,6 +120,8 @@ function nav_items(): array {
     ['accomplishments.php','Accomplishments', '🏅'],
     ['photos.php',         'Photos',          '🖼️'],
     ['blog.php',           'Blog',            '📝'],
+    ['analytics.php',      'Analytics',       '📈'],
+    ['comments.php',       'Comments',        '💬'],
   ];
 }
 
