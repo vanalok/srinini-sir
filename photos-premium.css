@@ -59,7 +59,7 @@
   padding: clamp(28px, 4vw, 52px) 0 clamp(24px, 3.5vw, 44px) !important;
   background:
     linear-gradient(135deg, rgba(14,46,31,.72) 0%, rgba(14,46,31,.52) 50%, rgba(14,46,31,.68) 100%),
-    url('./images/photos_bg.png') center center / cover no-repeat;
+    url('./images/photos_bg.webp') center center / cover no-repeat;
   border-bottom:1px solid rgba(201,168,76,.4);
   color:#F4F0E2;
 }
