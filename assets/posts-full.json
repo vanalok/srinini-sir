@@ -7,7 +7,9 @@
     "minutesToRead": 5,
     "viewCount": 0,
     "language": "kn",
-    "categories": ["Ayush"],
+    "categories": [
+      "Ayush"
+    ],
     "image": "/assets/pdf-covers/7_Mane_Maddu_cover.jpg",
     "localUrl": "posts/7-mane-maddu-ayush-karnataka.html",
     "pdfUrl": "assets/pdf/7_Mane_Maddu_26.8.2024.pdf",
@@ -21,7 +23,9 @@
     "minutesToRead": 5,
     "viewCount": 0,
     "language": "kn",
-    "categories": ["Ayush"],
+    "categories": [
+      "Ayush"
+    ],
     "image": "/assets/pdf-covers/2_Hennina_Arogya_cover.jpg",
     "localUrl": "posts/2-hennina-arogya-ayush-karnataka.html",
     "pdfUrl": "assets/pdf/2_Hennina_Arogya_26.8.2024.pdf",
@@ -35,7 +39,9 @@
     "minutesToRead": 5,
     "viewCount": 0,
     "language": "kn",
-    "categories": ["Ayush"],
+    "categories": [
+      "Ayush"
+    ],
     "image": "/assets/pdf-covers/3_Samanya_Rogagalige_Unani_cover.jpg",
     "localUrl": "posts/3-samanya-rogagalige-unani-ayush-karnataka.html",
     "pdfUrl": "assets/pdf/3_Samanya_Rogagalige_Unani_28.8.2024.pdf",
@@ -49,7 +55,9 @@
     "minutesToRead": 6,
     "viewCount": 0,
     "language": "kn",
-    "categories": ["Ayush"],
+    "categories": [
+      "Ayush"
+    ],
     "image": "/assets/pdf-covers/8_Gruhavaidya_Pradeepike_cover.jpg",
     "localUrl": "posts/8-gruhavaidya-pradeepike-ayush-karnataka.html",
     "pdfUrl": "assets/pdf/8_Gruhavaidya_Pradeepike_26.8.2024.pdf",
@@ -63,7 +71,9 @@
     "minutesToRead": 5,
     "viewCount": 0,
     "language": "kn",
-    "categories": ["Ayush"],
+    "categories": [
+      "Ayush"
+    ],
     "image": "/assets/pdf-covers/6_Sampoorna_Homeopathy_cover.jpg",
     "localUrl": "posts/6-sampoorna-homeopathy-ayush-karnataka.html",
     "pdfUrl": "assets/pdf/6_Sampoorna_Homeopathy_26.8.2024.pdf",
@@ -200,7 +210,7 @@
       "Karnataka Forest Department",
       "KSPCB"
     ],
-    "image": "",
+    "image": "https://i.ytimg.com/vi/kao02GvMs0c/hqdefault.jpg",
     "localUrl": "posts/on-duty-officer-season-01-ep-01-sri-srinivasulu-ifs-bhima-tv-kannada.html"
   },
   {
@@ -1687,7 +1697,7 @@
       "Karnataka Forest Department",
       "Nagarhole National Park"
     ],
-    "image": "",
+    "image": "images/forestDeptPhotos/ktr.webp",
     "localUrl": "posts/ktr-promo-a.html"
   },
   {
@@ -1702,7 +1712,7 @@
       "Karnataka Forest Department",
       "Nagarhole National Park"
     ],
-    "image": "",
+    "image": "images/forestDeptPhotos/ktr2.webp",
     "localUrl": "posts/samsara.html"
   },
   {

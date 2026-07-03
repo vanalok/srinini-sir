@@ -19,7 +19,7 @@ $cards = [
   ['publications.php',  'Publications',   '📄', count_json('publications.json'),    true],
   ['accomplishments.php','Accomplishments','🏅', count_json('accomplishments.json'), true],
   ['photos.php',        'Photos',         '🖼️', null,                                true],
-  ['blog.php',          'Blog posts',     '📝', null,                                false],
+  ['blog.php',          'Blog posts',     '📝', count_json('assets/posts-full.json'), true],
 ];
 
 admin_head('Dashboard');
