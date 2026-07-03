@@ -1372,3 +1372,25 @@
     display: none;
   }
 }
+/* ============================================================
+   Extra-small phones (<=360px) — final home-page polish
+   Keeps every home section tidy on 320–360px devices without
+   disturbing the existing 480/600/768 breakpoints above.
+   ============================================================ */
+@media (max-width: 360px) {
+  .home-v2 .hero-split-text h1 { font-size: 32px; line-height: 1.05; }
+  .home-v2 .hero-split-text h1 span { font-size: 1.35rem !important; }
+  .home-v2 .hero-split-text .hero-role { font-size: 14px; }
+  .home-v2 .hero-quote p { font-size: 13px; }
+  .home-v2 .stat-item .stat-num { font-size: 26px; }
+  .home-v2 .stat-item .stat-lbl { font-size: 11px; }
+  .home-v2 .career-grid { gap: 10px; }
+  .home-v2 .career-body { padding: 10px; }
+  .home-v2 .career-role { font-size: 12px; line-height: 1.25; }
+  .home-v2 .career-loc { font-size: 11px; }
+  .home-v2 .section-head h2 { font-size: 24px; }
+  .home-v2 .join-intro h2 { font-size: 23px; }
+  .home-v2 .join-form h3 { font-size: 19px; }
+  .home-v2 .join-intro, .home-v2 .join-form { padding: 26px 16px; }
+  .home-v2 .join-card { padding: 10px 12px; }
+}
