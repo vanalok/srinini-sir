@@ -140,6 +140,7 @@ function admin_head(string $title): void {
        . '<header class="a-topbar">'
        . '<button class="a-menu-btn" onclick="document.getElementById(\'aSidebar\').classList.toggle(\'is-open\')" aria-label="Menu">&#9776;</button>'
        . '<span class="a-topbar-title">' . h($title) . '</span>'
+       . '<input class="a-topbar-search" id="aSearch" type="search" placeholder="Search this page…" autocomplete="off" style="display:none">'
        . '<a class="a-topbar-view" href="../index.html" target="_blank">View site &#8599;</a>'
        . '</header><main class="a-main">';
   } else {
@@ -147,7 +148,40 @@ function admin_head(string $title): void {
   }
 }
 function admin_foot(): void {
-  if (is_logged_in()) echo '</main></div><div class="a-scrim" onclick="document.getElementById(\'aSidebar\').classList.remove(\'is-open\')"></div></div>';
-  else echo '</main>';
+  if (is_logged_in()) {
+    echo '</main></div><div class="a-scrim" onclick="document.getElementById(\'aSidebar\').classList.remove(\'is-open\')"></div></div>';
+    // Live client-side filter of the current page's list (rows or photos)
+    echo <<<'JS'
+<script>
+(function(){
+  var box = document.getElementById('aSearch');
+  if(!box) return;
+  var rows = Array.prototype.slice.call(document.querySelectorAll('.a-list .a-row'));
+  var photos = Array.prototype.slice.call(document.querySelectorAll('.a-photos .a-photo'));
+  var items = rows.length ? rows : photos;
+  if(!items.length){ box.style.display='none'; return; }
+  box.style.display = '';
+  function textOf(el){
+    var t = el.querySelector('.a-row-title') || el.querySelector('.a-photo-cat');
+    return (t ? t.textContent : el.textContent || '').toLowerCase();
+  }
+  var empty = document.createElement('p');
+  empty.className = 'a-empty'; empty.textContent = 'No matches.'; empty.style.display='none';
+  (items[0].parentNode).appendChild(empty);
+  box.addEventListener('input', function(){
+    var q = this.value.toLowerCase().trim(), shown = 0;
+    items.forEach(function(el){
+      var ok = !q || textOf(el).indexOf(q) > -1;
+      el.style.display = ok ? '' : 'none';
+      if(ok) shown++;
+    });
+    empty.style.display = shown ? 'none' : '';
+  });
+})();
+</script>
+JS;
+  } else {
+    echo '</main>';
+  }
   echo '</body></html>';
 }

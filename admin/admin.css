@@ -47,7 +47,9 @@ code{ background:#eee; padding:1px 5px; border-radius:4px; font-size:.85em; }
   border-bottom:1px solid var(--line);
 }
 .a-topbar-title{ font-size:17px; font-weight:700; }
-.a-topbar-view{ margin-left:auto; font-size:13px; color:var(--ink-2); }
+.a-topbar-search{ margin-left:auto; width:min(300px,42vw); font:inherit; padding:8px 12px; border:1px solid var(--line); border-radius:9px; background:#fff; }
+.a-topbar-search:focus{ outline:none; border-color:var(--gold); box-shadow:0 0 0 3px rgba(201,168,76,.2); }
+.a-topbar-view{ margin-left:14px; font-size:13px; color:var(--ink-2); white-space:nowrap; }
 .a-menu-btn{ display:none; border:0; background:none; font-size:22px; cursor:pointer; color:var(--ink); }
 .a-scrim{ display:none; }
 
@@ -159,3 +161,5 @@ code{ background:#eee; padding:1px 5px; border-radius:4px; font-size:.85em; }
   .a-main{ padding:20px 16px 60px; }
   .a-topbar{ padding:0 16px; }
 }
+
+@media (max-width:600px){ .a-topbar-view{ display:none; } .a-topbar-title{ font-size:15px; } .a-topbar-search{ width:auto; flex:1; } }
