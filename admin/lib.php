@@ -153,9 +153,8 @@ function admin_head(string $title): void {
        . '<input class="a-topbar-search" id="aSearch" type="search" placeholder="Search this page…" autocomplete="off" style="display:none">'
        . '<a class="a-topbar-view" href="../index.html" target="_blank">View site &#8599;</a>'
        . '</header><main class="a-main">';
-  } else {
-    echo '<main class="a-main a-main-plain">';
   }
+  // when logged out, the page (login.php) renders its own full-screen layout
 }
 function admin_foot(): void {
   if (is_logged_in()) {
@@ -190,8 +189,6 @@ function admin_foot(): void {
 })();
 </script>
 JS;
-  } else {
-    echo '</main>';
   }
   echo '</body></html>';
 }
