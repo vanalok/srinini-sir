@@ -99,17 +99,55 @@ function handle_upload(string $field, string $destDir, array $allowedExt, string
   return $webPrefix . '/' . $name;
 }
 
-/* ---- Page chrome ---- */
+/* ---- Navigation items (shared by sidebar + dashboard) ---- */
+function nav_items(): array {
+  return [
+    ['index.php',          'Dashboard',       '🏠'],
+    ['videos.php',         'Videos',          '🎬'],
+    ['audios.php',         'Audios',          '🎧'],
+    ['honours.php',        'Honours',         '🏆'],
+    ['publications.php',   'Publications',    '📄'],
+    ['accomplishments.php','Accomplishments', '🏅'],
+    ['photos.php',         'Photos',          '🖼️'],
+    ['blog.php',           'Blog',            '📝'],
+  ];
+}
+
+/* ---- Page chrome (sidebar layout) ---- */
+function render_sidebar(): string {
+  $cur = basename($_SERVER['SCRIPT_NAME'] ?? '');
+  $h = '<aside class="a-sidebar" id="aSidebar">'
+     . '<a class="a-side-brand" href="index.php"><span class="a-side-mark">S</span>'
+     . '<span><strong>Srinivasulu IFS</strong><small>Content Manager</small></span></a>'
+     . '<nav class="a-side-nav">';
+  foreach (nav_items() as [$href, $label, $icon]) {
+    $active = ($cur === $href) ? ' is-active' : '';
+    $h .= '<a class="a-side-link' . $active . '" href="' . $href . '">'
+        . '<span class="a-side-ico">' . $icon . '</span><span>' . h($label) . '</span></a>';
+  }
+  $h .= '</nav><div class="a-side-foot">'
+      . '<a href="../index.html" target="_blank">↗ View site</a>'
+      . '<a href="logout.php" class="a-side-logout">⏻ Log out</a></div></aside>';
+  return $h;
+}
 function admin_head(string $title): void {
   echo '<!doctype html><html lang="en"><head><meta charset="UTF-8">'
      . '<meta name="viewport" content="width=device-width,initial-scale=1">'
      . '<title>' . h($title) . ' · Admin</title>'
      . '<link rel="stylesheet" href="admin.css"></head><body>';
   if (is_logged_in()) {
-    echo '<header class="a-top"><a class="a-brand" href="index.php">Srinivasulu IFS · Admin</a>'
-       . '<nav><a href="../index.html" target="_blank">View site ↗</a>'
-       . '<a href="logout.php" class="a-logout">Log out</a></nav></header>';
+    echo '<div class="a-shell">' . render_sidebar() . '<div class="a-content">'
+       . '<header class="a-topbar">'
+       . '<button class="a-menu-btn" onclick="document.getElementById(\'aSidebar\').classList.toggle(\'is-open\')" aria-label="Menu">&#9776;</button>'
+       . '<span class="a-topbar-title">' . h($title) . '</span>'
+       . '<a class="a-topbar-view" href="../index.html" target="_blank">View site &#8599;</a>'
+       . '</header><main class="a-main">';
+  } else {
+    echo '<main class="a-main a-main-plain">';
   }
-  echo '<main class="a-main">';
 }
-function admin_foot(): void { echo '</main></body></html>'; }
+function admin_foot(): void {
+  if (is_logged_in()) echo '</main></div><div class="a-scrim" onclick="document.getElementById(\'aSidebar\').classList.remove(\'is-open\')"></div></div>';
+  else echo '</main>';
+  echo '</body></html>';
+}
