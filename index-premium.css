@@ -512,6 +512,17 @@
   border-color: var(--v-gold);
 }
 
+/* Academic badges: always 2 per row -> two tidy rows (2x2) */
+.home-v2 .academic-badges {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.home-v2 .acad-badge {
+  justify-content: flex-start;
+  min-width: 0;
+}
+
 .home-v2 .acad-badge .badge-icon.gold {
   background: var(--v-gold-light);
   color: var(--v-gold-deep);
