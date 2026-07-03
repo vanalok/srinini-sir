@@ -81,7 +81,7 @@ echo render_flash();
   <div class="a-list">
     <?php foreach ($awards as $i => $a): ?>
       <div class="a-row">
-        <img class="a-thumb" src="../<?= h(ltrim($a['img'] ?? '', './')) ?>" alt="" loading="lazy">
+        <img class="a-thumb" src="<?= asset_src($a['img'] ?? '') ?>" alt="" loading="lazy">
         <div class="a-row-main">
           <div class="a-row-title"><?= h($a['title'] ?? '(untitled)') ?></div>
           <div class="a-row-meta"><?= h($a['year'] ?? '') ?> · <?= h($CATS[$a['cat'] ?? ''] ?? ($a['cat'] ?? '')) ?></div>

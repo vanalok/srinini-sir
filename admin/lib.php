@@ -48,6 +48,16 @@ function h($s): string {
   return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8');
 }
 
+/* Admin thumbnail src: absolute URLs used as-is; local paths get ../ prefix
+   (admin lives in /admin, content is one level up). */
+function asset_src($p): string {
+  $p = trim((string)$p);
+  if ($p === '') return '';
+  if (preg_match('#^(https?://|//|data:)#i', $p)) return h($p);
+  $p = preg_replace('#^\./#', '', ltrim($p, '/'));
+  return '../' . h($p);
+}
+
 /* ---- JSON read/write (Kannada-safe, pretty) ---- */
 function read_json(string $path): array {
   if (!is_file($path)) return [];

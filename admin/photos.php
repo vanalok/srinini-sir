@@ -102,7 +102,7 @@ echo render_flash();
   <div class="a-photos">
     <?php foreach ($shown as $p): $oi = orig_index($photos, $p); ?>
       <div class="a-photo">
-        <img src="../<?= h($p['src']) ?>" alt="" loading="lazy">
+        <img src="<?= asset_src($p['src']) ?>" alt="" loading="lazy">
         <div class="a-photo-cat"><?= h($PHOTO_CATS[$p['category']] ?? $p['category']) ?></div>
         <form method="post" onsubmit="return confirm('Remove this photo from the gallery?')">
           <?= csrf_field() ?><input type="hidden" name="action" value="delete"><input type="hidden" name="index" value="<?= $oi ?>">

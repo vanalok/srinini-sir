@@ -93,7 +93,7 @@ echo render_flash();
   <div class="a-list">
     <?php foreach ($audios as $i => $a): ?>
       <div class="a-row">
-        <img class="a-thumb" src="../<?= h($a['image'] ?? 'images/audio_bg.webp') ?>" alt="" loading="lazy">
+        <img class="a-thumb" src="<?= asset_src($a['image'] ?? 'images/audio_bg.webp') ?>" alt="" loading="lazy">
         <div class="a-row-main">
           <div class="a-row-title"><?= h($a['title'] ?? '(untitled)') ?></div>
           <div class="a-row-meta"><?= h($KINDS[$a['kind'] ?? ''] ?? ($a['kind'] ?? '')) ?> · <code><?= h(basename($a['audioUrl'] ?? '')) ?></code></div>

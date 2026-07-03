@@ -145,7 +145,7 @@ echo render_flash();
   <div class="a-list">
     <?php foreach (array_slice($list, 0, 60) as $p): ?>
       <div class="a-row">
-        <img class="a-thumb" src="../<?= h(ltrim($p['image'] ?? '', '/')) ?>" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
+        <img class="a-thumb" src="<?= asset_src($p['image'] ?? '') ?>" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
         <div class="a-row-main">
           <div class="a-row-title"><?= h($p['title'] ?? '(untitled)') ?> <?= empty($p['cmsGenerated']) ? '' : '<span class="a-badge">CMS</span>' ?></div>
           <div class="a-row-meta"><?= h($p['categories'][0] ?? '') ?> · <?= h(substr($p['date'] ?? '', 0, 10)) ?>
