@@ -14,11 +14,11 @@ function count_json($file, $key = null) {
 
 $cards = [
   ['videos.php',        'Videos',         '🎬', count_json('videos.json'),          true],
+  ['audios.php',        'Audios',         '🎧', count_json('audios.json'),          true],
+  ['honours.php',       'Honours',        '🏆', count_json('honours.json'),         true],
   ['publications.php',  'Publications',   '📄', count_json('publications.json'),    false],
   ['accomplishments.php','Accomplishments','🏅', count_json('accomplishments.json'), false],
-  ['honours.php',       'Honours',        '🏆', null,                                false],
   ['photos.php',        'Photos',         '🖼️', null,                                false],
-  ['audios.php',        'Audios',         '🎧', count_json('audios.json'),          false],
   ['blog.php',          'Blog posts',     '📝', null,                                false],
 ];
 

@@ -358,100 +358,7 @@
     <script src="app.js"></script>
     <script>
       // Awards data (newest first)
-      const AWARDS = [
-        /* ── Existing awards ───────────────────────────────────────── */
-        {
-          year: 2026,
-          cat: "national",
-          title: "National Recognition",
-          body: "National-level honour conferred on Srinivasulu IFS.",
-          img: "images/honours/national-2026.jpeg"
-        },
-        {
-          year: 2026,
-          cat: "national",
-          title: "SEMI- FINALIST SKOCH ORDER OF MERIT",
-          body: "Environmental Governance through Mass Awareness Forest, Ecology and Environment Department, Government of Karnataka",
-          img: "images/honours/FEEDGK_page.webp"
-        },
-        {
-          year: 2022,
-          cat: "international",
-          title: "Guinness World Record",
-          body: "The most people sculpting with modelling clay simultaneously.",
-          img: "./images/honours/IMG_2176.HEIC.webp"
-        },
-        {
-          year: 2022,
-          cat: "international",
-          title: "Guinness World Records",
-          body: "The largest Online photo album of handmade sculpture.",
-          img: "./images/honours/gwr2021.webp"
-        },
-        {
-          year: 2021,
-          cat: "international",
-          title: "Asia Book of Records",
-          body: "Largest number of eco-friendly turmeric Ganesh idols.",
-          img: "./images/honours/AsiaBookofRecords.webp"
-        },
-        {
-          year: 2021,
-          cat: "state",
-          title: "H. V. Muniswamy Gowda Environment Award",
-          body: "Awarded for contribution to environmental protection.",
-          img: "./images/honours/hvmgeAward.webp"
-        },
-        {
-          year: 2017,
-          cat: "state",
-          title: "Kalyana Mobile App Launch",
-          body: "Citizen service app launched during Dr. B.R. Ambedkar International Conference.",
-          img: "./images/honours/AC4.webp"
-        },
-        {
-          year: 2016,
-          cat: "national",
-          title: "Best Tourism Award by FKCCI",
-          body: "For promoting tourism in Dandeli.",
-          img: "./images/honours/fkcci.webp"
-        },
-        {
-          year: 2016,
-          cat: "state",
-          title: "State Environment Award",
-          body: "Conferred by the Chief Minister of Karnataka.",
-          img: "./images/honours/AC3.webp"
-        },
-        {
-          year: 1997,
-          cat: "academic",
-          title: "Indian Forest Service · 1997 Batch",
-          body: "Top rank in the Indian Forest Service civil service examination.",
-          img: "./images/academics/image_3.webp"
-        },
-        {
-          year: 1995,
-          cat: "academic",
-          title: "Gold Medalist · University of Agricultural Sciences",
-          body: "Top distinction in the graduating class at UAS.",
-          img: "./images/academics/img.webp"
-        },
-        {
-          year: 1994,
-          cat: "academic",
-          title: "All-India 10th Rank · IFS Examination",
-          body: "Tenth rank nationally in the Indian Forest Service entrance examination.",
-          img: "./images/academics/image_23.webp"
-        },
-        {
-          year: 1993,
-          cat: "academic",
-          title: "2nd Rank · IARI National Entrance",
-          body: "Second rank in the Indian Agricultural Research Institute national entrance examination.",
-          img: "./images/academics/image_20.webp"
-        },
-      ];
+      let AWARDS = [];
 
       const grid = document.getElementById("awardGrid");
       const chips = document.querySelectorAll("#filterChips .chip");
@@ -534,7 +441,7 @@
         window.SrShare(t, location.href);
       });
 
-      render();
+      fetch("honours.json").then(r=>r.json()).then(data=>{ AWARDS = data; render(); }).catch(()=>render());
     </script>
   </body>
 </html>
