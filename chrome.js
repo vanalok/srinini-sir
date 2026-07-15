@@ -91,6 +91,7 @@
           <li${active('photos.html')}><a href="${ROOT}photos.html" title="Photos"><i data-lucide="image"></i></a></li>
           <li${active('videos.html')}><a href="${ROOT}videos.html" title="Videos"><i data-lucide="play-circle"></i></a></li>
           <li${active('audios.html')}><a href="${ROOT}audios.html" title="Audios"><i data-lucide="headphones"></i></a></li>
+          <li${active('interests.html')}><a href="${ROOT}interests.html" title="Interests"><i data-lucide="feather"></i></a></li>
           <li${active('blog.html')}><a href="${ROOT}blog.html" title="Blog"><i data-lucide="newspaper"></i></a></li>
         </ul>
         <div class="nav-tools">
@@ -123,6 +124,7 @@
         <a href="${ROOT}photos.html"${mActive('photos.html')}><i data-lucide="image"></i>Photos</a>
         <a href="${ROOT}videos.html"${mActive('videos.html')}><i data-lucide="play-circle"></i>Videos</a>
         <a href="${ROOT}audios.html"${mActive('audios.html')}><i data-lucide="headphones"></i>Audios</a>
+        <a href="${ROOT}interests.html"${mActive('interests.html')}><i data-lucide="feather"></i>Interests</a>
         <span class="mobile-nav-section">More</span>
         <a href="${ROOT}blog.html"${mActive('blog.html')}><i data-lucide="newspaper"></i>Blog</a>
         <a href="${ROOT}contact.html"${mActive('contact.html')}><i data-lucide="mail"></i>Contact</a>
@@ -164,6 +166,7 @@
               <li><a href="${ROOT}photos.html">Photos</a></li>
               <li><a href="${ROOT}videos.html">Videos</a></li>
               <li><a href="${ROOT}audios.html">Audios</a></li>
+              <li><a href="${ROOT}interests.html">Interests</a></li>
               <li><a href="${ROOT}blog.html">Blog</a></li>
               <li><a href="${ROOT}contact.html">Contact</a></li>
             </ul>

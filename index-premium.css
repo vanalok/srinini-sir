@@ -111,6 +111,18 @@
   color: var(--v-ivory);
 }
 
+/* Inside the dark hero, the emerald outline/text blends into the background — force white here */
+.home-v2 .hero-split-btns .btn-outline {
+  color: #fff;
+  border-color: rgba(255, 255, 255, .35);
+}
+
+.home-v2 .hero-split-btns .btn-outline:hover {
+  background: rgba(255, 255, 255, .1);
+  border-color: #fff;
+  color: #fff;
+}
+
 .home-v2 .btn-ghost {
   border: 1px solid rgba(19, 32, 26, .2);
   color: var(--v-ink);

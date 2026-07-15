@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  :root{
+    --green:#0e2e1f; --green-2:#14532d; --green-3:#2e7d51;
+    --gold:#c9a84c; --gold-l:#e8cc7a; --gold-d:#a8863a;
+    --ivory:#f7f3ec; --paper:#fbf9f4; --line:#e5e0d4;
+    --ink:#26302a; --ink-2:#5c665e; --ink-3:#8b938c;
+  }
+  @page{ size:A4; margin:0; }
+  html,body{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body{ width:794px; margin:0 auto; background:#fff; color:var(--ink);
+    font-family:'DM Sans',system-ui,sans-serif; font-size:12px; line-height:1.5; }
+  h1,h2,h3,h4,.serif{ font-family:'Cormorant Garamond',Georgia,serif; }
+
+  /* ---------- HEADER ---------- */
+  .hdr{ position:relative; padding:40px 46px 34px; color:#fff; overflow:hidden;
+    background:linear-gradient(135deg,#123c28 0%,#0e2e1f 55%,#0b2419 100%);
+    border-bottom:4px solid var(--gold); }
+  .hdr::before{ content:''; position:absolute; inset:0;
+    background:radial-gradient(60% 80% at 100% 0%,rgba(201,168,76,.20),transparent 55%),
+               radial-gradient(50% 70% at 0% 100%,rgba(46,148,96,.16),transparent 55%); }
+  .hdr-in{ position:relative; display:flex; gap:28px; align-items:center; }
+  .portrait{ width:118px; height:118px; border-radius:50%; flex-shrink:0; object-fit:cover;
+    object-position:center 22%; border:3px solid var(--gold-l);
+    box-shadow:0 8px 26px rgba(0,0,0,.35); }
+  .hdr-name{ font-size:46px; font-weight:600; line-height:1; letter-spacing:.01em; }
+  .hdr-name .ifs{ color:var(--gold-l); font-size:26px; font-weight:500; letter-spacing:.16em; margin-left:8px; }
+  .hdr-role{ font-size:15px; font-weight:500; color:#f4efe6; margin-top:9px; letter-spacing:.01em; }
+  .hdr-batch{ font-family:'DM Mono',monospace; font-size:10.5px; color:var(--gold-l);
+    letter-spacing:.12em; text-transform:uppercase; margin-top:6px; }
+  .hdr-contact{ display:flex; flex-wrap:wrap; gap:7px 20px; margin-top:14px; font-size:11.5px; color:#e6e0d4; }
+  .hdr-contact span{ display:inline-flex; align-items:center; gap:6px; }
+  .hdr-contact .dot{ width:5px; height:5px; border-radius:50%; background:var(--gold); flex-shrink:0; }
+
+  /* ---------- STATS ---------- */
+  .stats{ display:flex; background:var(--green-2); color:#fff;
+    -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .stat{ flex:1; text-align:center; padding:15px 8px; border-right:1px solid rgba(255,255,255,.12); }
+  .stat:last-child{ border-right:0; }
+  .stat b{ font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:700; color:var(--gold-l); line-height:1; display:block; }
+  .stat span{ font-size:9.5px; letter-spacing:.13em; text-transform:uppercase; color:rgba(247,243,236,.8); }
+
+  /* ---------- BODY ---------- */
+  .body{ padding:30px 46px 4px; }
+  .sec{ margin-bottom:26px; }
+  .sec-h{ display:flex; align-items:baseline; gap:12px; margin-bottom:16px; break-after:avoid; }
+  .sec-h .ey{ font-family:'DM Mono',monospace; font-size:10px; color:var(--gold-d); font-weight:500; }
+  .sec-h h2{ font-size:23px; font-weight:600; color:var(--green); line-height:1; white-space:nowrap; }
+  .sec-h .rule{ flex:1; height:1px; background:linear-gradient(90deg,var(--gold),transparent); }
+  .lead{ font-size:12.5px; line-height:1.72; color:var(--ink-2); }
+  .lead strong{ color:var(--green-2); font-weight:600; }
+
+  /* Experience timeline */
+  .exp{ position:relative; padding-left:22px; }
+  .exp::before{ content:''; position:absolute; left:5px; top:6px; bottom:6px; width:2px; background:var(--line); }
+  .exp-item{ position:relative; padding:0 0 14px; break-inside:avoid; }
+  .exp-item::before{ content:''; position:absolute; left:-21px; top:3px; width:11px; height:11px; border-radius:50%;
+    background:#fff; border:2.5px solid var(--gold-d); }
+  .exp-item.now::before{ background:var(--gold); border-color:var(--green); box-shadow:0 0 0 3px rgba(201,168,76,.25); }
+  .exp-yr{ font-family:'DM Mono',monospace; font-size:10px; color:var(--gold-d); font-weight:500; letter-spacing:.03em; }
+  .exp-role{ font-size:13px; font-weight:600; color:var(--green); margin:1px 0; }
+  .exp-loc{ font-size:11px; color:var(--ink-2); }
+
+  /* card grid */
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:11px; }
+  .card{ break-inside:avoid; background:var(--paper); border:1px solid var(--line);
+    border-left:3px solid var(--gold); border-radius:7px; padding:11px 14px; }
+  .card .t{ font-size:12px; font-weight:600; color:var(--green); margin-bottom:3px; }
+  .card .t .yr{ color:var(--gold-d); font-family:'DM Mono',monospace; font-size:9.5px; font-weight:500; }
+  .card .d{ font-size:10.8px; color:var(--ink-2); line-height:1.5; }
+
+  /* education list */
+  .edu{ display:flex; flex-direction:column; gap:9px; }
+  .edu-row{ display:flex; gap:12px; break-inside:avoid; }
+  .edu-row .yr{ flex-shrink:0; width:44px; font-family:'DM Mono',monospace; font-size:10px; color:var(--gold-d); padding-top:1px; }
+  .edu-row .tx{ font-size:11.6px; line-height:1.55; color:var(--ink-2); }
+  .edu-row .tx b{ color:var(--green-2); font-weight:600; }
+
+  /* publications */
+  .pubs{ display:flex; flex-direction:column; gap:8px; }
+  .pub{ display:flex; gap:10px; break-inside:avoid; font-size:11.4px; line-height:1.55; color:var(--ink-2); }
+  .pub::before{ content:''; flex-shrink:0; width:6px; height:6px; margin-top:5px; border-radius:2px;
+    background:var(--gold); transform:rotate(45deg); }
+  .pub b{ color:var(--green-2); font-weight:600; }
+  .pub em{ color:var(--ink-3); font-style:italic; }
+
+  .foot{ margin:8px 46px 0; padding:10px 0 16px; font-size:9px;
+    color:var(--ink-3); display:flex; justify-content:space-between;
+    border-top:1px solid var(--line); background:#fff; letter-spacing:.04em; }
+  .foot b{ color:var(--green-2); font-weight:600; }
+</style>
+</head>
+<body>
+
+  <header class="hdr">
+    <div class="hdr-in">
+      <img class="portrait" src="__PORTRAIT__" alt="Srinivasulu IFS">
+      <div>
+        <div class="hdr-name">Srinivasulu<span class="ifs">I.F.S.</span></div>
+        <div class="hdr-role">Principal Secretary, Ecology &amp; Environment · Government of Karnataka</div>
+        <div class="hdr-batch">Indian Forest Service · 1997 Batch · Karnataka Cadre</div>
+        <div class="hdr-contact">
+          <span><i class="dot"></i> sriniforest@gmail.com</span>
+          <span><i class="dot"></i> srinivasifs.com</span>
+          <span><i class="dot"></i> +91 94482 74444</span>
+          <span><i class="dot"></i> Bengaluru, Karnataka</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><b>27+</b><span>Years of Service</span></div>
+    <div class="stat"><b>15</b><span>Leadership Postings</span></div>
+    <div class="stat"><b>25+</b><span>Honours &amp; Awards</span></div>
+    <div class="stat"><b>100+</b><span>Publications &amp; Talks</span></div>
+  </div>
+
+  <div class="body">
+
+    <section class="sec">
+      <div class="sec-h"><span class="ey">01</span><h2>Profile</h2><span class="rule"></span></div>
+      <p class="lead">A distinguished <strong>Indian Forest Service (IFS)</strong> officer with over two decades of leadership in forestry, wildlife management, environmental governance and public administration. Recognised for visionary initiatives integrating <strong>conservation, technology and sustainable development</strong>, he has led pioneering efforts from biodiversity conservation to the digital transformation of environmental governance. His tenures as Principal Secretary (Ecology &amp; Environment), APCCF (Wildlife), Member Secretary (KSPCB) and Field Director (Kali Tiger Reserve) have been marked by innovation, impactful policy implementation, and award-winning eco-restoration and citizen-engagement programmes.</p>
+    </section>
+
+    <section class="sec">
+      <div class="sec-h"><span class="ey">02</span><h2>Professional Experience</h2><span class="rule"></span></div>
+      <div class="exp">
+        <div class="exp-item now"><div class="exp-yr">2025 — PRESENT</div><div class="exp-role">Principal Secretary, Ecology &amp; Environment</div><div class="exp-loc">Government of Karnataka · Bengaluru</div></div>
+        <div class="exp-item"><div class="exp-yr">2025</div><div class="exp-role">Additional Principal Chief Conservator of Forests (APCCF), Wildlife</div><div class="exp-loc">Karnataka Forest Department · Bengaluru</div></div>
+        <div class="exp-item"><div class="exp-yr">2024</div><div class="exp-role">Commissioner, AYUSH — Karnataka</div><div class="exp-loc">Department of AYUSH · Bengaluru</div></div>
+        <div class="exp-item"><div class="exp-yr">2023</div><div class="exp-role">Managing Director, KSFC</div><div class="exp-loc">Karnataka State Financial Corporation · Bengaluru</div></div>
+        <div class="exp-item"><div class="exp-yr">2020 — 2023</div><div class="exp-role">Member Secretary, KSPCB</div><div class="exp-loc">Karnataka State Pollution Control Board · Bengaluru</div></div>
+        <div class="exp-item"><div class="exp-yr">2019 — 2020</div><div class="exp-role">Chief Conservator of Forests</div><div class="exp-loc">Shivamogga Circle · Shivamogga</div></div>
+        <div class="exp-item"><div class="exp-yr">2016 — 2019</div><div class="exp-role">Managing Director — Dr. B.R. Ambedkar Development Corporation Ltd.</div><div class="exp-loc">Government of Karnataka · Bengaluru</div></div>
+        <div class="exp-item"><div class="exp-yr">2014 — 2016</div><div class="exp-role">Field Director, Kali Tiger Reserve</div><div class="exp-loc">Dandeli</div></div>
+        <div class="exp-item"><div class="exp-yr">2012 — 2014</div><div class="exp-role">Conservator of Forests — Project Formulation &amp; Planning</div><div class="exp-loc">Bengaluru</div></div>
+        <div class="exp-item"><div class="exp-yr">2008 — 2012</div><div class="exp-role">Deputy Conservator of Forests</div><div class="exp-loc">Chitradurga Division</div></div>
+        <div class="exp-item"><div class="exp-yr">2007 — 2008</div><div class="exp-role">District Conservator of Forests (DCF)</div><div class="exp-loc">Koppal Region</div></div>
+        <div class="exp-item"><div class="exp-yr">2006 — 2007</div><div class="exp-role">District Conservator of Forests (DCF)</div><div class="exp-loc">Gulbarga (Kalaburagi) Region</div></div>
+        <div class="exp-item"><div class="exp-yr">2003 — 2006</div><div class="exp-role">District Conservator of Forests (DCF)</div><div class="exp-loc">Mysore</div></div>
+        <div class="exp-item"><div class="exp-yr">2002 — 2003</div><div class="exp-role">Deputy Conservator of Forests</div><div class="exp-loc">Bangalore Rural</div></div>
+        <div class="exp-item"><div class="exp-yr">2001 — 2002</div><div class="exp-role">Assistant Conservator of Forests (ACF)</div><div class="exp-loc">Nagarahole National Park · Mysore</div></div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="sec-h"><span class="ey">03</span><h2>Education &amp; Academic Distinctions</h2><span class="rule"></span></div>
+      <div class="edu">
+        <div class="edu-row"><div class="yr">1992</div><div class="tx"><b>B.Sc. (Agriculture)</b> — University of Agricultural Sciences, Dharwad. Awarded the <b>Gold Medal</b> for highest CGPA and the <b>Revolving Shield</b> for highest aggregate in the programme.</div></div>
+        <div class="edu-row"><div class="yr">1993</div><div class="tx"><b>M.Sc. Molecular Biology &amp; Biotechnology</b> — IARI, New Delhi. Secured <b>2nd rank</b> in the All-India IARI Entrance Examination.</div></div>
+        <div class="edu-row"><div class="yr">1995</div><div class="tx"><b>Topped the All-India Ph.D. Entrance</b>; conducted research under Prof. V.L. Chopra on genetically male-sterile lines in mustard. Recipient of <b>JRF Merit Scholarships</b> from CSIR, ICAR &amp; IARI.</div></div>
+        <div class="edu-row"><div class="yr">1996</div><div class="tx"><b>2nd rank, ICAR Agricultural Research Scientist (ARS) Examination</b>; served as an Agricultural Scientist at IARI, New Delhi.</div></div>
+        <div class="edu-row"><div class="yr">1997</div><div class="tx"><b>10th rank, All-India Indian Forest Service (IFS) Examination</b> — commissioned into the Karnataka Cadre.</div></div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="sec-h"><span class="ey">04</span><h2>Awards, Records &amp; Honours</h2><span class="rule"></span></div>
+      <div class="grid2">
+        <div class="card"><div class="t">SKOCH Order of Merit — Semi-Finalist <span class="yr">2026</span></div><div class="d">For "Environmental Governance through Mass Awareness" — Forest, Ecology &amp; Environment Department, Government of Karnataka.</div></div>
+        <div class="card"><div class="t">Guinness World Record <span class="yr">2022</span></div><div class="d">Largest online photo album of handmade Turmeric Ganesha sculptures — KSPCB eco-friendly Ganesha initiative.</div></div>
+        <div class="card"><div class="t">Guinness World Record <span class="yr">2023</span></div><div class="d">Most people clay-modelling Ganesha simultaneously.</div></div>
+        <div class="card"><div class="t">Asia Book of Records <span class="yr">2021</span></div><div class="d">Largest number of eco-friendly turmeric Ganesha idols, promoting an eco-friendly Ganesh festival.</div></div>
+        <div class="card"><div class="t">H.V. Muniswamy Gowda Environment Award <span class="yr">2022</span></div><div class="d">For efficient performance at KSPCB and significant contribution to environmental protection.</div></div>
+        <div class="card"><div class="t">State Environment Award <span class="yr">2016</span></div><div class="d">Conferred by the Hon'ble Chief Minister of Karnataka on World Environment Day.</div></div>
+        <div class="card"><div class="t">Best Tourism Award, FKCCI <span class="yr">2016</span></div><div class="d">For outstanding contributions to promoting tourism in Dandeli.</div></div>
+        <div class="card"><div class="t">Dr. Chuck McDougal Memorial Award — Runner-up <span class="yr">2016</span></div><div class="d">TOFT Tigers, for a visitor-friendly wildlife destination — Kali Tiger Reserve.</div></div>
+        <div class="card"><div class="t">Holiday IQ Award <span class="yr">2016</span></div><div class="d">Excellence in tourism &amp; hospitality at Kali Tiger Reserve.</div></div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="sec-h"><span class="ey">05</span><h2>Key Initiatives &amp; Digital Innovations</h2><span class="rule"></span></div>
+      <div class="grid2">
+        <div class="card"><div class="t">KSPCB Mobile App</div><div class="d">A common digital platform connecting industries, the public and departments to address pollution-control and resource-conservation issues.</div></div>
+        <div class="card"><div class="t">CETP Effluent Vehicle Tracking System</div><div class="d">GPS tracking of effluent transport from generation point to Common Effluent Treatment Plants, curbing illegal discharge.</div></div>
+        <div class="card"><div class="t">COVID-19 Waste Management System</div><div class="d">Web &amp; mobile platform tracking bio-medical waste from hospitals and quarantine centres to CBMWTFs.</div></div>
+        <div class="card"><div class="t">E-Varadhi</div><div class="d">Progress-report management software for receiving, compiling and communicating monthly reports from district offices.</div></div>
+        <div class="card"><div class="t">"Kalyana" App — Social Welfare Dept.</div><div class="d">Citizen-services app enabling online applications &amp; engagement; launched by Sri Rahul Gandhi (2017) at the Dr. B.R. Ambedkar International Conference.</div></div>
+        <div class="card"><div class="t">"Gangakalyana" App</div><div class="d">Coordination platform for the flagship borewell-irrigation programme, linking offices, agencies, ESCOMs and beneficiaries.</div></div>
+        <div class="card"><div class="t">GIS Forest-Land Mapping — Chitradurga</div><div class="d">Geo-surveyed ~1 lakh hectares of reserved forest using GIS &amp; spatial technologies; produced management booklet and user-friendly maps.</div></div>
+        <div class="card"><div class="t">TEDx Talk</div><div class="d">Keynote on the protection of nature, forests and wildlife.</div></div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="sec-h"><span class="ey">06</span><h2>Research &amp; Publications</h2><span class="rule"></span></div>
+      <div class="pubs">
+        <div class="pub"><span><b>"Turning Waste into Wealth: Karnataka's ₹20,000-Crore Circular Economy Opportunity"</b> — <em>Outlook Planet</em>, 2026.</span></div>
+        <div class="pub"><span><b>MY FOREST Journal</b> — "Dynamics of Tiger Sighting in Nagarhole National Park"; "Roadside Monitoring for Population Distribution of Major Herbivores, Nagarhole NP"; "Monitoring of Tiger &amp; Associated Species, Kali Tiger Reserve, Dandeli."</span></div>
+        <div class="pub"><span><b>"Camera-Trap Study on Leopard Population in Dandeli–Anshi Tiger Reserve"</b> — <em>MY FOREST</em>.</span></div>
+        <div class="pub"><span><b>"Transgenic Rice"</b> — research in particle-gun bombardment, gene cloning, genetic engineering &amp; tissue culture, published in <em>Biotechnology Quarterly</em> (international journal).</span></div>
+        <div class="pub"><span><b>100+ articles, editorials, columns and popular talks</b> on conservation, ecology, wildlife and environmental governance.</span></div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="sec-h"><span class="ey">07</span><h2>Documentaries &amp; Media</h2><span class="rule"></span></div>
+      <div class="pubs">
+        <div class="pub"><span><b>"Shanthi Samsara"</b> — climate &amp; clean-energy film featuring footage from the Kali documentary; <b>released by the Hon'ble Prime Minister at COP21, Paris</b>.</span></div>
+        <div class="pub"><span><b>Kali River Documentary</b> — received two international awards and catalysed the renaming of the reserve to <b>"Kali Tiger Reserve."</b></span></div>
+        <div class="pub"><span><b>Field &amp; awareness films</b> — documentaries on Dandeli, forest conservation &amp; poverty alleviation, and drone-survey initiatives at Shivamogga.</span></div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="foot">
+    <span>Curriculum Vitae — <b>Srinivasulu I.F.S.</b></span>
+    <span>srinivasifs.com</span>
+  </div>
+
+</body>
+</html>

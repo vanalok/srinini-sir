@@ -98,7 +98,8 @@
 <script src="chrome.js"></script>
 <script src="app.js"></script>
 <script>
-fetch('videos.json').then(r => r.json()).then(videos => {
+fetch('videos.json?v=' + Date.now(), { cache: 'no-store' }).then(r => r.json()).then(videos => {
+  videos.sort((a, b) => (a.order ?? 999999) - (b.order ?? 999999));
   // Detect Kannada by title characters
   videos.forEach(v => {
     v.isKannada = /[\u0C80-\u0CFF]/.test(v.title);

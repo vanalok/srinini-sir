@@ -38,6 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $cat   = $_POST['category'] ?? 'General';
     $excerpt = trim($_POST['excerpt'] ?? '');
     $bodyText = $_POST['body'] ?? '';
+    $video = trim($_POST['video'] ?? '');
     $date  = $_POST['date'] ? date('c', strtotime($_POST['date'])) : date('c');
     $lang  = preg_match('/[\x{0C80}-\x{0CFF}]/u', $title) ? 'kn' : 'en';
 
@@ -50,6 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($isNew) { $base = $slug; $n = 2; while (find_post($posts, $slug) >= 0) { $slug = $base . '-' . $n++; } }
 
     $existing = $isNew ? [] : $posts[$i];
+    if ($video === '') $video = $existing['videoUrl'] ?? '';
 
     // uploads
     $cover = trim($_POST['image'] ?? ($existing['image'] ?? ''));
@@ -71,6 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       'localUrl' => 'posts/' . $slug . '.html',
     ]);
     if ($pdf) { $entry['pdfUrl'] = $pdf; }
+    if ($video) { $entry['videoUrl'] = $video; }
 
     // Generate the page ONLY for CMS-created posts (never overwrite imported rich posts)
     $cmsGen = $isNew || !empty($existing['cmsGenerated']);
@@ -78,9 +81,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $entry['cmsGenerated'] = true;
       generate_post_page($POSTS_DIR, [
         'slug' => $slug, 'title' => $title,
+        'excerpt' => $excerpt, 'category' => $cat,
         'bodyHtml' => post_body_from_text($bodyText),
-        'cover' => $cover, 'pdf' => $pdf,
+        'cover' => $cover, 'video' => $video, 'pdf' => $pdf,
         'pdfName' => $pdf ? basename($pdf) : '', 'date' => $date,
+        'minutes' => $entry['minutesToRead'] ?? 3, 'lang' => $lang,
       ]);
     }
 
@@ -126,6 +131,8 @@ echo render_flash();
     <label>Date <input type="date" name="date" value="<?= h(substr($edit['date'] ?? date('c'), 0, 10)) ?>"></label>
     <label>Excerpt / summary <textarea name="excerpt" rows="2"><?= h($edit['excerpt'] ?? '') ?></textarea></label>
     <?php if (!$edit || !empty($edit['cmsGenerated'])): ?>
+    <label>YouTube video URL <span class="a-hint">(optional — paste the video link to embed a player)</span>
+      <input name="video" value="<?= h($edit['videoUrl'] ?? '') ?>" placeholder="https://youtube.com/watch?v=…"></label>
     <label>Body <span class="a-hint">(plain text — blank line starts a new paragraph)</span>
       <textarea name="body" rows="8"></textarea></label>
     <label>PDF attachment <span class="a-hint">(optional)</span><input type="file" name="pdffile" accept="application/pdf"></label>

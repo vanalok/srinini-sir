@@ -19,3 +19,6 @@ __pycache__/
 
 # Wrangler local state
 .wrangler/
+
+# Oversized original CV (replaced by compressed assets/Srinivasulu-IFS-CV.pdf)
+assets/Srinivasulu-IFS-CV.pdf.pdf

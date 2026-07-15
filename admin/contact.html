@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Contact — Srinivasulu IFS</title>
+  <meta name="description" content="Get in touch — for media, speaking engagements, collaborations and inquiries.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+Kannada:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="design-system.css">
+  <link rel="stylesheet" href="contact-premium.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <style>
+    .contact-grid{
+      display:grid; grid-template-columns:5fr 7fr; gap:var(--s-10);
+      padding:var(--s-12) 0;
+    }
+    @media (max-width:900px){ .contact-grid{ grid-template-columns:1fr; gap:var(--s-6); } }
+    .contact-image{ position:relative; aspect-ratio:4/5; border-radius:var(--r-md); overflow:hidden; background:var(--paper-2); }
+    .contact-image img{ width:100%; height:100%; object-fit:cover; }
+    .contact-image::after{ content:''; position:absolute; inset:0; background:linear-gradient(180deg, transparent 50%, rgba(15,26,20,.85)); }
+    .contact-image .overlay{
+      position:absolute; left:var(--s-5); right:var(--s-5); bottom:var(--s-5);
+      color:#fff; z-index:2;
+    }
+    .contact-image .overlay h2{ color:#fff; font-size:var(--t-24); margin-bottom:var(--s-2); }
+    .contact-image .overlay p{ font-size:var(--t-14); color:#D8D2C0; }
+    .contact-methods{ margin-top:var(--s-5); display:flex; flex-direction:column; gap:var(--s-3); }
+    .contact-methods a{
+      display:flex; align-items:center; gap:var(--s-3); padding:var(--s-3);
+      border:1px solid var(--line); border-radius:var(--r-sm);
+      color:var(--ink-2); transition:all var(--d-fast);
+      font-size:var(--t-14);
+    }
+    .contact-methods a:hover{ border-color:var(--brand); color:var(--brand); background:var(--brand-soft); }
+    .contact-methods .ico{ width:36px; height:36px; border-radius:50%; background:var(--brand-soft); color:var(--brand); display:grid; place-items:center; flex-shrink:0; }
+
+    .office-strip{ background:var(--paper-2); padding:var(--s-10) 0; }
+    .office-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:var(--s-4); }
+    @media (max-width:768px){ .office-grid{ grid-template-columns:1fr; } }
+    .office-card{ display:grid; grid-template-columns:140px 1fr; gap:var(--s-4); background:var(--surface); border:1px solid var(--line); border-radius:var(--r-md); overflow:hidden; }
+    .office-card img{ width:100%; height:100%; object-fit:cover; }
+    .office-body{ padding:var(--s-4) var(--s-4) var(--s-4) 0; display:flex; flex-direction:column; }
+    .office-body h4{ font-size:var(--t-16); margin-bottom:6px; }
+    .office-body address{ font-style:normal; font-size:var(--t-13); color:var(--ink-2); line-height:1.5; margin-bottom:var(--s-3); }
+    @media (max-width:480px){ .office-card{ grid-template-columns:1fr; } .office-card img{ aspect-ratio:16/9; } }
+
+    #map{ height:400px; width:100%; border-radius:var(--r-md); overflow:hidden; }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="sr-chrome-top"></div>
+
+<main id="main" class="con-v2">
+
+  <section class="page-hero" style="padding-bottom:0;">
+    <div class="container reveal">
+      <div class="breadcrumb"><a href="index.html">Home</a> <i data-lucide="chevron-right" class="icon-sm"></i> <span>Contact</span></div>
+      <h1>Get in touch</h1>
+      <p class="lede">For media enquiries, speaking engagements, collaborations and official correspondence.</p>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="contact-grid">
+      <!-- Left: image + contact methods -->
+      <div>
+        <div class="contact-image reveal">
+          <img src="./images/hero_bg.webp" alt="Srinivasulu IFS portrait">
+          <div class="overlay">
+            <h2>Office of the Principal Secretary</h2>
+            <p>Ecology &amp; Environment Department</p>
+          </div>
+        </div>
+        <div class="contact-methods reveal">
+          <a href="mailto:sriniforest@gmail.com">
+            <span class="ico"><i data-lucide="mail" class="icon-sm"></i></span>
+            <span><strong>Email</strong><br><span style="color:var(--ink-3);font-size:var(--t-13);">sriniforest@gmail.com</span></span>
+          </a>
+          <a href="tel:+919448274444">
+            <span class="ico"><i data-lucide="phone" class="icon-sm"></i></span>
+            <span><strong>Office</strong><br><span style="color:var(--ink-3);font-size:var(--t-13);">+91 94482 74444</span></span>
+          </a>
+          <a href="#map">
+            <span class="ico"><i data-lucide="map-pin" class="icon-sm"></i></span>
+            <span><strong>Visit</strong><br><span style="color:var(--ink-3);font-size:var(--t-13);">Vikasa Soudha, Bengaluru</span></span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: form -->
+      <div class="reveal">
+        <div class="card" style="padding:var(--s-8);">
+          <h2 style="font-size:var(--t-24); margin-bottom:var(--s-2);">Send a message</h2>
+          <p style="font-size:var(--t-14); color:var(--ink-3); margin-bottom:var(--s-6);">All enquiries receive a response within five working days.</p>
+
+          <div id="contactForm">
+            <div class="form-grid">
+              <div class="form-row">
+                <label for="cName">Full name</label>
+                <input id="cName" type="text" autocomplete="name" required>
+              </div>
+              <div class="form-row">
+                <label for="cEmail">Email</label>
+                <input id="cEmail" type="email" autocomplete="email" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <label for="cOrg">Organisation <span style="color:var(--ink-3);font-weight:400;">(optional)</span></label>
+              <input id="cOrg" type="text" autocomplete="organization">
+            </div>
+            <div class="form-row">
+              <label for="cSubject">Subject</label>
+              <select id="cSubject" required>
+                <option value="">Choose a subject…</option>
+                <option>Media enquiry</option>
+                <option>Speaking engagement</option>
+                <option>Collaboration / partnership</option>
+                <option>Academic / research</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label for="cMessage">Message</label>
+              <textarea id="cMessage" rows="6" required></textarea>
+              <span class="hint">Plain text only. Attachments cannot be processed.</span>
+            </div>
+            <button type="button" id="cSubmit" class="btn btn-primary"><i data-lucide="send" class="icon-sm"></i> Send message</button>
+            <div id="cStatus" style="margin-top:var(--s-3); font-size:var(--t-13); color:var(--ink-3);"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Map -->
+  <section class="section">
+    <div class="container">
+      <div id="map" aria-label="Office location map"></div>
+    </div>
+  </section>
+
+</main>
+
+<div id="sr-chrome-footer"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="chrome.js"></script>
+<script src="app.js"></script>
+<script>
+// Map (Vikasa Soudha)
+window.addEventListener('load', () => {
+  if (typeof L === 'undefined') return;
+  const map = L.map('map').setView([12.9794, 77.5912], 14);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom:19, attribution:'© OpenStreetMap contributors'
+  }).addTo(map);
+  L.marker([12.9794, 77.5912]).addTo(map).bindPopup('Vikasa Soudha · Bengaluru').openPopup();
+});
+
+// Form handler (placeholder — replace with real endpoint)
+document.getElementById('cSubmit').addEventListener('click', () => {
+  const name = document.getElementById('cName').value.trim();
+  const email = document.getElementById('cEmail').value.trim();
+  const subj = document.getElementById('cSubject').value;
+  const msg = document.getElementById('cMessage').value.trim();
+  const status = document.getElementById('cStatus');
+  if (!name || !email || !subj || !msg){
+    status.textContent = 'Please fill in all required fields.';
+    status.style.color = 'var(--danger)';
+    return;
+  }
+  status.textContent = 'Submitting…';
+  status.style.color = 'var(--ink-3)';
+  // TODO: wire up to a real form endpoint (Formspree, Netlify Forms, Cloudflare Workers, etc.)
+  setTimeout(() => {
+    status.innerHTML = '<i data-lucide="check-circle-2" class="icon-sm" style="vertical-align:middle;"></i> Message received. We will be in touch within five working days.';
+    status.style.color = 'var(--success)';
+    window.SrIcons && window.SrIcons();
+    ['cName','cEmail','cOrg','cSubject','cMessage'].forEach(id => document.getElementById(id).value = '');
+  }, 800);
+});
+</script>
+</body>
+</html>

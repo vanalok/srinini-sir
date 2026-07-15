@@ -33,6 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $url   = trim($_POST['url'] ?? '');
     $dept  = $_POST['dept'] ?? '';
     $image = trim($_POST['image'] ?? '');
+    $order = trim($_POST['order'] ?? '');
     $vid   = yt_id($url);
     if ($title === '' || $vid === '') {
       flash('Title and a valid YouTube link/ID are required.', 'err');
@@ -42,6 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'videoId' => $vid,
         'url'     => $url ?: 'https://www.youtube.com/watch?v=' . $vid,
         'dept'    => $dept,
+        'order'   => $order === '' ? 0 : (int)$order,
       ];
       if ($image !== '') $entry['image'] = $image;
       $idx = $_POST['index'] ?? '';
@@ -97,6 +99,9 @@ echo render_flash();
     <label>Custom cover image URL <span class="a-hint">(optional — blank uses the YouTube thumbnail)</span>
       <input name="image" value="<?= h($edit['image'] ?? '') ?>" placeholder="images/videos/…">
     </label>
+    <label>Sort order <span class="a-hint">(lower numbers show first; leave 0 for default)</span>
+      <input type="number" name="order" value="<?= h((string)($edit['order'] ?? 0)) ?>">
+    </label>
     <div class="a-actions">
       <button class="a-btn a-btn-primary" type="submit"><?= $edit ? 'Save changes' : 'Add video' ?></button>
       <?php if ($edit): ?><a class="a-btn" href="videos.php">Cancel</a><?php endif; ?>
@@ -115,6 +120,7 @@ echo render_flash();
           <div class="a-row-meta">
             <?= h(DEPARTMENTS[$v['dept'] ?? ''] ?? ($v['dept'] ?? 'no category')) ?>
             · <code><?= h($vid) ?></code>
+            · order: <?= (int)($v['order'] ?? 0) ?>
           </div>
         </div>
         <div class="a-row-actions">
