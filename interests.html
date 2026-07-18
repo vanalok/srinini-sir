@@ -51,10 +51,8 @@
 <script src="chrome.js"></script>
 <script src="app.js"></script>
 <script>
-const PHOTOS = Array.from({ length: 25 }, (_, i) => {
-  const n = String(i + 1).padStart(2, '0');
-  return { src: `images/interests/bird-${n}.jpg`, alt: 'Bird photography' };
-});
+const PHOTO_FILES = ["bird-001.jpg","bird-002.jpg","bird-003.jpg","bird-004.jpg","bird-005.jpg","bird-006.jpg","bird-007.jpg","bird-008.jpg","bird-009.jpg","bird-010.jpg","bird-011.jpg","bird-012.jpg","bird-013.jpg","bird-014.jpg","bird-015.jpg","bird-016.jpg","bird-017.jpg","bird-018.jpg","bird-019.jpg","bird-020.jpg","bird-021.jpg","bird-022.jpg","bird-023.jpg","bird-024.jpg","bird-025.jpg","bird-026.jpg","bird-027.jpg","bird-028.jpg","bird-029.jpg","bird-030.jpg","bird-031.jpg","bird-032.jpg","bird-033.jpg","bird-034.jpg","bird-035.jpg","bird-036.jpg","bird-037.jpg","bird-038.jpg","bird-039.jpg","bird-040.jpg","bird-041.jpg","bird-042.jpg","bird-043.jpg","bird-044.jpg","bird-045.jpg","bird-046.jpg","bird-047.jpg","bird-048.jpg","bird-049.jpg","bird-050.jpg","bird-051.jpg","bird-052.jpg","bird-053.jpg","bird-054.jpg","bird-055.jpg","bird-056.jpg","bird-057.jpg","bird-058.jpg","bird-059.jpg","bird-060.jpg","bird-061.jpg","bird-062.jpg","bird-063.jpg","bird-064.jpg","bird-065.jpg","bird-066.jpg","bird-067.jpg","bird-068.jpg","bird-069.jpg","bird-070.jpg","bird-071.jpg","bird-072.jpg","bird-073.jpg","bird-074.jpg","bird-075.jpg","bird-076.jpg","bird-077.jpg","bird-078.jpg","bird-079.jpg","bird-080.jpg","bird-081.jpg","bird-082.jpg","bird-083.png","bird-084.jpg","bird-085.jpg","bird-086.jpg","bird-087.jpg","bird-088.jpg","bird-089.jpg","bird-090.jpg","bird-091.jpg","bird-092.jpg","bird-093.jpg","bird-094.jpg","bird-095.jpg","bird-096.jpg","bird-097.jpg","bird-098.jpg","bird-099.jpg","bird-100.jpg","bird-101.jpg","bird-102.jpg","bird-103.jpg","bird-104.jpg","bird-105.jpg","bird-106.jpg","bird-107.jpg","bird-108.jpg","bird-109.jpg","bird-110.jpg","bird-111.jpg","bird-112.jpg","bird-113.jpg","bird-114.jpg","bird-115.jpg","bird-116.jpg","bird-117.jpg","bird-118.jpg","bird-119.jpg","bird-120.jpg","bird-121.jpg","bird-122.jpg","bird-123.jpg","bird-124.jpg","bird-125.jpg","bird-126.png"];
+const PHOTOS = PHOTO_FILES.map(f => ({ src: "images/interests/" + f, alt: "Wildlife & bird photography" }));
 
 document.getElementById('iCount').textContent = PHOTOS.length;
 
