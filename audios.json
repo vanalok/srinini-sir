@@ -1,51 +1,63 @@
 [
-  {
-    "title": "Radio Talk on Waste Management System by Shri.Srinivasulu, Member Secretary, KSPCB",
-    "audioUrl": "assets/audio/waste-management-radio-talk.mp3",
-    "image": "images/audio_bg.webp",
-    "sourceUrl": "https://kspcb.karnataka.gov.in/node/587",
-    "kind": "talk"
-  },
-  {
-    "title": "Restore of our Eco System WED - 2021",
-    "audioUrl": "assets/audio/restore-eco-system-wed-2021.mp3",
-    "image": "images/audio_bg.webp",
-    "sourceUrl": "https://kspcb.karnataka.gov.in/node/585",
-    "kind": "documentary"
-  },
-  {
-    "title": "Sri.Srinivasulu, Member Secretary, KSPCB, Awareness on Pollution Control by Various Themes & KSPCB's Environmental Quiz through MobileApp",
-    "audioUrl": "assets/audio/pollution-control-quiz-app.mp3",
-    "image": "images/audio_bg.webp",
-    "sourceUrl": "https://kspcb.karnataka.gov.in/node/533",
-    "kind": "documentary"
-  },
-  {
-    "title": "ಶ್ರೀ. ಶ್ರೀನಿವಾಸುಲು, ಐ.ಎಫ್.ಎಸ್, ತ್ಯಾಜ್ಯ ನಿಭಾಯಿಸುವ ರೀತಿ - ಮನೆ ಬಾಗಿಲಿಗೆ ಸಮಗ್ರ ಮಾಹಿತಿ",
-    "audioUrl": "assets/audio/tyajya-nibhayisuva-riti.mp3",
-    "image": "images/audio_bg.webp",
-    "sourceUrl": "https://kspcb.karnataka.gov.in/node/532",
-    "kind": "documentary"
-  },
-  {
-    "title": "Sri. Srinivasulu, Member Secretary, KSPCB Speech on Awareness on Deepavali and Bursting of Crackers",
-    "audioUrl": "assets/audio/deepavali-crackers-awareness.mp3",
-    "image": "images/audio_bg.webp",
-    "sourceUrl": "https://kspcb.karnataka.gov.in/node/432",
-    "kind": "documentary"
-  },
-  {
-    "title": "Shri Srinivasulu, Member Secretary, KSPCB addressing The Bharat Scouts and Guides on reason for Government ban of Crackers.",
-    "audioUrl": "assets/audio/scouts-guides-crackers-ban.mp3",
-    "image": "images/audio_bg.webp",
-    "sourceUrl": "https://kspcb.karnataka.gov.in/node/424",
-    "kind": "documentary"
-  },
-  {
-    "title": "Member Secretary KSPCB appealing public to Celebrate Deepavali Traditionally with Diyas & Divinity.",
-    "audioUrl": "assets/audio/deepavali-diyas-divinity.mp3",
-    "image": "images/audio_bg.webp",
-    "sourceUrl": "https://kspcb.karnataka.gov.in/node/273",
-    "kind": "documentary"
-  }
+    {
+        "title": "Radio Talk on Waste Management System by Shri.Srinivasulu, Member Secretary, KSPCB",
+        "audioUrl": "assets/audio/waste-management-radio-talk.mp3",
+        "image": "images/audio_bg.webp",
+        "sourceUrl": "https://kspcb.karnataka.gov.in/node/587",
+        "kind": "talk"
+    },
+    {
+        "title": "Restore of our Eco System WED - 2021",
+        "audioUrl": "assets/audio/restore-eco-system-wed-2021.mp3",
+        "image": "images/audio_bg.webp",
+        "sourceUrl": "https://kspcb.karnataka.gov.in/node/585",
+        "kind": "documentary"
+    },
+    {
+        "title": "Sri.Srinivasulu, Member Secretary, KSPCB, Awareness on Pollution Control by Various Themes & KSPCB's Environmental Quiz through MobileApp",
+        "audioUrl": "assets/audio/pollution-control-quiz-app.mp3",
+        "image": "images/audio_bg.webp",
+        "sourceUrl": "https://kspcb.karnataka.gov.in/node/533",
+        "kind": "documentary"
+    },
+    {
+        "title": "ಶ್ರೀ. ಶ್ರೀನಿವಾಸುಲು, ಐ.ಎಫ್.ಎಸ್, ತ್ಯಾಜ್ಯ ನಿಭಾಯಿಸುವ ರೀತಿ - ಮನೆ ಬಾಗಿಲಿಗೆ ಸಮಗ್ರ ಮಾಹಿತಿ",
+        "audioUrl": "assets/audio/tyajya-nibhayisuva-riti.mp3",
+        "image": "images/audio_bg.webp",
+        "sourceUrl": "https://kspcb.karnataka.gov.in/node/532",
+        "kind": "documentary"
+    },
+    {
+        "title": "Sri. Srinivasulu, Member Secretary, KSPCB Speech on Awareness on Deepavali and Bursting of Crackers",
+        "audioUrl": "assets/audio/deepavali-crackers-awareness.mp3",
+        "image": "images/audio_bg.webp",
+        "sourceUrl": "https://kspcb.karnataka.gov.in/node/432",
+        "kind": "documentary"
+    },
+    {
+        "title": "Shri Srinivasulu, Member Secretary, KSPCB addressing The Bharat Scouts and Guides on reason for Government ban of Crackers.",
+        "audioUrl": "assets/audio/scouts-guides-crackers-ban.mp3",
+        "image": "images/audio_bg.webp",
+        "sourceUrl": "https://kspcb.karnataka.gov.in/node/424",
+        "kind": "documentary"
+    },
+    {
+        "title": "Member Secretary KSPCB appealing public to Celebrate Deepavali Traditionally with Diyas & Divinity.",
+        "audioUrl": "assets/audio/deepavali-diyas-divinity.mp3",
+        "image": "images/audio_bg.webp",
+        "sourceUrl": "https://kspcb.karnataka.gov.in/node/273",
+        "kind": "documentary"
+    },
+    {
+        "title": "Akashvani_Talk_on_Air_KSPCB-WED_2022_By_ Srinivasulu_MS-KSPCB_JUNE_2022.mp4",
+        "audioUrl": "assets/audio/akashvani-talk-on-air-kspcb-wed-2022-by-srinivasulu-ms-kspcb-june-2022-20260704111951.mp3",
+        "image": "images/audio_bg.webp",
+        "kind": "documentary"
+    },
+    {
+        "title": "Sri Srinivasulu, Member Secretary KSPCB Talk on Air regarding E-waste 2021",
+        "audioUrl": "assets/audio/1-srinivas-member-secretary-kspcb-talk-on-air-regarding-ewaste-dec-2021-20260708074016.mp3",
+        "image": "images/audio_bg.webp",
+        "kind": "documentary"
+    }
 ]
