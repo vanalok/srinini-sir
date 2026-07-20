@@ -13,6 +13,12 @@
   <link rel="stylesheet" href="photos-premium.css" />
   <style>
     .pho-v2 .page-hero{ background:#0e2e1f !important; }
+    /* On phones use 2 columns (not 1) so the gallery isn't an endless single stack */
+    @media (max-width:480px){
+      .pho-v2 .masonry{ column-count:2 !important; column-gap:8px; }
+      .pho-v2 .masonry .photo-tile{ margin-bottom:8px; }
+    }
+    #loadMoreBtn[hidden]{ display:none; }
   </style>
 </head>
 <body>
@@ -40,6 +46,9 @@
   <section class="section">
     <div class="container">
       <div class="masonry" id="interestGrid"></div>
+      <div style="text-align:center; margin-top:var(--s-6);">
+        <button type="button" class="btn btn-outline" id="loadMoreBtn"></button>
+      </div>
     </div>
   </section>
 
@@ -56,20 +65,39 @@ const PHOTOS = PHOTO_FILES.map(f => ({ src: "images/interests/" + f, alt: "Wildl
 
 document.getElementById('iCount').textContent = PHOTOS.length;
 
-document.getElementById('interestGrid').innerHTML = PHOTOS.map((p, i) => `
-  <button class="photo-tile" data-i="${i}" aria-label="Open photo">
-    <img src="${p.src}" alt="${p.alt}" loading="lazy">
-  </button>
-`).join('');
+// Show photos in batches so the page stays short and fast — especially on mobile
+const BATCH = 24;
+const grid = document.getElementById('interestGrid');
+const loadMoreBtn = document.getElementById('loadMoreBtn');
+let shown = 0;
 
-window.SrIcons && window.SrIcons();
+const allItems = PHOTOS.map(p => ({ src: p.src, alt: p.alt, category: 'Interests' }));
 
-document.querySelectorAll('#interestGrid .photo-tile').forEach(t => {
-  t.addEventListener('click', () => {
-    const items = PHOTOS.map(p => ({ src: p.src, alt: p.alt, category: 'Interests' }));
-    PhotoViewer.open(items, parseInt(t.dataset.i, 10));
-  });
-});
+function openViewer(i){ PhotoViewer.open(allItems, i); }
+
+function renderMore(){
+  const next = Math.min(shown + BATCH, PHOTOS.length);
+  for (let i = shown; i < next; i++){
+    const btn = document.createElement('button');
+    btn.className = 'photo-tile';
+    btn.setAttribute('aria-label', 'Open photo ' + (i + 1));
+    btn.innerHTML = `<img src="${PHOTOS[i].src}" alt="${PHOTOS[i].alt}" loading="lazy">`;
+    btn.addEventListener('click', () => openViewer(i));
+    grid.appendChild(btn);
+  }
+  shown = next;
+  const remaining = PHOTOS.length - shown;
+  if (remaining > 0){
+    loadMoreBtn.hidden = false;
+    loadMoreBtn.textContent = 'Load more (' + remaining + ' remaining)';
+  } else {
+    loadMoreBtn.hidden = true;
+  }
+  window.SrIcons && window.SrIcons();
+}
+
+loadMoreBtn.addEventListener('click', renderMore);
+renderMore();
 </script>
 </body>
 </html>

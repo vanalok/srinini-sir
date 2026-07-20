@@ -22,3 +22,7 @@ __pycache__/
 
 # Oversized original CV (replaced by compressed assets/Srinivasulu-IFS-CV.pdf)
 assets/Srinivasulu-IFS-CV.pdf.pdf
+
+# Local secrets — never commit
+.wix-credentials.local
+*.local

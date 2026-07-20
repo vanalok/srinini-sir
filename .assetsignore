@@ -12,3 +12,13 @@ assets/Srinivasulu-IFS-CV.pdf.pdf
 
 # PHP admin CMS — never serve on Cloudflare (static host cannot run PHP)
 admin
+
+# PHP backend/API — contains DB credentials (api/db.php); never serve on Cloudflare (static host cannot run PHP)
+api
+
+# Local secrets — never serve on Cloudflare
+.wix-credentials.local
+*.local
+
+# Stray file from an unrelated project (Vanalok) — not part of this site
+images/index.php

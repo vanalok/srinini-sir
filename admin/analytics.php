@@ -22,20 +22,63 @@ $totLikes  = (int)$pdo->query('SELECT COALESCE(SUM(likes),0) FROM engagement')->
 $pendComm  = (int)$pdo->query("SELECT COUNT(*) FROM comments WHERE status='pending'")->fetchColumn();
 $vis30     = (int)$pdo->query('SELECT COUNT(DISTINCT visitor) FROM visits WHERE created_at > (NOW() - INTERVAL 30 DAY)')->fetchColumn();
 
-/* ---- 14-day trend ---- */
-$rows = $pdo->query("SELECT DATE(created_at) d, COUNT(*) c FROM visits WHERE created_at > (NOW() - INTERVAL 14 DAY) GROUP BY DATE(created_at)")->fetchAll();
+/* ---- trend window (date-range selector) ---- */
+$rangeDays = (int)($_GET['range'] ?? 14);
+if (!in_array($rangeDays, [7, 14, 30, 90], true)) $rangeDays = 14;
+
+$rows = $pdo->prepare("SELECT DATE(created_at) d, COUNT(*) c FROM visits WHERE created_at > (NOW() - INTERVAL {$rangeDays} DAY) GROUP BY DATE(created_at)");
+$rows->execute();
+$rows = $rows->fetchAll();
 $byDay = []; foreach ($rows as $r) $byDay[$r['d']] = (int)$r['c'];
-$days = []; for ($i=13; $i>=0; $i--) { $d = date('Y-m-d', strtotime("-$i day")); $days[$d] = $byDay[$d] ?? 0; }
-$maxDay  = max(1, max($days));
-$total14 = array_sum($days);
+$trendDays = []; for ($i = $rangeDays - 1; $i >= 0; $i--) { $d = date('Y-m-d', strtotime("-$i day")); $trendDays[$d] = $byDay[$d] ?? 0; }
+$maxDay  = max(1, max($trendDays));
+$totalRange = array_sum($trendDays);
 // round the axis up to a "nice" ceiling
 $mag = pow(10, max(0, floor(log10($maxDay))));
 $niceMax = max(1, (int)(ceil($maxDay / $mag) * $mag));
+// thin out x-axis labels when the range is wide, so they don't collide
+$labelStep = $rangeDays > 30 ? 7 : ($rangeDays > 14 ? 2 : 1);
 
 /* ---- Top posts / Recent visits ---- */
 $top = $pdo->query('SELECT slug, views, likes FROM engagement ORDER BY views DESC LIMIT 8')->fetchAll();
 $maxViews = 1; foreach ($top as $t) $maxViews = max($maxViews, (int)$t['views']);
 $recent = $pdo->query('SELECT path, referrer, created_at FROM visits ORDER BY id DESC LIMIT 12')->fetchAll();
+
+/* ---- Most visited pages (site-wide, last 30 days) ---- */
+$pages = $pdo->query("SELECT path, COUNT(*) c FROM visits WHERE created_at > (NOW() - INTERVAL 30 DAY) GROUP BY path ORDER BY c DESC LIMIT 8")->fetchAll();
+$maxPageViews = 1; foreach ($pages as $pg) $maxPageViews = max($maxPageViews, (int)$pg['c']);
+
+/* ---- Traffic sources (referrer host, last 30 days) ---- */
+$refRows = $pdo->query("SELECT referrer FROM visits WHERE created_at > (NOW() - INTERVAL 30 DAY)")->fetchAll(PDO::FETCH_COLUMN);
+$sources = [];
+foreach ($refRows as $ref) {
+  $host = $ref ? (parse_url($ref, PHP_URL_HOST) ?: 'Other') : 'Direct';
+  $host = preg_replace('/^www\./', '', $host);
+  $sources[$host] = ($sources[$host] ?? 0) + 1;
+}
+arsort($sources);
+$sources = array_slice($sources, 0, 6, true);
+$maxSource = max(1, ...array_values($sources ?: [0]));
+
+/* ---- Device & browser breakdown (parsed from user-agent, last 30 days) ---- */
+$uaRows = $pdo->query("SELECT ua FROM visits WHERE created_at > (NOW() - INTERVAL 30 DAY)")->fetchAll(PDO::FETCH_COLUMN);
+$devices = ['Mobile' => 0, 'Tablet' => 0, 'Desktop' => 0];
+$browsers = ['Chrome' => 0, 'Safari' => 0, 'Firefox' => 0, 'Edge' => 0, 'Other' => 0];
+foreach ($uaRows as $ua) {
+  $ua = $ua ?? '';
+  if (preg_match('/iPad|Tablet/i', $ua)) $devices['Tablet']++;
+  elseif (preg_match('/Mobi|Android|iPhone/i', $ua)) $devices['Mobile']++;
+  else $devices['Desktop']++;
+
+  if (preg_match('/Edg\//i', $ua)) $browsers['Edge']++;
+  elseif (preg_match('/Chrome\//i', $ua)) $browsers['Chrome']++;
+  elseif (preg_match('/Firefox\//i', $ua)) $browsers['Firefox']++;
+  elseif (preg_match('/Safari\//i', $ua)) $browsers['Safari']++;
+  else $browsers['Other']++;
+}
+$devTotal = max(1, array_sum($devices));
+$browserTotal = max(1, array_sum($browsers));
+arsort($browsers);
 
 /* ---- inline icons ---- */
 $svg = [
@@ -83,6 +126,21 @@ function kpi($ico, $val, $lbl, $accent = false, $badge = '') {
 .an-card-top h2{ font-size:16px; margin:0; }
 .an-card-top .an-tot{ font-size:13px; color:var(--ink-2); }
 .an-card-top .an-tot b{ color:var(--green-2); font-size:15px; font-family:Georgia,serif; }
+.an-h2 .an-hint{ font-size:12px; font-weight:400; color:var(--ink-2); }
+
+/* date range selector */
+.an-range{ display:flex; gap:6px; margin-left:auto; }
+.an-range-btn{ font-size:12px; font-weight:600; padding:5px 11px; border-radius:999px; border:1px solid var(--line); color:var(--ink-2); text-decoration:none; transition:all .14s; }
+.an-range-btn:hover{ border-color:var(--gold); color:var(--gold-d); }
+.an-range-btn.is-active{ background:var(--green); border-color:var(--green); color:#fff; }
+
+/* device split bar */
+.an-device-split{ display:flex; height:64px; border-radius:12px; overflow:hidden; gap:2px; }
+.an-device-seg{ display:flex; flex-direction:column; align-items:center; justify-content:center; background:linear-gradient(180deg,rgba(20,83,45,.16),rgba(20,83,45,.06)); min-width:0; }
+.an-device-seg:nth-child(2){ background:linear-gradient(180deg,rgba(201,168,76,.22),rgba(201,168,76,.08)); }
+.an-device-seg:nth-child(3){ background:linear-gradient(180deg,rgba(20,83,45,.08),rgba(20,83,45,.02)); }
+.an-device-pct{ font-family:Georgia,serif; font-size:18px; font-weight:700; color:var(--green); }
+.an-device-name{ font-size:11px; color:var(--ink-2); margin-top:2px; }
 
 .an-plot{ display:flex; gap:12px; }
 .an-yaxis{ width:30px; height:172px; display:flex; flex-direction:column; justify-content:space-between; }
@@ -159,8 +217,13 @@ function kpi($ico, $val, $lbl, $accent = false, $badge = '') {
 
 <section class="an-card">
   <div class="an-card-top">
-    <h2>Visits — last 14 days</h2>
-    <span class="an-tot"><b><?= number_format($total14) ?></b> visits · peak <?= number_format($maxDay) ?>/day</span>
+    <h2>Visits — last <?= $rangeDays ?> days</h2>
+    <span class="an-tot"><b><?= number_format($totalRange) ?></b> visits · peak <?= number_format($maxDay) ?>/day</span>
+    <div class="an-range">
+      <?php foreach ([7,14,30,90] as $r): ?>
+        <a class="an-range-btn<?= $r === $rangeDays ? ' is-active' : '' ?>" href="?range=<?= $r ?>"><?= $r ?>d</a>
+      <?php endforeach; ?>
+    </div>
   </div>
   <div class="an-plot">
     <div class="an-yaxis">
@@ -172,7 +235,7 @@ function kpi($ico, $val, $lbl, $accent = false, $badge = '') {
       <div class="an-bars-wrap">
         <div class="an-grid"><i></i><i></i><i></i></div>
         <div class="an-bars">
-          <?php foreach ($days as $d => $c): $ph = (int)round($c / $niceMax * 100); ?>
+          <?php foreach ($trendDays as $d => $c): $ph = (int)round($c / $niceMax * 100); ?>
             <div class="an-bar">
               <div class="an-bar-fill" style="height:<?= max($c > 0 ? 4 : 1, $ph) ?>%">
                 <span class="an-bar-tip"><b><?= number_format($c) ?></b> visit<?= $c==1?'':'s' ?> · <?= h(date('j M', strtotime($d))) ?></span>
@@ -182,7 +245,7 @@ function kpi($ico, $val, $lbl, $accent = false, $badge = '') {
         </div>
       </div>
       <div class="an-xaxis">
-        <?php foreach ($days as $d => $c): ?><span><?= (int)date('j', strtotime($d)) ?></span><?php endforeach; ?>
+        <?php foreach (array_keys($trendDays) as $i => $d): ?><span><?= ($i % $labelStep === 0) ? (int)date('j', strtotime($d)) : '' ?></span><?php endforeach; ?>
       </div>
     </div>
   </div>
@@ -207,18 +270,61 @@ function kpi($ico, $val, $lbl, $accent = false, $badge = '') {
   </section>
 
   <section class="an-card">
-    <h2 class="an-h2">🕐 Recent visits</h2>
-    <div class="an-visits">
-      <?php foreach ($recent as $r): $host = $r['referrer'] ? (parse_url($r['referrer'], PHP_URL_HOST) ?: '') : ''; ?>
-        <div class="an-vrow">
-          <span class="an-vico"><?= $svg['globe'] ?></span>
-          <div class="an-vmain">
-            <div class="an-vpath"><?= h($r['path']) ?></div>
-            <div class="an-vmeta"><?= h(date('j M, H:i', strtotime($r['created_at']))) ?><?= $host ? ' · <span class="an-src">' . h($host) . '</span>' : ' · direct' ?></div>
+    <h2 class="an-h2">📄 Most visited pages <span class="an-hint">· 30d</span></h2>
+    <div class="an-top">
+      <?php foreach ($pages as $n => $pg): $bw = (int)round($pg['c'] / $maxPageViews * 100); ?>
+        <div class="an-toprow">
+          <span class="an-rank"><?= $n + 1 ?></span>
+          <div class="an-topmain">
+            <span class="an-toptitle"><?= h($pg['path']) ?></span>
+            <div class="an-topbar"><i style="width:<?= max(3,$bw) ?>%"></i></div>
           </div>
+          <div class="an-topnums"><b><?= number_format((int)$pg['c']) ?></b>visits</div>
         </div>
       <?php endforeach; ?>
-      <?php if (!$recent): ?><p class="an-empty">No visits yet.</p><?php endif; ?>
+      <?php if (!$pages): ?><p class="an-empty">No visits recorded yet.</p><?php endif; ?>
+    </div>
+  </section>
+</div>
+
+<div class="an-two">
+  <section class="an-card">
+    <h2 class="an-h2">🔗 Traffic sources <span class="an-hint">· 30d</span></h2>
+    <div class="an-top">
+      <?php foreach ($sources as $host => $c): $bw = (int)round($c / $maxSource * 100); ?>
+        <div class="an-toprow">
+          <span class="an-vico"><?= $svg['globe'] ?></span>
+          <div class="an-topmain">
+            <span class="an-toptitle"><?= h($host) ?></span>
+            <div class="an-topbar"><i style="width:<?= max(3,$bw) ?>%"></i></div>
+          </div>
+          <div class="an-topnums"><b><?= number_format($c) ?></b>visits</div>
+        </div>
+      <?php endforeach; ?>
+      <?php if (!$sources): ?><p class="an-empty">No traffic recorded yet.</p><?php endif; ?>
+    </div>
+  </section>
+
+  <section class="an-card">
+    <h2 class="an-h2">📱 Devices &amp; browsers <span class="an-hint">· 30d</span></h2>
+    <div class="an-device-split">
+      <?php foreach ($devices as $name => $c): $pct = round($c / $devTotal * 100); ?>
+        <div class="an-device-seg" style="flex:<?= max($c,1) ?>">
+          <div class="an-device-pct"><?= $pct ?>%</div>
+          <div class="an-device-name"><?= h($name) ?></div>
+        </div>
+      <?php endforeach; ?>
+    </div>
+    <div class="an-top" style="margin-top:18px;">
+      <?php foreach ($browsers as $name => $c): if ($c === 0) continue; $bw = (int)round($c / $browserTotal * 100); ?>
+        <div class="an-toprow">
+          <div class="an-topmain">
+            <span class="an-toptitle"><?= h($name) ?></span>
+            <div class="an-topbar"><i style="width:<?= max(3,$bw) ?>%"></i></div>
+          </div>
+          <div class="an-topnums"><b><?= $bw ?>%</b></div>
+        </div>
+      <?php endforeach; ?>
     </div>
   </section>
 </div>
