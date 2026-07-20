@@ -1,0 +1,18 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/s1kplbn19yyc/public_html/
+    - /bin/mkdir -p /tmp/_deploy_backup
+    - /bin/cp -f ${DEPLOYPATH}videos.json /tmp/_deploy_backup/videos.json 2>/dev/null || true
+    - /bin/cp -f ${DEPLOYPATH}publications.json /tmp/_deploy_backup/publications.json 2>/dev/null || true
+    - /bin/cp -f ${DEPLOYPATH}audios.json /tmp/_deploy_backup/audios.json 2>/dev/null || true
+    - /bin/cp -f ${DEPLOYPATH}honours.json /tmp/_deploy_backup/honours.json 2>/dev/null || true
+    - /bin/cp -f ${DEPLOYPATH}accomplishments.json /tmp/_deploy_backup/accomplishments.json 2>/dev/null || true
+    - /bin/cp -f ${DEPLOYPATH}assets/blogs.json /tmp/_deploy_backup/blogs.json 2>/dev/null || true
+    - /bin/cp -RT . ${DEPLOYPATH}
+    - /bin/cp -f /tmp/_deploy_backup/videos.json ${DEPLOYPATH}videos.json 2>/dev/null || true
+    - /bin/cp -f /tmp/_deploy_backup/publications.json ${DEPLOYPATH}publications.json 2>/dev/null || true
+    - /bin/cp -f /tmp/_deploy_backup/audios.json ${DEPLOYPATH}audios.json 2>/dev/null || true
+    - /bin/cp -f /tmp/_deploy_backup/honours.json ${DEPLOYPATH}honours.json 2>/dev/null || true
+    - /bin/cp -f /tmp/_deploy_backup/accomplishments.json ${DEPLOYPATH}accomplishments.json 2>/dev/null || true
+    - /bin/cp -f /tmp/_deploy_backup/blogs.json ${DEPLOYPATH}assets/blogs.json 2>/dev/null || true
