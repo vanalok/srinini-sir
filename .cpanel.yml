@@ -1,7 +1,7 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/s1kplbn19yyc/public_html/
+    - export DEPLOYPATH=/home/s1kplbn19yyc/public_html/srinivasifs.com/
     - /bin/mkdir -p /tmp/_deploy_backup
     - /bin/cp -f ${DEPLOYPATH}videos.json /tmp/_deploy_backup/videos.json 2>/dev/null || true
     - /bin/cp -f ${DEPLOYPATH}publications.json /tmp/_deploy_backup/publications.json 2>/dev/null || true
