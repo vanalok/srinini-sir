@@ -5,14 +5,24 @@
    GODADDY SETUP:
    1. cPanel → MySQL Databases → create a database + user, add
       the user to the database with ALL PRIVILEGES.
-   2. Put those credentials below (DB_NAME/USER/PASS).
+   2. Create api/db.local.php on the SERVER ONLY (never commit it —
+      it's gitignored) defining the real constants below, e.g.:
+        <?php
+        define('DB_HOST', 'localhost');
+        define('DB_NAME', 'srinivas_cms');
+        define('DB_USER', 'srinivas_cms');
+        define('DB_PASS', 'the-real-password');
    3. Import api/schema.sql via phpMyAdmin.
    ============================================================ */
 
-const DB_HOST = '127.0.0.1';
-const DB_NAME = 'srinivas_cms';   // <-- GoDaddy DB name
-const DB_USER = 'root';           // <-- GoDaddy DB user
-const DB_PASS = '';               // <-- GoDaddy DB password
+if (is_file(__DIR__ . '/db.local.php')) {
+  require __DIR__ . '/db.local.php';
+} else {
+  define('DB_HOST', '127.0.0.1');
+  define('DB_NAME', 'srinivas_cms');   // <-- GoDaddy DB name
+  define('DB_USER', 'root');           // <-- GoDaddy DB user
+  define('DB_PASS', '');               // <-- GoDaddy DB password
+}
 
 function db(): PDO {
   static $pdo = null;
